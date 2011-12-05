@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+}
+#loading {
+	position: absolute;
+	top: 10px;
+	left: 1300px;
+}
+#optionsBar {
+	position: absolute;
+	z-index: -5;
+	top: 50px;
+	left: 1200px;
+	width: 300px;
+	border: #069 solid 3px;
+	background-color: #333;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	font-size: 10px;
+	color: white;
+}
+#optionsBar div {
+	margin: 5px;
+}
+#optionsBar input {
+	width: 70px;
+	border: #069 solid 2px;
+	color: white;
+	background-color: #000;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+	margin: 2px;
+}

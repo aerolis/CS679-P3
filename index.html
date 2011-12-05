@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html>
+<head><title>Game 3</title>
+<!-load shaders here->
+<script id="shader-fs" type="x-shader/x-fragment">
+  #ifdef GL_ES
+  precision highp float;
+  #endif 
+  
+    varying vec2 vTextureCoord;
+	varying vec4 color;
+    varying vec3 vLightWeighting;
+
+    uniform sampler2D uDiffuseSampler;
+    uniform sampler2D uTransparentSampler;
+	uniform bool drawStyle;
+	uniform float uTime;
+	uniform float uPhaseOut;
+	uniform float hasMaterial;
+	uniform float hasTransparent;
+	
+	uniform vec3 uEmissiveColor;
+	
+	uniform vec3 haloColor;
+	uniform int drawingHalo;
+
+    void main(void) {
+		vec4 tCol;
+		vec4 finalCol;
+		vec4 tAlpha;
+		if (hasMaterial == 1.0)
+        	tCol = texture2D(uDiffuseSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+		else
+			tCol = color;
+		if (hasTransparent == 1.0)
+        	tAlpha = texture2D(uTransparentSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+		else
+			tAlpha = vec4(1.0,1.0,1.0,1.0);
+			
+		tCol = vec4(tCol.rgb * vLightWeighting, tCol.a);
+
+		if (hasTransparent >= 0.5)
+			tCol = vec4(tCol.rgb,tAlpha.r);
+		finalCol = tCol;
+
+		
+		if (drawingHalo == 1)
+		{
+			finalCol = vec4(haloColor.rgb,finalCol.a);
+		}
+		
+		gl_FragColor = finalCol;
+	}
+</script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
+	uniform mat4 uCMatrix;
+	uniform mat3 uNMatrix;
+	
+	uniform vec3 uAmbientColor;
+	uniform vec3 uEmissiveColor;
+	uniform vec3 uLightingDirection;
+	uniform vec3 uDirectionalColor;    
+	
+	uniform vec3 uPointLightingLocation;
+    uniform vec3 uPointLightingColor;
+	uniform float uLightingPower;
+	
+	varying vec3 vLightWeighting;
+	varying vec2 vTextureCoord;
+	
+	attribute vec3 aVertexPosition;
+	attribute vec3 aVertexNormal;
+	attribute vec4 aVertexColor;
+	attribute vec2 aVertexUV;
+	
+	uniform bool useAmbient;
+	uniform bool useEmissive;
+	uniform bool useDirectional;
+	uniform bool usePoint;
+	
+	varying vec4 color;
+
+    void main(void) {
+		color = aVertexColor;
+        vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);
+		gl_Position = uPMatrix * uCMatrix * mvPosition;
+        vTextureCoord = aVertexUV;
+		
+        vec3 transformedNormal = uNMatrix * aVertexNormal;
+    	vec3 pointLightingDirection = uPointLightingLocation - mvPosition.xyz;
+    	vec3 pointLightingDirectionNormalized = normalize(uPointLightingLocation - mvPosition.xyz);
+		float pointLightWeighting = max(dot(transformedNormal, pointLightingDirectionNormalized), 0.0); //amount due to normals
+		pointLightWeighting = pointLightWeighting * (uLightingPower/(4.0*3.1415*dot(pointLightingDirection,pointLightingDirection)));
+		
+        float directionalLightWeighting = max(dot(transformedNormal, uLightingDirection), 0.0);
+
+		if (!useAmbient && !useEmissive && !useDirectional && !usePoint)
+		{
+			vLightWeighting = vec3(1.0,1.0,1.0);
+		}
+		else
+		{
+			vLightWeighting = vec3(0.0,0.0,0.0);
+		}
+		
+		if (useAmbient)
+		{
+			vLightWeighting = vLightWeighting + uAmbientColor;
+		}			
+		if (useEmissive)
+		{
+			vLightWeighting = vLightWeighting + uEmissiveColor;
+		}
+		if (useDirectional)
+		{
+			vLightWeighting = vLightWeighting + uDirectionalColor * directionalLightWeighting;
+		}
+		if (usePoint)
+		{
+			vLightWeighting = vLightWeighting + uPointLightingColor * pointLightWeighting;
+		}
+	}
+</script>
+<script id="shader-fs-flash" type="x-shader/x-fragment">
+  #ifdef GL_ES
+  precision highp float;
+  #endif 
+  
+    varying vec2 vTextureCoord;
+	varying vec4 color;
+    varying vec3 vLightWeighting;
+
+    uniform sampler2D uSampler;
+	uniform float uTime;
+
+    void main(void) {
+        vec4 tCol = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+		vec3 comp = vec3(1.0-tCol.r,1.0-tCol.g,1.0-tCol.b);
+		vec3 flashCol = vec3(tCol.r+comp.r*sin(uTime),tCol.g+comp.g*sin(uTime),tCol.b+comp.b*sin(uTime));
+        gl_FragColor = vec4(flashCol.rgb * vLightWeighting, tCol.a);
+		//gl_FragColor = color;
+        //gl_FragColor = vec4(vec3(0.0,1.0,0.0) * vLightWeighting, color.a);
+	}
+</script>
+
+<script id="shader-vs-flash" type="x-shader/x-vertex">
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
+	uniform mat3 uNMatrix;
+	
+	uniform vec3 uAmbientColor;
+	uniform vec3 uLightingDirection;
+	uniform vec3 uDirectionalColor;
+	
+	varying vec3 vLightWeighting;
+	varying vec2 vTextureCoord;
+	
+	attribute vec3 aVertexPosition;
+	attribute vec3 aVertexNormal;
+	attribute vec4 aVertexColor;
+	attribute vec2 aVertexUV;
+	
+	varying vec4 color;
+
+    void main(void) {
+		color = aVertexColor;
+		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+        vTextureCoord = aVertexUV;
+
+        vec3 transformedNormal = uNMatrix * aVertexNormal;
+        float directionalLightWeighting = max(dot(transformedNormal, uLightingDirection), 0.0);
+        vLightWeighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
+	}
+
+</script>
+
+<script id="shader-fs-post" type="x-shader/x-fragment">
+  #ifdef GL_ES
+  precision highp float;
+  #endif 
+  
+    varying vec2 vTextureCoord;
+	varying vec4 color;
+    varying vec3 vLightWeighting;
+
+    uniform sampler2D uDiffuseSamplerA;
+    uniform sampler2D uDiffuseSamplerB;
+	uniform int uRenderPass;
+	
+	uniform float hasMaterial;
+	uniform float hasTransparent;
+
+	uniform float texWidth;
+	uniform float texHeight;
+	uniform float kernel[5];
+	uniform float kernelMax;
+	uniform float blurScale;
+
+	vec4 blurSampler(float bScale, int textID)
+	{		
+		vec4 tCol;
+		vec4 tAlpha;
+		if (textID == 0)
+		{
+			tCol = texture2D(uDiffuseSamplerA, vec2(vTextureCoord.s, vTextureCoord.t));
+		}
+		else if (textID == 1)
+		{
+			tCol = texture2D(uDiffuseSamplerB, vec2(vTextureCoord.s, vTextureCoord.t));
+		}
+		tAlpha = vec4(1.0,1.0,1.0,1.0);
+			
+		float r = 0.0;
+		float g = 0.0;
+		float b = 0.0;
+		
+		float pixH = bScale/texHeight;
+		float pixW = bScale/texWidth;
+		
+		float ta = -2.0*pixW;
+		float tb = -2.0*pixH;
+				
+		
+		for (int i=0;i<5;i++)
+		{
+			for (int j=0;j<5;j++)
+			{
+				vec4 col;
+				if (textID == 0)
+					col = texture2D(uDiffuseSamplerA, vec2(vTextureCoord.s+ta, vTextureCoord.t+tb));
+				else if (textID == 1)
+					col = texture2D(uDiffuseSamplerB, vec2(vTextureCoord.s+ta, vTextureCoord.t+tb));
+				r += kernel[i]*kernel[j]*col.r;
+				g += kernel[i]*kernel[j]*col.g;
+				b += kernel[i]*kernel[j]*col.b;
+				tb+=pixH;
+			}
+			tb = -2.0*pixH;
+			ta += pixW;
+		}
+		tCol = vec4(r/kernelMax,g/kernelMax,b/kernelMax,tCol.a);	
+		return tCol;
+	}
+
+	vec4 bloomSampler(float bScale, int textID)
+	{		
+		vec4 tCol;
+		vec4 tAlpha;
+		if (textID == 0)
+		{
+			tCol = texture2D(uDiffuseSamplerA, vec2(vTextureCoord.s, vTextureCoord.t));
+		}
+		else if (textID == 1)
+		{
+			tCol = texture2D(uDiffuseSamplerB, vec2(vTextureCoord.s, vTextureCoord.t));
+		}
+		tAlpha = vec4(1.0,1.0,1.0,1.0);
+			
+		float r = 0.0;
+		float g = 0.0;
+		float b = 0.0;
+		
+		float pixH = bScale/texHeight;
+		float pixW = bScale/texWidth;
+		
+		float ta = -2.0*pixW;
+		float tb = -2.0*pixH;
+				
+		float threshold = 0.12;
+		
+		for (int i=0;i<5;i++)
+		{
+			for (int j=0;j<5;j++)
+			{
+				vec4 col;
+				if (textID == 0)
+				{
+					col = texture2D(uDiffuseSamplerA, vec2(vTextureCoord.s+ta, vTextureCoord.t+tb));
+				}
+				else if (textID == 1)
+				{
+					col = texture2D(uDiffuseSamplerB, vec2(vTextureCoord.s+ta, vTextureCoord.t+tb));
+				}
+				if (col.r*col.g*col.b >= threshold)
+				{
+					r += kernel[i]*kernel[j]*col.r;
+					g += kernel[i]*kernel[j]*col.g;
+					b += kernel[i]*kernel[j]*col.b;
+				}
+				else if (col.r*col.g*col.b >= threshold/2.0)
+				{
+					float scaleFactor = (col.r*col.g*col.b-threshold/2.0)/(threshold-threshold/2.0);
+					r += kernel[i]*kernel[j]*col.r*scaleFactor;
+					g += kernel[i]*kernel[j]*col.g*scaleFactor;
+					b += kernel[i]*kernel[j]*col.b*scaleFactor;
+				}
+				tb+=pixH;
+			}
+			tb = -2.0*pixH;
+			ta += pixW;
+		}
+		tCol = vec4(r/kernelMax,g/kernelMax,b/kernelMax,tCol.a);	
+		return tCol;
+	}
+	
+    void main(void) {		
+		vec4 tCol;
+		vec4 tBloom;
+		vec4 tAlpha;
+		
+		if (uRenderPass == 1)
+		{
+			//need to return the bloom color
+			tCol = bloomSampler(blurScale*15.0, 0);
+		}
+		else if (uRenderPass == 2)
+		{
+			//need to return the additive bloom+standard
+			tCol = blurSampler(blurScale, 0);
+			//tCol = vec4(0.0,0.0,0.0,0.0);
+			tBloom = blurSampler(blurScale*4.0, 1);
+			tCol = vec4(tCol.r+tBloom.r,tCol.g+tBloom.g,tCol.b+tBloom.b,1.0);
+		}
+		
+		gl_FragColor = tCol;
+	}
+</script>
+
+<script id="shader-vs-post" type="x-shader/x-vertex">
+	uniform mat4 uMVMatrix;
+	uniform mat4 uPMatrix;
+	uniform mat3 uNMatrix;
+	
+	uniform vec3 uAmbientColor;
+	uniform vec3 uLightingDirection;
+	uniform vec3 uDirectionalColor;
+	
+	varying vec3 vLightWeighting;
+	varying vec2 vTextureCoord;
+	
+	attribute vec3 aVertexPosition;
+	attribute vec3 aVertexNormal;
+	attribute vec4 aVertexColor;
+	attribute vec2 aVertexUV;
+	
+	varying vec4 color;
+
+    void main(void) {
+		color = aVertexColor;
+		gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+        vTextureCoord = aVertexUV;
+
+        vec3 transformedNormal = uNMatrix * aVertexNormal;
+        float directionalLightWeighting = max(dot(transformedNormal, uLightingDirection), 0.0);
+        vLightWeighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
+	}
+
+</script>
+
+<script type="text/javascript" src="jquery/jquery-1.6.2.min.js"></script> 
+<script type="text/javascript" src="tools/gl-matrix-min.js"></script> 
+<script type="text/javascript" src="tools/gl-matrix.js"></script> 
+<script type="text/javascript" src="tools/manageTechUI.js"></script> 
+<script type="text/javascript" src="tools/io_handler.js"></script>
+<script type="text/javascript" src="map/map.js"></script> 
+<script type="text/javascript" src="map/Planet.js"></script> 
+<script type="text/javascript" src="map/SolarSystem.js"></script> 
+<script type="text/javascript" src="map/level.js"></script> 
+<script type="text/javascript" src="battle.js"></script> 
+<script type="text/javascript" src="tools/vectors.js"></script> 
+<script type="text/javascript" src="player.js"></script> 
+<script type="text/javascript" src="ship/ship.js"></script> 
+<script type="text/javascript" src="ship/shipType.js"></script> 
+<script type="text/javascript" src="tools/camera.js"></script> 
+<script type="text/javascript" src="tools/selectObject.js"></script> 
+<script type="text/javascript" src="fbx/fbx-model.js"></script> 
+<script type="text/javascript" src="fbx/fbx-animation.js"></script> 
+<script type="text/javascript" src="fbx/fbx-material.js"></script> 
+<script type="text/javascript" src="fbx/fbx-modelloader.js"></script>
+<script type="text/javascript" src="tools/postprocessing.js"></script>
+<script type="application/javascript" src="draw/draw3d.js"></script>
+<script type="application/javascript" src="draw/draw2d.js"></script>
+<script type="application/javascript" src="game.js"></script>
+<script type="text/javascript" src="tools/buttonset.js"></script>
+<script type="text/javascript" src="tools/button.js"></script>
+<link rel="stylesheet" type="text/css" href="tools/style.css" />
+</head>
+<body style="background-color:#FFFFFF;" onLoad="initGame();" oncontextmenu="return false;">
+<canvas id="3D_canvas" width="1200" height="900" style="border:3px solid #EEEEEE; margin:0px; position:absolute;">
+Your browser does not support the canvas element.
+</canvas>
+<canvas id="2D_canvas" width="1200" height="900" style="border:3px solid #EEEEEE; margin:0px; position:absolute;">
+</canvas>
+<div id="loading">0% loaded</div>
+<div id="optionsBar">
+<div id="scrollingVars">
+<form>
+Scrolling Variables<br>
+<input type="text" id="scrollMult" value="10"> ScrollMult<br>
+<input type="text" id="nearDist" value="200"> NearDist<br>
+<input type="text" id="farDist" value="10000"> FarDist<br>
+<input type="text" id="closeFactor" value="1000"> CloseFactor<br>
+<input type="text" id="farFactor" value="2000"> FarFactor<br>
+<input type="text" id="farFade" value="0.9"> FarFade<br>
+<input type="text" id="scrollDecel" value="1.5"> ScrollDecel<br>
+<input type="text" id="maxScrollSpeed" value="20"> MaxScrollSpeed<br>
+<input type="checkbox" id="useNewScrollVals"> Use scrolling vars?<br>
+</form>
+</div><div id="scrollingVars">
+<form>
+Flying vars<br>
+<input type="text" id="fTimeThreshold" value="750"> FlyingTimeThreshold<br>
+<input type="text" id="fFinalPitch" value="-60"> FlyingFinalPitch<br>
+<input type="text" id="fFinalYaw" value="45"> FlyingFinalYaw<br>
+<input type="checkbox" id="useNewFlyingVals"> Use flying vars?<br>
+</form>
+</div>
+</div>
+
+</body>
+
+</html>
