@@ -31,7 +31,7 @@ var playState = 0;
 var time = 0;
 var cam = new camera();
 var amtPlayers = 2;
-var players = new Array();
+var players = null;
 var currentPlayer = 0;
 var mp;
 var selectedPlanet = null;
@@ -144,6 +144,7 @@ function setupLevel()
 	//}
 	
 	//FOR NOW, JUST 2 PLAYERS (Human and AI)
+	/*
 	players.push(new player(0, false));
 	players.push(new player(1, true));
 	
@@ -168,6 +169,28 @@ function setupLevel()
 	
 	players[0].initializeCameraPos();
 	players[1].initializeCameraPos();
+	*/
+	currentPlayer = 0;
+	
+	$.get("levels/lev1.html", function(data){
+		lb_parseMap(data);
+		lb_parsePlayers(data);
+	}, 'html');
+	
+	//while (mp == null || players == null)
+	//{	;	} //wait for them to finish parsing
+	var t = setTimeout("checkGameBegin();",1/30*1000);
+}
+function checkGameBegin()
+{
+	if (map != null && players != null)
+		startgame();
+	else	
+		var t = setTimeout("checkGameBegin();",1/30*1000);
+}
+function startgame()
+{
+	mp.init();
 	cam.flyToFull(players[currentPlayer].cPos,players[currentPlayer].cRot,players[currentPlayer].cDist);
 }
 

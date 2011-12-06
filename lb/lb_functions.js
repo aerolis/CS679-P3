@@ -36,8 +36,8 @@ function lb_cancelActions()
 //player ops
 function lb_createPlayer()
 {
-	//var pl = new player(amtPlayers,false);
-	var pl = new player(amtPlayers);
+	var pl = new player(amtPlayers,false);
+	players.push(pl);
 	amtPlayers++;
 	var i;
 	var playerList = "";
@@ -45,12 +45,11 @@ function lb_createPlayer()
 	{
 		playerList += "Player "+ i + "<br>";
 		playerList += "<select id='p"+i+"_type' onchange='lb_setPlayerType("+i+")'><option value='false'>Human</option><option value='true'>AI</option></select><br>";
-		playerList += "<input type='text' id='p"+i+"_r' value='1.0' onchange='lb_setPlayerColor("+i+");'>R<br>";
-		playerList += "<input type='text' id='p"+i+"_g' value='1.0' onchange='lb_setPlayerColor("+i+");'>G<br>";
-		playerList += "<input type='text' id='p"+i+"_b' value='0.0' onchange='lb_setPlayerColor("+i+");'>B<br>";
+		playerList += "<input type='text' id='p"+i+"_r' value='"+players[i].color.x+"' onchange='lb_setPlayerColor("+i+");'>R<br>";
+		playerList += "<input type='text' id='p"+i+"_g' value='"+players[i].color.y+"' onchange='lb_setPlayerColor("+i+");'>G<br>";
+		playerList += "<input type='text' id='p"+i+"_b' value='"+players[i].color.z+"' onchange='lb_setPlayerColor("+i+");'>B<br>";
 	}
 	document.getElementById("playerList").innerHTML = playerList;
-	players.push(pl);
 	//add to planet list
 	lb_buildPlanetOps();
 }
@@ -112,9 +111,27 @@ function lb_changePlanetOwner(cpa,cpb)
 //solar system ops
 function lb_displaySSOps()
 {
+	lb_buildSSOps();
 	document.getElementById("ssOps").style.display = "block";
 	document.getElementById("planetOps").style.display = "none";
 	document.getElementById("playerOps").style.display = "none";
+}
+function lb_buildSSOps()
+{
+	var ssop = "";
+	ssop += "Solar System Operations<br>";
+	ssop += "<input type='text' id='ss"+currentSS+"_r' value='"+mp.systems[currentSS].sunColor.x+"' onchange='lb_setSSColor("+currentSS+");'>R<br>";
+	ssop += "<input type='text' id='ss"+currentSS+"_g' value='"+mp.systems[currentSS].sunColor.y+"' onchange='lb_setSSColor("+currentSS+");'>G<br>";
+	ssop += "<input type='text' id='ss"+currentSS+"_b' value='"+mp.systems[currentSS].sunColor.z+"' onchange='lb_setSSColor("+currentSS+");'>B<br>";
+	document.getElementById("ssOps").innerHTML = ssop;
+}
+function lb_setSSColor(id)
+{
+	var ss = mp.systems[id];
+	var r = parseFloat(document.getElementById("ss"+id+"_r").value);
+	var g = parseFloat(document.getElementById("ss"+id+"_g").value);
+	var b = parseFloat(document.getElementById("ss"+id+"_b").value);
+	ss.sunColor = new v3(r,g,b);
 }
 
 //accessory planet typing

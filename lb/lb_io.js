@@ -202,7 +202,7 @@ function handleMouseUp(evt)
 							else
 							{
 								lPlanetB = new c2(selectedPlanetIndices.a,selectedPlanetIndices.b);
-								mp.systems[lPlanetA.a].planets[lPlanetA.b].linkPlanet(lPlanetB.a+"-"+lPlanetB.b);
+								mp.systems[lPlanetA.a].planets[lPlanetA.b].linkPlanet(mp.systems[lPlanetB.a].planets[lPlanetB.b]);
 								mp.rebuildLines();
 							}
 							linkingStage = 0;

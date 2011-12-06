@@ -19,9 +19,9 @@ function map()
 }
 map.prototype.init = function()
 {
-	var ss = new SolarSystem();
-	this.addSystem(ss); //hard coded a solar system for default
-	ss.init();
+	//var ss = new SolarSystem();
+	//this.addSystem(ss); //hard coded a solar system for default
+	//ss.init();
 	this.bindLines();
 	this.bindColors();
 	this.bindHalo();

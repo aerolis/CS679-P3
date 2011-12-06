@@ -387,6 +387,7 @@
 <script type="text/javascript" src="lb/lb_io.js"></script>
 <script type="text/javascript" src="lb/lb_functions.js"></script>
 <script type="text/javascript" src="lb/lb_draw3d.js"></script>
+<script type="text/javascript" src="lb/lb_map.js"></script>
 <script type="text/javascript" src="battle.js"></script> 
 <script type="text/javascript" src="player.js"></script> 
 <link rel="stylesheet" type="text/css" href="tools/style.css" />
@@ -406,10 +407,11 @@ Map Builder<br>
 <input type="button" id="addPlanet" onClick="lb_createPlanet();" value="Add Planet" style="width:150px"><br>
 <input type="button" id="linkPlanet" onClick="lb_linkPlanet();" value="Link Planets" style="width:150px"><br>
 <input type="button" id="addPlayer" onClick="lb_createPlayer();" value="Add Player" style="width:150px"><br>
+<input type="button" id="generateMap" onClick="lb_generateMap();" value="Generate Map" style="width:150px"><br>
 </form>
 </div>
 <div>
-Existing Players: <a href="#" onclick="lb_toggleShowPlayers();">show/hide</a>
+Existing Players: <a href="#" onClick="lb_toggleShowPlayers();">show/hide</a>
 </div>
 <div id="playerList">
 </div>

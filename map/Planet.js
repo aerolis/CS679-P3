@@ -2,8 +2,11 @@
  * @author Dan
  */
 function Planet(planetPosition, planetType, planetSize, planetOwner,
-				connectedPlanets, shipsGarrisoned,mySys) {
-	this.id = mp.systems[mySys].numOfPlanets;
+				connectedPlanets, shipsGarrisoned, mySys) {
+	if (createdViaMap)
+		this.id = globalPlanetID;
+	else
+		this.id = mp.systems[mySys].numOfPlanets;
 	this.mySystem = mySys;
 	this.pos = planetPosition;
 	this.rot_rate = new v3(0,Math.random()*0.1,0);
