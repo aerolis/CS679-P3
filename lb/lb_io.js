@@ -30,8 +30,8 @@ function handleMouseMove(evt)
 				//cam.pitch = Math.max(Math.min(dp+cam.pitch,-90+maxRot),-90-maxRot);
 				//cam.yaw = Math.max(Math.min(dy+cam.yaw,maxRot),-maxRot);
 				
-				cam.pitch = dp+cam.pitch;
-				cam.yaw = dy+cam.yaw;
+				cam.pitch = dp+cam.pitch % 360;
+				cam.yaw = dy+cam.yaw % 360;
 				
 				mousexAtRPress = Math.max(0,Math.min(canvas.width,evt.clientX-10));
 				mousezAtRPress = Math.max(0,Math.min(canvas.height,evt.clientY-10));
@@ -148,7 +148,7 @@ function handleMouseUp(evt)
 				if (placingPlanet)
 				{
 					//deal with creating a new ss
-					var plPos = new v3(posAtMouse.x-mp.systems[currentSS].x,-50+100*Math.random(),posAtMouse.z-mp.systems[currentSS].z);
+					var plPos = new v3(posAtMouse.x-mp.systems[currentSS].pos.x,-50+100*Math.random(),posAtMouse.z-mp.systems[currentSS].pos.z);
 					var pl = new Planet(plPos,lb_getPlanetType(placingPlanetType),1,-1,{},{},currentSS);
 					currentPlanet = mp.systems[currentSS].addPlanet(pl);
 					mp.rebuildLines();

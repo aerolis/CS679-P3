@@ -94,7 +94,7 @@ function drawNewPlanet()
 	gl.uniform3f(shaderProgram.emissiveColorUniform,0.6,0.6,0.6);
 	mvPushMatrix();
 	mat4.translate(mvMatrix,[posAtMouse.x,posAtMouse.y,posAtMouse.z]);
-	for (i=0;i<models[ lb_getPlanetTypeModel(placingPlanetType)].meshes.length;i++)
+	for (i=0;i<models[lb_getPlanetTypeModel(placingPlanetType)].meshes.length;i++)
 	{
 		drawMesh(lb_getPlanetTypeModel(placingPlanetType),i);
 	}

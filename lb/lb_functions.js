@@ -6,8 +6,10 @@ function lb_createSS()
 }
 function lb_createPlanet()
 {
-	placingPlanet = false;
+	console.log("createPlanet");
+	placingPlanet = true;
 }
+
 function lb_getPlanetType(index)
 {
 	var type;
@@ -41,7 +43,8 @@ function lb_getPlanetType(index)
 	return type;
 }
 function lb_getPlanetTypeModel(index)
-{	var model;
+{	
+	var model;
 	switch (index)
 	{
 		case 0:

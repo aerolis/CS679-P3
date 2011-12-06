@@ -7,7 +7,7 @@ function map()
 	this.lineColBuffer;
 	//stuff for halos
 	this.nextBuffer = 0;
-	this.haloPosBuffers;
+	this.haloPosBuffers = new Array();
 	this.haloPosBuffer;
 	this.haloColBuffer;
 	this.drawReady = false;
@@ -198,6 +198,7 @@ map.prototype.bindHalo = function()
 	var rd = 75;
 	var fr = 0.8;
 	var or = 1.05;
+	this.nextBuffer = 0;
 	
 	for (i=0;i<this.systems.length;i++)
 	{

@@ -334,6 +334,7 @@ function drawPlanets()
 	{
 		if (mp.systems[i] != null)
 		{
+			mvPushMatrix();
 			// translate to location of solar system
 			mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
 			//set up the sun's lighting
@@ -358,6 +359,7 @@ function drawPlanets()
 				}
 				mvPopMatrix();
 			}
+			mvPopMatrix();
 		}
 	}	
 }
@@ -380,7 +382,6 @@ function drawSuns()
 		{
 			if (mp.systems[i] != null)
 			{
-				console.log("x:"+mp.systems[i].pos.x+"y:"+mp.systems[i].pos.y+"z:"+mp.systems[i].pos.z);
 				// translate to location of solar system
 				gl.uniform3f(shaderProgram.emissiveColorUniform,2*mp.systems[i].sunColor.x,2*mp.systems[i].sunColor.y,2*mp.systems[i].sunColor.z);
 				mvPushMatrix();
