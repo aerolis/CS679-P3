@@ -6,6 +6,15 @@ function pickObject()
 	var pl = findObject(ray_sp,ray);
 	return pl;
 }
+function pickSun()
+{
+	var rays = getRay();
+	var ray = rays.slice(0,4);
+	var ray_sp = rays.slice(4,7);
+	var pl = findSun(ray_sp,ray);
+	return pl;
+}
+
 
 function getRay()
 {	
@@ -43,7 +52,7 @@ function findObject(sp,r)
 	
 	//now find all that the ray collides with
 	var pos = new v3(sp[0],sp[1],sp[2]);
-	for (i=0;i<zFar;i+=3)
+	for (i=0;i<zFar*4;i+=3)
 	{
 		for (j=0;j<mp.planetPos.length;j++)
 		{
@@ -63,7 +72,7 @@ function findObject(sp,r)
 	}
 	//now determine which is the closest
 	var pl = null;
-	var minDist = 5000;
+	var minDist = zFar*4;
 	for (i=0;i<collisions.length;i++)
 	{
 		if (collisions[i].b < minDist)
@@ -78,6 +87,53 @@ function findObject(sp,r)
 		return -1;
 }
 
+function findSun(sp,r)
+{
+	//normalize ray
+	var ray = new v3(r[0],r[1],r[2]);
+	ray = ray.normalize();
+	//create list of possible planets
+	var collisions = new Array();
+	var sunCollisions = new Array();
+	var i,j;
+	
+	//now find all that the ray collides with
+	var pos = new v3(sp[0],sp[1],sp[2]);
+	for (i=0;i<zFar*4;i+=3)
+	{
+		for (j=0;j<mp.systems.length;j++)
+		{
+			var dist = pos.distance(mp.systems[j].pos);
+			if (dist<50)
+			{
+				if (sunCollisions.indexOf(j) == -1)
+				{
+					collisions.push(new c2(j,dist));
+					sunCollisions.push(j);
+				}
+			}
+		}
+		pos.x = sp[0] + i*ray.x;
+		pos.y = sp[1] + i*ray.y;
+		pos.z = sp[2] + i*ray.z;
+	}
+	//now determine which is the closest
+	var ss = null;
+	var minDist = zFar*4;
+	for (i=0;i<collisions.length;i++)
+	{
+		if (collisions[i].b < minDist)
+		{
+			minDist = collisions[i].b;
+			ss = mp.systems[collisions[i].a];
+		}
+	}
+	if (ss != null)
+		return ss;
+	else
+		return -1;
+}
+
 function getClickLocationOnPlane()
 {	
 	var rays = getRay();
@@ -88,18 +144,14 @@ function getClickLocationOnPlane()
 	var nray = new v3(ray[0],ray[1],ray[2]);
 	nray = nray.normalize();
 	var pos = new v3(ray_sp[0],ray_sp[1],ray_sp[2]);
-	var i = 0;
-	while(pos.y > -10)
-	{
-		if (checkNear(pos.y,0,2))
-		{
-			return pos;
-		}
-		pos.x = ray_sp[0] + i*nray.x;
-		pos.y = ray_sp[1] + i*nray.y;
-		pos.z = ray_sp[2] + i*nray.z;
-		i += 3;
-	}
+	//find how many y's away the plane is
+	var i = -pos.y/nray.y;
+	
+	pos.x = pos.x+i*nray.x;
+	pos.y = pos.y+i*nray.y;
+	pos.z = pos.z+i*nray.z;
+	
+	return pos;
 }
 
 function checkNear(test,val,amt)

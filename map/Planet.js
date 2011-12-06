@@ -89,6 +89,15 @@ Planet.prototype.linkPlanet = function(toPlanet) {
 	var lnk_planet = lnk[1];
 	mp.systems[lnk_sys].planets[lnk_planet].linkedPlanets.push(this.mySystem+"-"+this.id);
 }
+Planet.prototype.linkedTo = function(toPlanet)
+{
+	var lnk_sys = toPlanet.a;
+	var lnk_planet = toPlanet.b;
+	var lnk = lnk_sys + "-" + lnk_planet;
+	if (this.linkedPlanets.indexOf(lnk) != -1)
+		return true;
+	return false;
+}
 Planet.prototype.garrisonShip = function(ship) {
 	this.ships.push(ship);
 }

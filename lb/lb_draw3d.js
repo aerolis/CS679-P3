@@ -27,6 +27,8 @@ function drawLB3d()
 				drawNewSS();
 			if (placingPlanet)
 				drawNewPlanet();
+			if(drawDirectionalLine)
+				drawLineToMouse();
 			//now draw blend objects
 			blendLayer = true;
 			initBlendModes();
@@ -100,8 +102,62 @@ function drawNewPlanet()
 	}
 	mvPopMatrix();
 }
+function drawLineToMouse()
+{
+	bindDirectionalLine();
+	
+	shaderProgram = shaderProgram_main;
+	gl.useProgram(shaderProgram);
+	
+	//lighting
+	defineLighting();
+	initBlendModes();
+	useLighting(true,false,false,false);
+	//materials
+	gl.uniform1f(shaderProgram.hasMaterial,0.0);
+	gl.uniform1f(shaderProgram.hasTransparent,0.0);
+		
+	//draw map lines
+	gl.bindBuffer(gl.ARRAY_BUFFER, dLinePosBuffer);
+	gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,dLinePosBuffer.itemSize, gl.FLOAT, false, 0, 0);
+	gl.bindBuffer(gl.ARRAY_BUFFER, dLineColBuffer);
+	gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,dLineColBuffer.itemSize, gl.FLOAT, false, 0, 0);
+	
+	gl.getError();
+	
+	setMatrixUniforms();
+	gl.drawArrays(gl.LINES, 0, dLinePosBuffer.numItems);	
+}
+function bindDirectionalLine()
+{
+	dLinePosBuffer = null;
+	dLineColBuffer = null;
+	
+	var verts = new Array();
+	var colors = new Array();
 
-
+	var loc_a = directionalLineAnchor;
+	var loc_b = posAtMouse;
+	
+	verts = verts.concat(loc_a.x,loc_a.y,loc_a.z);
+	verts = verts.concat(loc_b.x,loc_b.y,loc_b.z);
+	colors = colors.concat([0.8,0.8,0.8,1.0]);
+	colors = colors.concat([0.8,0.8,0.8,1.0]);
+	
+	//bind line positions
+	dLinePosBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, dLinePosBuffer);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
+	dLinePosBuffer.itemSize = 3;
+   	dLinePosBuffer.numItems = 2;
+	
+	//bind line colors
+	dLineColBuffer = gl.createBuffer();
+	gl.bindBuffer(gl.ARRAY_BUFFER, dLineColBuffer);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+	dLineColBuffer.itemSize = 4;
+   	dLineColBuffer.numItems = 2;
+}
 
 
 

@@ -74,27 +74,33 @@ map.prototype.bindLines = function()
 					var dz = pln_b.pos.z-pln_a.pos.z;
 					var theta = Math.atan2(dz,dx)*180/Math.PI;
 					var phi = 90-theta;
+					var xa = pln_a.pos.x+this.systems[i].pos.x;
+					var ya = pln_a.pos.y+this.systems[i].pos.y;
+					var za = pln_a.pos.z+this.systems[i].pos.z;
+					var xb = pln_b.pos.x+this.systems[lnk_sys].pos.x;
+					var yb = pln_b.pos.y+this.systems[lnk_sys].pos.y;
+					var zb = pln_b.pos.z+this.systems[lnk_sys].pos.z;
 					//verts for center
-					verts = verts.concat(pln_a.pos.x-d*fade*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z+d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x-d*fade*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z+d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_a.pos.x+d*fade*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z-d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x-d*fade*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z+d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_a.pos.x+d*fade*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z-d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x+d*fade*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z-d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa-d*fade*Math.cos(degToRad(phi)),	ya,	za+d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb-d*fade*Math.cos(degToRad(phi)),	yb,	zb+d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa+d*fade*Math.cos(degToRad(phi)),	ya,	za-d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb-d*fade*Math.cos(degToRad(phi)),	yb,	zb+d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa+d*fade*Math.cos(degToRad(phi)),	ya,	za-d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb+d*fade*Math.cos(degToRad(phi)),	yb,	zb-d*fade*Math.sin(degToRad(phi)));
 					//vert for left side
-					verts = verts.concat(pln_a.pos.x-d*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z+d*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x-d*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z+d*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_a.pos.x-d*fade*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z+d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x-d*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z+d*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_a.pos.x-d*fade*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z+d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x-d*fade*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z+d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa-d*Math.cos(degToRad(phi)),		ya,	za+d*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb-d*Math.cos(degToRad(phi)),		yb,	zb+d*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa-d*fade*Math.cos(degToRad(phi)),	ya,	za+d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb-d*Math.cos(degToRad(phi)),		yb,	zb+d*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa-d*fade*Math.cos(degToRad(phi)),	ya,	za+d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb-d*fade*Math.cos(degToRad(phi)),	yb,	zb+d*fade*Math.sin(degToRad(phi)));
 					//verts for right side
-					verts = verts.concat(pln_a.pos.x+d*fade*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z-d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x+d*fade*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z-d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_a.pos.x+d*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z-d*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x+d*fade*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z-d*fade*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_a.pos.x+d*Math.cos(degToRad(phi)),pln_a.pos.y,pln_a.pos.z-d*Math.sin(degToRad(phi)));
-					verts = verts.concat(pln_b.pos.x+d*Math.cos(degToRad(phi)),pln_b.pos.y,pln_b.pos.z-d*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa+d*fade*Math.cos(degToRad(phi)),	ya,	za-d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb+d*fade*Math.cos(degToRad(phi)),	yb,	zb-d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa+d*Math.cos(degToRad(phi)),		ya,	za-d*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb+d*fade*Math.cos(degToRad(phi)),	yb,	zb-d*fade*Math.sin(degToRad(phi)));
+					verts = verts.concat(xa+d*Math.cos(degToRad(phi)),		ya,	za-d*Math.sin(degToRad(phi)));
+					verts = verts.concat(xb+d*Math.cos(degToRad(phi)),		yb,	zb-d*Math.sin(degToRad(phi)));
 					
 					connections.push(checkStrA);
 					num++;
@@ -208,6 +214,7 @@ map.prototype.bindHalo = function()
 			gl.bindBuffer(gl.ARRAY_BUFFER, this.haloPosBuffers[this.nextBuffer]);
 			
 			var pln_a = this.systems[i].planets[j];
+			var sys = this.systems[i];
 			var amt = 2*Math.PI/this.seg;
 			r = rd*pln_a.scale;
 			if (this.systems[i].planets[j].type == "sun")
@@ -219,9 +226,9 @@ map.prototype.bindHalo = function()
 			for (theta = 0; theta < 2*Math.PI; theta += amt)
 			{
 				var phi = theta+amt;
-				var x = pln_a.pos.x;
-				var y = pln_a.pos.y + 3;
-				var z = pln_a.pos.z;
+				var x = sys.pos.x + 	pln_a.pos.x;
+				var y = sys.pos.y + 	pln_a.pos.y + 3;
+				var z = sys.pos.z + 	pln_a.pos.z;
 								
 				verts = verts.concat(x+fr*r*Math.cos(phi), y, z+fr*r*Math.sin(phi));
 				verts = verts.concat(x+fr*r*Math.cos(theta), y, z+fr*r*Math.sin(theta));

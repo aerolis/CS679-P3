@@ -14,40 +14,39 @@ function handleMouseMove(evt)
 			mPressed = false;
 			lPressed = false;
 		}
-		else
+
+		if (rPressed)
 		{
-			if (rPressed)
-			{
-				//rotate the camera
-				
-				var dx = mousexAtRPress-mousex;
-				var dz = mousezAtRPress-mousez;
-				
-				var dp,dy;
-				dp = (Math.max(Math.min(dz,maxDiff),-maxDiff)/maxDiff)*rotAmt;
-				dy = (Math.max(Math.min(dx,maxDiff),-maxDiff)/maxDiff)*rotAmt;
-				
-				//cam.pitch = Math.max(Math.min(dp+cam.pitch,-90+maxRot),-90-maxRot);
-				//cam.yaw = Math.max(Math.min(dy+cam.yaw,maxRot),-maxRot);
-				
-				cam.pitch = dp+cam.pitch % 360;
-				cam.yaw = dy+cam.yaw % 360;
-				
-				mousexAtRPress = Math.max(0,Math.min(canvas.width,evt.clientX-10));
-				mousezAtRPress = Math.max(0,Math.min(canvas.height,evt.clientY-10));
-				
-			}
-			if (mPressed)
-			{
-				//pass value of -1 to 1 for horizonatal and vertical components
-				var dx = Math.min(Math.max(mousexAtMPress-mousex,-100),100);
-				var dz = Math.min(Math.max(mousezAtMPress-mousez,-100),100);
-				
-				cam.translate(dz/100,-dx/100);
-			}
+			//rotate the camera
 			
-			posAtMouse = getClickLocationOnPlane();
+			var dx = mousexAtRPress-mousex;
+			var dz = mousezAtRPress-mousez;
+			
+			var dp,dy;
+			dp = (Math.max(Math.min(dz,maxDiff),-maxDiff)/maxDiff)*rotAmt;
+			dy = (Math.max(Math.min(dx,maxDiff),-maxDiff)/maxDiff)*rotAmt;
+			
+			//cam.pitch = Math.max(Math.min(dp+cam.pitch,-90+maxRot),-90-maxRot);
+			//cam.yaw = Math.max(Math.min(dy+cam.yaw,maxRot),-maxRot);
+			
+			cam.pitch = dp+cam.pitch % 360;
+			cam.yaw = dy+cam.yaw % 360;
+			
+			mousexAtRPress = Math.max(0,Math.min(canvas.width,evt.clientX-10));
+			mousezAtRPress = Math.max(0,Math.min(canvas.height,evt.clientY-10));
+			
 		}
+		if (mPressed)
+		{
+			//pass value of -1 to 1 for horizonatal and vertical components
+			var dx = Math.min(Math.max(mousexAtMPress-mousex,-100),100);
+			var dz = Math.min(Math.max(mousezAtMPress-mousez,-100),100);
+			
+			cam.translate(dz/100,-dx/100);
+		}
+		
+		posAtMouse = getClickLocationOnPlane();
+
 		
 	}
 }
@@ -112,7 +111,7 @@ function handleMouseUp(evt)
 					
 				}
 				
-				if (!placingSS || !placingPlanet)
+				if (!placingSS && !placingPlanet)
 				{
 					var planet = pickObject();
 					if (planet != -1)
@@ -122,7 +121,8 @@ function handleMouseUp(evt)
 						if (selectedPlanet.player == currentPlayer){
 							selectedPlanet.showOptions = true;
 						}
-						console.log("A planet was selected");
+						currentPlanet = planet;
+						lb_displayPlanetOps();
 					}
 					else
 					{
@@ -130,18 +130,33 @@ function handleMouseUp(evt)
 						selectedPlanetIndices = null;
 					}
 					console.log("found planet ss:"+planet.a+" pl:"+planet.b);
+					if (selectedPlanet == null)
+					{
+						//check for suns
+						var ss = pickSun();
+						if (ss != -1)
+						{
+							currentSS = mp.systems.indexOf(ss);
+							lb_displaySSOps();
+						}
+					}
 				}
 				//this will return the a c2 object (just a container for two objects to be carried together)
 				//with: planet.a -> solar system number -> mp.systems[planet.a]
 				//		planet.b -> planet number -> mp.systems[planet.a].planets[planet.b]
 				//returns -1 if no planet is clicked
 				
+				//deals with map gen
+				/*
+				deal with picking planets/suns here
+				*/
 				if (placingSS)
 				{
 					//deal with creating a new ss
 					var ss = new SolarSystem();
 					ss.setPos(posAtMouse);
 					currentSS = mp.addSystem(ss);
+					lb_displaySSOps();
 					mp.rebuildLines();
 					placingSS = false;
 				}				
@@ -149,10 +164,55 @@ function handleMouseUp(evt)
 				{
 					//deal with creating a new ss
 					var plPos = new v3(posAtMouse.x-mp.systems[currentSS].pos.x,-50+100*Math.random(),posAtMouse.z-mp.systems[currentSS].pos.z);
-					var pl = new Planet(plPos,lb_getPlanetType(placingPlanetType),1,-1,{},{},currentSS);
-					currentPlanet = mp.systems[currentSS].addPlanet(pl);
+					var pl = new Planet(plPos,lb_getPlanetType(placingPlanetType),1,-1,[],[],currentSS);
+					currentPlanet = new c2(currentSS,mp.systems[currentSS].addPlanet(pl));
+					lb_displayPlanetOps();
 					mp.rebuildLines();
 					placingPlanet = false;
+				}
+				if (linkingPlanet)
+				{
+					if (linkingStage == 0)
+					{	//picking planet 1
+						if (selectedPlanetIndices != null)
+						{
+							lPlanetA = new c2(selectedPlanetIndices.a,selectedPlanetIndices.b);
+							drawDirectionalLine = true;
+							directionalLineAnchor = new v3(0,0,0);
+							directionalLineAnchor.x = mp.systems[lPlanetA.a].planets[lPlanetA.b].pos.x + mp.systems[lPlanetA.a].pos.x;
+							directionalLineAnchor.y = mp.systems[lPlanetA.a].planets[lPlanetA.b].pos.y + mp.systems[lPlanetA.a].pos.y;
+							directionalLineAnchor.z = mp.systems[lPlanetA.a].planets[lPlanetA.b].pos.z + mp.systems[lPlanetA.a].pos.z;
+							linkingStage = 1;
+						}
+					}
+					else if (linkingStage == 1)
+					{ 	//picking planet 2						
+						if (selectedPlanetIndices != null)
+						{
+							if (lPlanetA.a == selectedPlanetIndices.a && lPlanetA.b == selectedPlanetIndices.b)
+							{
+								//same planet error
+								console.log("same planet - no link created");
+							}
+							else if (mp.systems[lPlanetA.a].planets[lPlanetA.b].linkedTo(selectedPlanetIndices))
+							{
+								//connection exists error
+								console.log("connection already exists - no link created");
+							}
+							else
+							{
+								lPlanetB = new c2(selectedPlanetIndices.a,selectedPlanetIndices.b);
+								mp.systems[lPlanetA.a].planets[lPlanetA.b].linkPlanet(lPlanetB.a+"-"+lPlanetB.b);
+								mp.rebuildLines();
+							}
+							linkingStage = 0;
+							lPlanetA = null;
+							lPlanetB = null;
+							drawDirectionalLine = false;
+							directionalLineAnchor = null;
+							console.log("finished linking");
+						}
+					}
 				}
 				
 				
@@ -162,6 +222,7 @@ function handleMouseUp(evt)
 				mPressed = false;
 			else if (evt.which == 3) //right mouse button
 			{
+				lb_cancelActions();
 				if (justRightClicked)
 				{
 					//this is a double click
@@ -277,6 +338,9 @@ function handleKeyUp(evt) {
 			}
 			//cam.rdown = false;
 		break;	
+		case 27: //esc
+			lb_cancelActions();
+		break;
 		/*
 		case 37:  // left
 			cam.rleft = false;

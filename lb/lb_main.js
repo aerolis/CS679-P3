@@ -30,7 +30,7 @@ var path = "";
 var playState = 0;
 var time = 0;
 var cam = new camera();
-var amtPlayers = 2;
+var amtPlayers = 0;
 var players = new Array();
 var currentPlayer = 0;
 var mp;
@@ -83,6 +83,15 @@ var placingPlanetType = 0;
 var planetTypeAmt = 7;
 var posAtMouse = new v3(0,0,0);
 var sunModel = 5;
+var linkingPlanet = false;
+var linkingStage = 0;
+var lPlanetA = null;
+var lPlanetB = null;
+var drawDirectionalLine = false;
+var directionalLineAnchor = null;
+var dLinePosBuffer = null;
+var dLineColBuffer = null;
+var showPlayers = true;
 
 //initialization functions
 function initGame() //begin the "official" game initialization
@@ -147,12 +156,7 @@ function setupLevel()
 	lev = load_level(data);
 	levelLength = lev.length;
 	}, 'html');*/
-	for (var i = 0; i < amtPlayers; i++){
-		players.push(new player(i));
-	}
 	
-	players[0].color = new v3(0.2,0.3,1.0);
-	players[1].color = new v3(1.0,0.1,0.3);
 	mp = new map();
 	mp.initBlank();
 	cam.flyTo(new v3(0,0,0));

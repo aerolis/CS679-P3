@@ -26,6 +26,12 @@ body {
 #optionsBar div {
 	margin: 5px;
 }
+#optionsBar div a {
+	font-weight: normal;
+	color:#CCC;
+	font-style: inherit;
+	text-decoration: none;
+}
 #optionsBar input {
 	width: 70px;
 	border: #069 solid 2px;
@@ -33,4 +39,20 @@ body {
 	background-color: #000;
 	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 	margin: 2px;
+}
+
+#playerOps
+{
+	display:none;
+}
+#ssOps
+{
+	display:none;
+}
+#planetOps
+{
+	display:none;
+}
+#playerList
+{
 }
