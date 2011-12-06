@@ -5,23 +5,21 @@
 function SolarSystem() {
 	this.planets = [];
 	this.numOfPlanets = 0;
-	
 	this.sunRot_rate = new v3(0,Math.random()*0.1,0);
 	this.rot = new v3(0,0,0);
-	//this.sunColor = new v3(0.88,0.81,0.31);
-	this.sunColor = new v3(0.31,0.81,0.94);
+	this.sunColor = new v3(0.90,0.32,0.11);
+	//this.sunColor = new v3(0.31,0.81,0.94);
 	this.sunScale = 0.9+Math.random()*0.2;
 	this.sunModel = 5;
 	this.sunHaloModel = 7;
 	this.sunHaloRot = new v3(0,0,0);
-	
 	this.pos = new v3(0,0,0); //just assigning them a random position for now
 }
-
 SolarSystem.prototype.addPlanet = function(planet)
 {
 	this.planets.push(planet);
 	this.numOfPlanets++;
+	return this.planets.indexOf(planet);
 }
 SolarSystem.prototype.update = function()
 {
@@ -50,6 +48,18 @@ SolarSystem.prototype.init = function()
 		//this.createSystem2();
 		this.createSystem3();
 }
+SolarSystem.prototype.randomizeColor = function()
+{
+	this.sunColor = new v3(Math.random(),Math.random(),Math.random());
+}
+SolarSystem.prototype.setPos = function(pos)
+{
+	this.pos.x = pos.x;
+	this.pos.y = pos.y;
+	this.pos.z = pos.z;
+}
+
+
 SolarSystem.prototype.createSystem1 = function()
 {
 	//create some hardcoded planets for now...dw

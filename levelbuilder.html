@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <html>
-<head><title>Star Wars</title>
+<head><title>Level Builder</title>
 <!-load shaders here->
 <script id="shader-fs" type="x-shader/x-fragment">
   #ifdef GL_ES
@@ -364,58 +364,46 @@
 <script type="text/javascript" src="tools/gl-matrix-min.js"></script> 
 <script type="text/javascript" src="tools/gl-matrix.js"></script> 
 <script type="text/javascript" src="tools/manageTechUI.js"></script> 
-<script type="text/javascript" src="tools/io_handler.js"></script>
+<script type="text/javascript" src="tools/camera.js"></script> 
+<script type="text/javascript" src="tools/selectObject.js"></script> 
+<script type="text/javascript" src="tools/buttonset.js"></script>
+<script type="text/javascript" src="tools/button.js"></script>
+<script type="text/javascript" src="tools/vectors.js"></script> 
+<script type="text/javascript" src="tools/postprocessing.js"></script>
 <script type="text/javascript" src="map/map.js"></script> 
 <script type="text/javascript" src="map/Planet.js"></script> 
 <script type="text/javascript" src="map/SolarSystem.js"></script> 
 <script type="text/javascript" src="map/level.js"></script> 
-<script type="text/javascript" src="battle.js"></script> 
-<script type="text/javascript" src="tools/vectors.js"></script> 
-<script type="text/javascript" src="player.js"></script> 
 <script type="text/javascript" src="ship/ship.js"></script> 
 <script type="text/javascript" src="ship/shipType.js"></script> 
-<script type="text/javascript" src="tools/camera.js"></script> 
-<script type="text/javascript" src="tools/selectObject.js"></script> 
 <script type="text/javascript" src="fbx/fbx-model.js"></script> 
 <script type="text/javascript" src="fbx/fbx-animation.js"></script> 
 <script type="text/javascript" src="fbx/fbx-material.js"></script> 
 <script type="text/javascript" src="fbx/fbx-modelloader.js"></script>
-<script type="text/javascript" src="tools/postprocessing.js"></script>
-<script type="application/javascript" src="draw/draw3d.js"></script>
-<script type="application/javascript" src="draw/draw2d.js"></script>
-<script type="application/javascript" src="game.js"></script>
-<script type="text/javascript" src="tools/buttonset.js"></script>
-<script type="text/javascript" src="tools/button.js"></script>
+<script type="text/javascript" src="draw/draw2d.js"></script>
+<script type="text/javascript" src="draw/draw3d.js"></script>
+<script type="text/javascript" src="lb/lb_main.js"></script>
+<script type="text/javascript" src="lb/lb_accessories.js"></script>
+<script type="text/javascript" src="lb/lb_io.js"></script>
+<script type="text/javascript" src="lb/lb_functions.js"></script>
+<script type="text/javascript" src="lb/lb_draw3d.js"></script>
+<script type="text/javascript" src="battle.js"></script> 
+<script type="text/javascript" src="player.js"></script> 
 <link rel="stylesheet" type="text/css" href="tools/style.css" />
 </head>
 <body style="background-color:#FFFFFF;" onLoad="initGame();" oncontextmenu="return false;">
-<canvas id="3D_canvas" width="1200" height="500" style="border:3px solid #EEEEEE; margin:0px; position:absolute;">
+<canvas id="3D_canvas" width="1200" height="900" style="border:3px solid #EEEEEE; margin:0px; position:absolute;">
 Your browser does not support the canvas element.
 </canvas>
 <canvas id="2D_canvas" width="1200" height="900" style="border:3px solid #EEEEEE; margin:0px; position:absolute;">
 </canvas>
 <div id="loading">0% loaded</div>
 <div id="optionsBar">
-<div id="scrollingVars">
+<div id="mapBuilder">
 <form>
-Scrolling Variables<br>
-<input type="text" id="scrollMult" value="10"> ScrollMult<br>
-<input type="text" id="nearDist" value="200"> NearDist<br>
-<input type="text" id="farDist" value="10000"> FarDist<br>
-<input type="text" id="closeFactor" value="1000"> CloseFactor<br>
-<input type="text" id="farFactor" value="2000"> FarFactor<br>
-<input type="text" id="farFade" value="0.9"> FarFade<br>
-<input type="text" id="scrollDecel" value="1.5"> ScrollDecel<br>
-<input type="text" id="maxScrollSpeed" value="20"> MaxScrollSpeed<br>
-<input type="checkbox" id="useNewScrollVals"> Use scrolling vars?<br>
-</form>
-</div><div id="scrollingVars">
-<form>
-Flying vars<br>
-<input type="text" id="fTimeThreshold" value="750"> FlyingTimeThreshold<br>
-<input type="text" id="fFinalPitch" value="-60"> FlyingFinalPitch<br>
-<input type="text" id="fFinalYaw" value="45"> FlyingFinalYaw<br>
-<input type="checkbox" id="useNewFlyingVals"> Use flying vars?<br>
+Map Builder<br>
+<input type="button" id="addSS" onclick="lb_createSS();" value="Add SS" style="width:150px"><br>
+<input type="button" id="addPlanet" onclick="lb_createPlanet();" value="Add Planet" style="width:150px">
 </form>
 </div>
 </div>

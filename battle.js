@@ -1,4 +1,3 @@
-LoadjsFile("ship.js");
 function battle( List1, List2)
 {
 	var winner = [];

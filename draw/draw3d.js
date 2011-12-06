@@ -37,12 +37,14 @@ function draw3d()
 				//first draw opaque objects
 				blendLayer = false;		
 				initBlendModes();
-				drawMap();
+				if (mp.drawReady)
+					drawMap();
 				drawSkybox();
 				//now draw blend objects
 				blendLayer = true;
 				initBlendModes();
-				drawMap();
+				if (mp.drawReady)
+					drawMap();
 				
 				//second - post processing and draw framebuffer to screen
 				//post process
@@ -54,11 +56,15 @@ function draw3d()
 				setupMV();
 				//first draw opaque objects
 				blendLayer = false;		
-				drawMap();
+				initBlendModes();
+				if (mp.drawReady)
+					drawMap();
 				drawSkybox();
 				//now draw blend objects
-				blendLayer = true;				
-				drawMap();
+				blendLayer = true;
+				initBlendModes();
+				if (mp.drawReady)
+					drawMap();
 			}
 			break;
 		case 2: // ??
@@ -374,13 +380,14 @@ function drawSuns()
 		{
 			if (mp.systems[i] != null)
 			{
+				console.log("x:"+mp.systems[i].pos.x+"y:"+mp.systems[i].pos.y+"z:"+mp.systems[i].pos.z);
 				// translate to location of solar system
 				gl.uniform3f(shaderProgram.emissiveColorUniform,2*mp.systems[i].sunColor.x,2*mp.systems[i].sunColor.y,2*mp.systems[i].sunColor.z);
 				mvPushMatrix();
+				mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
 				mat4.rotate(mvMatrix,degToRad(mp.systems[i].rot.x),[1,0,0]);
 				mat4.rotate(mvMatrix,degToRad(mp.systems[i].rot.y),[0,1,0]);
 				mat4.rotate(mvMatrix,degToRad(mp.systems[i].rot.z),[0,0,1]);
-				mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
 				mat4.scale(mvMatrix,[mp.systems[i].sunScale,mp.systems[i].sunScale,mp.systems[i].sunScale]);
 				//
 				for (k=0;k<models[mp.systems[i].sunModel].meshes.length;k++)
@@ -410,10 +417,10 @@ function drawSuns()
 				gl.uniform3f(shaderProgram.emissiveColorUniform,2*mp.systems[i].sunColor.x,2*mp.systems[i].sunColor.y,2*mp.systems[i].sunColor.z);
 				// translate to location of solar system
 				mvPushMatrix();
+				mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
 				mat4.rotate(mvMatrix,mp.systems[i].sunHaloRot.y+Math.PI/2,[0,-1,0]);
 				mat4.rotate(mvMatrix,mp.systems[i].sunHaloRot.x,[1,0,0]);
 				mat4.rotate(mvMatrix,mp.systems[i].sunHaloRot.z,[0,0,1]);
-				mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
 				mat4.scale(mvMatrix,[mp.systems[i].sunScale,mp.systems[i].sunScale,mp.systems[i].sunScale]);
 				
 				for (k=0;k<models[mp.systems[i].sunHaloModel].meshes.length;k++)

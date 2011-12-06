@@ -2,6 +2,10 @@
 /* CSS Document */
 body {
 }
+
+.optionsBarButton {
+	width: 150px;
+}
 #loading {
 	position: absolute;
 	top: 10px;
@@ -11,7 +15,7 @@ body {
 	position: absolute;
 	z-index: -5;
 	top: 50px;
-	left: 1200px;
+	left: 1300px;
 	width: 300px;
 	border: #069 solid 3px;
 	background-color: #333;
