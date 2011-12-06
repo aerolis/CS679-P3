@@ -72,6 +72,7 @@ function draw2d()
 
 			//Draw planet menu
 			if (selectedPlanet != null && selectedPlanet.showOptions == true){
+				console.log("Selectedplanet's buttons are drawn");
 				selectedPlanet.optionButtons.draw();
 			}
 			

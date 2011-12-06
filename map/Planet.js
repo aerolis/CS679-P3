@@ -24,13 +24,19 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	
 	this.showOptions = false;
 	this.optionButtons = new buttonset();
+	
+	// !!! I don't think this should be stored here. I think we want a general place that stores what planet types are unlocked. (and possibly other techs).
+	this.buildableShips = []; //only used if factory planet
+}
+
+// Check which buttons are necessary everytime the buttons get shown.
+Planet.prototype.showoptions = function(){
+	console.log("showOptions gets called");
 	this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
 	//if (planet.upgradeLevel < planet.upgradeLimit)
 	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
 	
-	this.buildableShips = []; //only used if factory planet
-	
-	switch (planetType)
+	switch (this.type)
 	{
 		case "factory":
 			this.model = 0;
@@ -51,22 +57,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 			this.model = 6;
 		break;
 	}
-	/*
-	// !!! Ask how to prototype-ify this
-	this.showPopUp = function(){
-		this.popUp.addButton(100, 100, 30, 40, 'red', "Click me!");
-		this.showPopUp = true;
-	}
-	
-	this.hidePopUp = function() {
-		this.popUp.clear();
-		this.showPopUp = false;
-	}
-	*/
-}
-
-Planet.prototype.showoptions = function(){
-		this.showOptions = true;
+	this.showOptions = true;
 }
 
 Planet.prototype.hideoptions = function(){

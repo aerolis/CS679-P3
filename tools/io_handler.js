@@ -82,41 +82,52 @@ function handleMouseUp(evt)
 			
 		//moved them all back inside the same if statements because we still need to check mouseups even if it's over a menu	
 		if (selectedPlanet != null){
-			selectedPlanet.showOptions = false;
+			selectedPlanet.hideoptions;
 		}
 		if (evt.which == 1) //left mouse button
 		{
+			//If you're in a 'button area', do these checks to see if a button was clicked
 			if (mouseX > OptionBarX && mouseX < (OptionBarX + OptionBarWidth) && mouseY > OptionBarY && mouseY < (OptionBarY + OptionBarHeight))
 			{
 				var foundTarget = false;
 				if (selectedPlanet != null){
+					//See if you clicked an optionButton belonging to the selected planet.
 					foundTarget = selectedPlanet.optionButtons.checkClicked(mouseX, mouseY);
+					if (!foundTarget && selectedPlanet.owner == currentPlayer){
+						//See if you clicked a unit available on the selected planet.
+						foundTarget = selectedPlanet.availableUnits.checkClicked(mouseX, mouseY);
+					}
 				}	
 				if (!foundTarget){
-					permaButtons.checkClicked(mouseX, mouseY);
+					//See if you clicked a general button (like next turn)
+					foundTarget = permaButtons.checkClicked(mouseX, mouseY);
 				}
 				
 			}
-			var planet = pickObject();
-			if (planet != -1)
-			{
-				selectedPlanetIndices = planet;
-				selectedPlanet = mp.systems[planet.a].planets[planet.b];
-				if (selectedPlanet.player == currentPlayer){
-					selectedPlanet.showOptions = true;
+			//This really does need an else. You don't want to secretly select planets hiding under the option bar.
+			else{
+				var planet = pickObject();
+				if (planet != -1)
+				{
+					selectedPlanetIndices = planet;
+					selectedPlanet = mp.systems[planet.a].planets[planet.b];
+					if (selectedPlanet.player == currentPlayer){
+						selectedPlanet.showoptions();
+					}
+					console.log("A planet was selected");
 				}
-				console.log("A planet was selected");
+				else
+				{
+					selectedPlanet = null;
+					selectedPlanetIndices = null;
+				}
+				console.log("found planet ss:"+planet.a+" pl:"+planet.b);
+				//this will return the a c2 object (just a container for two objects to be carried together)
+				//with: planet.a -> solar system number -> mp.systems[planet.a]
+				//		planet.b -> planet number -> mp.systems[planet.a].planets[planet.b]
+				//returns -1 if no planet is clicked
 			}
-			else
-			{
-				selectedPlanet = null;
-				selectedPlanetIndices = null;
-			}
-			console.log("found planet ss:"+planet.a+" pl:"+planet.b);
-			//this will return the a c2 object (just a container for two objects to be carried together)
-			//with: planet.a -> solar system number -> mp.systems[planet.a]
-			//		planet.b -> planet number -> mp.systems[planet.a].planets[planet.b]
-			//returns -1 if no planet is clicked
+			
 			lPressed = false;
 		}
 		else if (evt.which == 2)
@@ -133,6 +144,11 @@ function handleMouseUp(evt)
 				evt.preventDefault();
 			justRightClicked = true;
 			var t = setTimeout("clearRightClick();",(1/4)*1000);
+			
+			// !!! If (there's a planet selected and there are units selected)
+			//Check if you just hit a planet
+			//If so, keep the old planet selected, but send units there. 
+			//Call handle send units method.
 		}
 	}
 
