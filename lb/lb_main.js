@@ -21,7 +21,7 @@ var fBuffer_sub; //frame buffer for rendering to
 var rBuffer_sub; //render buffer
 var tBuffer_sub; //texture containing frame buffer
 var aBuffer;
-var usePostProcessing = true;
+var usePostProcessing = false;
 
 //path to textures/mesh files
 var path = "";
@@ -73,12 +73,20 @@ var zFar = 5000;
 var fov = 60;
 var lightingPower = 4*Math.PI*Math.pow(400,2);
 
+//global vars for level loader
+var isLevelLoader = true;
+var currentSS = null;
+var currentPlanet = null;
+var placingSS = false;
+var placingPlanet = false;
+var placingPlanetType = 0;
+var planetTypeAmt = 7;
+var posAtMouse = new v3(0,0,0);
+var sunModel = 5;
+
 //initialization functions
 function initGame() //begin the "official" game initialization
-{
-	//first hide the initial vars
-	ui.hideImmediate();
-	
+{	
 	gameLoop();	
 	//set up drawing
 	$.get("meshes/meshids.html", function(data){
@@ -109,7 +117,7 @@ function setupGame() //loads models, lights, and shaders
 	if (usePostProcessing)
 		totalInits += 2;
 	// make the shaders
-	var p = setTimeout("initShaders();",1/30*1000);
+	var p = setTimeout("initShadersLB();",1/30*1000);
 	//initialize all loaded meshes
 	var t = setTimeout("initObjects();",1/30*1000);
 	// make the framebuffer
@@ -146,10 +154,8 @@ function setupLevel()
 	players[0].color = new v3(0.2,0.3,1.0);
 	players[1].color = new v3(1.0,0.1,0.3);
 	mp = new map();
-	mp.init();
-	players[0].initializeCameraPos();
-	players[1].initializeCameraPos();
-	cam.flyToFull(players[currentPlayer].cPos,players[currentPlayer].cRot,players[currentPlayer].cDist);
+	mp.initBlank();
+	cam.flyTo(new v3(0,0,0));
 }
 
 //game play loop
@@ -174,14 +180,10 @@ function gameLoop() //switches between game states and performs correct loop ope
 			break;
 		case 1: // play loop
 			update();
-			draw3d();
-			draw2d();
+			drawLB3d();
+			drawLB2d();
 			break;
 		case 2: // ??
-			break;
-		case 3: // ??
-			break;
-		case 4: // ??
 			break;
 	}
 	ui.update();
@@ -198,16 +200,8 @@ function update(){
 	var i;
 	mp.update();
 	cam.update();
-	advance();
 }
-function advance()
-{
-	var i,j;
-	for (i=0;i<models.length;i++)
-	{
-		models[i].advance();
-	}
-}
+
 
 function initObjects() //for binding meshes to GPU in webgl, leave as is
 {	
@@ -231,35 +225,4 @@ function drawLoading()
 	//will want to draw the loading bar here. 0<tmp<200
 	document.getElementById('loading').innerHTML = Math.round(10000*(part_a+part_b+part_c)/3)/100+"% loaded";
 	pausecomp(50);
-}
-
-function nextTurn()
-{
-	players[currentPlayer].saveCameraPosition();
-	currentPlayer = (currentPlayer + 1) % amtPlayers;
-	console.log("Next turn got called. New current Player = " + currentPlayer);
-	
-	//Loop through all planets
-	var i,j;
-	for (i=0;i<mp.systems.length;i++)
-	{
-		for (j=0;j<mp.systems[i].planets.length;j++)
-		{
-			// If they're yours, update it.
-			if (mp.systems[i].planets[j].player == currentPlayer)
-			{
-				mp.systems[i].planets[j].onTurn();
-			}
-		}
-	}	
-	
-	cam.flyToFull(players[currentPlayer].cPos,players[currentPlayer].cRot,players[currentPlayer].cDist);
-	
-	//If (it's AI)
-	// do ai stuff. (including calling nextTurn)
-}
-
-function gameOver() { 
-	//is this method still relevant?
-	playState = 4;
 }

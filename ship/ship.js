@@ -79,7 +79,7 @@ ship.prototype.attack = function(target){ //i_target is the target ship, estimat
 }
 
 //if this ship was attacked
-ship.prototype.hpUpdate(damage){
+ship.prototype.hpUpdate = function(damage){
 	if(this.shield > 0 ){ // shield get attacked first
 		this.shield -= damage;
 	}

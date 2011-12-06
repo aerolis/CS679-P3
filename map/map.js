@@ -7,9 +7,10 @@ function map()
 	this.lineColBuffer;
 	//stuff for halos
 	this.nextBuffer = 0;
-	this.haloPosBuffers = new Array();
+	this.haloPosBuffers;
 	this.haloPosBuffer;
 	this.haloColBuffer;
+	this.drawReady = false;
 	this.seg = 42; //number of segments in halos
 	
 	//makes searching for planets easier
@@ -26,7 +27,9 @@ map.prototype.init = function()
 	this.bindHalo();
 	this.bindHaloColors();
 	this.setupPlanetLists();
+	this.drawReady = true;
 }
+
 map.prototype.update = function()
 {
 	var i;
@@ -38,6 +41,7 @@ map.prototype.update = function()
 map.prototype.addSystem = function(sys)
 {
 	this.systems.push(sys);
+	return this.systems.indexOf(sys);
 }
 map.prototype.bindLines = function()
 {
