@@ -150,6 +150,36 @@ function handleMouseUp(evt)
 			justRightClicked = true;
 			var t = setTimeout("clearRightClick();",(1/4)*1000);
 			
+			if (selectedPlanet != null && selectedPlanet.selectedFleet.getTotal() > 0){
+				//See if you're sending out units. 
+				var planet = pickObject();
+				if (planet != -1)
+				{
+					targetPlanet = mp.systems[planet.a].planets[planet.b];
+					// !!! Button things that need refactoring again
+					selectedPlanet.hideShips();
+					//If it's your planet, just add the fleet.
+					// !!! Needs to take movement left into account.
+					if (targetPlanet.player == currentPlayer){
+						targetPlanet.myFleet.addFleet(selectedPlanet.selectedFleet);
+						selectedPlanet.selectedFleet.empty();
+					}
+					//If it's an enemy planet, call receiveHostileFleet on it.
+					else if (targetPlanet.player != currentPlayer){
+						targetPlanet.receiveHostileFleet(selectedPlanet.selectedFleet);
+						selectedPlanet.selectedFleet.empty();
+					}
+					selectedPlanet.showShips();
+				}
+				//If no planet was clicked, just deselect your units.
+				else
+				{
+					selectedPlanet.myFleet.addFleet(selectedPlanet.selectedFleet);
+					selectedPlanet.selectedFleet.empty();
+				}				
+			
+			}
+			
 			// !!! If (there's a planet selected and there are units selected)
 			//Check if you just hit a planet
 			//If so, keep the old planet selected, but send units there. 

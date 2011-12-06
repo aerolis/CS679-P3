@@ -72,17 +72,13 @@ function Button(){
 				
 			case buttonType.Cruisers:
 				//Do stuff
-				selectedPlanet.selectFrigate();
-				
-				//selectedPlanet.selectCruiser();				
+				selectedPlanet.selectCruiser();				
 				console.log("This planet wants to select a cruiser");
 				break;
 				
 			case buttonType.Capitals:
 				//Do stuff
-				selectedPlanet.selectFrigate();
-				
-				//selectedPlanet.selectCapital();				
+				selectedPlanet.selectCapital();				
 				console.log("This planet wants to select a frigate");
 				break;
 				

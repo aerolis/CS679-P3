@@ -105,7 +105,26 @@ Planet.prototype.selectFrigate = function(){
 		this.myFleet.addFrigates(-1);
 		this.selectedFleet.addFrigates(1);
 	}
-	console.log("myFleet.frigates: " + this.myFleet.amtFrigate + ", selected: " + this.selectedFleet.amtFrigate);
+	// !!! Buttons need to be refactored. I really don't want to do this this way.
+	this.showShips();
+}
+
+Planet.prototype.selectCruiser = function(){
+	this.hideShips();
+	if (this.myFleet.amtCruiser > 0){
+		this.myFleet.addCruisers(-1);
+		this.selectedFleet.addCruisers(1);
+	}
+	// !!! Buttons need to be refactored. I really don't want to do this this way.
+	this.showShips();
+}
+
+Planet.prototype.selectCapital = function(){
+	this.hideShips();
+	if (this.myFleet.amtCapital > 0){
+		this.myFleet.addCapitals(-1);
+		this.selectedFleet.addCapitals(1);
+	}
 	// !!! Buttons need to be refactored. I really don't want to do this this way.
 	this.showShips();
 }
@@ -157,4 +176,8 @@ Planet.prototype.onTurn = function() {
 		default:
 		break;
 	}	
+}
+
+Planet.prototype.receiveHostileFleet = function(enemyFleet){
+	//Do battle stuff. The enemy that send it to you can be gotten from players[currentPlayer].
 }
