@@ -19,18 +19,30 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.linkedPlanets = connectedPlanets;
 	//this.ships = shipsGarrisoned;
 	this.ships = [];
+	
+	this.myFleet = new fleet();	
+	this.selectedFleet = new fleet();
+	
+	// !!! ==== For testing only, should be removed! ===========
+	this.myFleet.addFrigates(5);	
+	this.myFleet.addCruisers(3);
+	this.myFleet.addCapitals(4);
+	// !!! ==== End of testing purposes :) =====================
+	
 	this.model = 0; //will store a ref id for the model that displays it
 	this.selected = false;
 	
-	this.showOptions = false;
+	this.fl_showOptions = false;
 	this.optionButtons = new buttonset();
+	this.fl_showShips = false;
+	this.shipButtons = new buttonset();
 	
 	// !!! I don't think this should be stored here. I think we want a general place that stores what planet types are unlocked. (and possibly other techs).
 	this.buildableShips = []; //only used if factory planet
 }
 
 // Check which buttons are necessary everytime the buttons get shown.
-Planet.prototype.showoptions = function(){
+Planet.prototype.showOptions = function(){
 	console.log("showOptions gets called");
 	this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
 	//if (planet.upgradeLevel < planet.upgradeLimit)
@@ -57,14 +69,46 @@ Planet.prototype.showoptions = function(){
 			this.model = 6;
 		break;
 	}
-	this.showOptions = true;
+	this.fl_showOptions = true;
 }
 
-Planet.prototype.hideoptions = function(){
+Planet.prototype.hideOptions = function(){
+	this.myFleet.addFleet(this.selectedFleet);
+	this.selectedFleet.empty();
 	this.optionButtons.clear();
-	this.showOptions = false;
+	this.fl_showOptions = false;
 }
 
+Planet.prototype.showShips = function(){
+	//populate shipButtons;
+	// !!! buttonTypes
+	if (this.myFleet.amtFrigate + this.selectedFleet.amtFrigate > 0){
+		this.shipButtons.addButton(unitsStart, OptionBarY + 10, 90, 40, '#657383', "Frigates: " + this.myFleet.amtFrigate + ", " + this.selectedFleet.amtFrigate, buttonType.Frigates);	
+	}
+	if (this.myFleet.amtCruiser + this.selectedFleet.amtCruiser  > 0){
+		this.shipButtons.addButton(unitsStart, OptionBarY + 60, 90, 40, '#657383', "Cruisers: " + this.myFleet.amtCruiser + ", " + this.selectedFleet.amtCruiser, buttonType.Cruisers);	
+	}
+	if (this.myFleet.amtCapital + this.selectedFleet.amtCapital  > 0){
+		this.shipButtons.addButton(unitsStart + 100, OptionBarY + 10, 90, 40, '#657383', "Capitals: " + this.myFleet.amtCapital + ", " + this.selectedFleet.amtCapital, buttonType.Capitals);	
+	}	
+	this.fl_showShips = true;
+}
+
+Planet.prototype.hideShips = function(){
+	this.shipButtons.clear();
+	this.fl_showShips = false;
+}
+
+Planet.prototype.selectFrigate = function(){
+	this.hideShips();
+	if (this.myFleet.amtFrigate > 0){
+		this.myFleet.addFrigates(-1);
+		this.selectedFleet.addFrigates(1);
+	}
+	console.log("myFleet.frigates: " + this.myFleet.amtFrigate + ", selected: " + this.selectedFleet.amtFrigate);
+	// !!! Buttons need to be refactored. I really don't want to do this this way.
+	this.showShips();
+}
 
 Planet.prototype.linkPlanet = function(toPlanet) {
 	this.linkedPlanets.push(toPlanet);

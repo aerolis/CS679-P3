@@ -81,9 +81,7 @@ function handleMouseUp(evt)
 			
 			
 		//moved them all back inside the same if statements because we still need to check mouseups even if it's over a menu	
-		if (selectedPlanet != null){
-			selectedPlanet.hideoptions;
-		}
+		
 		if (evt.which == 1) //left mouse button
 		{
 			//If you're in a 'button area', do these checks to see if a button was clicked
@@ -93,9 +91,9 @@ function handleMouseUp(evt)
 				if (selectedPlanet != null){
 					//See if you clicked an optionButton belonging to the selected planet.
 					foundTarget = selectedPlanet.optionButtons.checkClicked(mouseX, mouseY);
-					if (!foundTarget && selectedPlanet.owner == currentPlayer){
+					if (!foundTarget && selectedPlanet.player == currentPlayer){
 						//See if you clicked a unit available on the selected planet.
-						foundTarget = selectedPlanet.availableUnits.checkClicked(mouseX, mouseY);
+						foundTarget = selectedPlanet.shipButtons.checkClicked(mouseX, mouseY);
 					}
 				}	
 				if (!foundTarget){
@@ -106,13 +104,20 @@ function handleMouseUp(evt)
 			}
 			//This really does need an else. You don't want to secretly select planets hiding under the option bar.
 			else{
+				//Only need to stop showing selection if there's a chance of deselection.
+				if (selectedPlanet != null){
+					selectedPlanet.hideOptions();
+					selectedPlanet.hideShips();
+				}
+		
 				var planet = pickObject();
 				if (planet != -1)
 				{
 					selectedPlanetIndices = planet;
 					selectedPlanet = mp.systems[planet.a].planets[planet.b];
+					selectedPlanet.showShips();
 					if (selectedPlanet.player == currentPlayer){
-						selectedPlanet.showoptions();
+						selectedPlanet.showOptions();
 					}
 					console.log("A planet was selected");
 				}
