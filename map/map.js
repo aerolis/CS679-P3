@@ -56,9 +56,13 @@ map.prototype.bindLines = function()
 		{
 			for (k=0;k<this.systems[i].planets[j].linkedPlanets.length;k++)
 			{
-				var lnk = this.systems[i].planets[j].linkedPlanets[k].split('-');
-				var lnk_sys = lnk[0];
-				var lnk_planet = lnk[1];
+				//var lnk = this.systems[i].planets[j].linkedPlanets[k].split('-');
+				//var lnk_sys = lnk[0];
+				//var lnk_planet = lnk[1];
+				var lnk_planet = this.systems[i].planets[j].linkedPlanets[k].id;
+				var lnk_sys = this.systems[i].planets[j].linkedPlanets[k].mySystem;
+				
+				
 				var pln_a = this.systems[i].planets[j];
 				var pln_b = this.systems[lnk_sys].planets[lnk_planet];
 				
@@ -116,9 +120,12 @@ map.prototype.bindColors = function()
 		{
 			for (k=0;k<this.systems[i].planets[j].linkedPlanets.length;k++)
 			{
-				var lnk = this.systems[i].planets[j].linkedPlanets[k].split('-');
-				var lnk_sys = lnk[0];
-				var lnk_planet = lnk[1];
+				//var lnk = this.systems[i].planets[j].linkedPlanets[k].split('-');
+				//var lnk_sys = lnk[0];
+				//var lnk_planet = lnk[1];
+				var lnk_planet = this.systems[i].planets[j].linkedPlanets[k].id;
+				var lnk_sys = this.systems[i].planets[j].linkedPlanets[k].mySystem;
+				
 				var pln_a = this.systems[i].planets[j];
 				var pln_b = this.systems[lnk_sys].planets[lnk_planet];
 				

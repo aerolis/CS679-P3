@@ -1,6 +1,7 @@
-function player (i)
+function player (i, isAI)
 {
 	this.id = i;
+	this.ai = isAI;
 	
 	this.color = new v3(1.0,1.0,1.0);
 	
@@ -15,6 +16,8 @@ function player (i)
 	this.cDist = 0;
 	
 	this.catalog = new shipCatalog(this.id);
+	
+	this.planets = [];
 }
 
 player.prototype.restart = function()
@@ -66,4 +69,57 @@ player.prototype.initializeCameraPos = function()
 		}
 	}
 	this.cPos = new v3(pos.x,pos.y,pos.z);
+}
+
+//Add a planet to the list of planets this player owns
+player.prototype.addPlanet = function(planet)
+{
+	if (this.planets.indexOf(planet) == -1)
+		this.planets.push(planet);
+}
+
+//Remove a planet from the list of planets this player owns
+player.prototype.removePlanet = function(planet)
+{
+	var index = this.planets.indexOf(planet);
+	if (index != -1)
+	{
+		this.planets.splice(index,1);
+	}
+}
+
+//SHOULD ONLY BE CALLED IF PLAYER IS AN AI
+player.prototype.doTurn = function()
+{
+	if (!this.ai) return;
+	
+	console.log("Doing AI turn");
+	
+	//first attempt to build ships
+	for (var i = 0; i < this.planets.length; i++) {
+		//console.log("I own planet " + this.planets[i].id);
+		if (this.planets[i].type == "factory")
+		{
+			//TODO: attempt to build a ship
+		}
+	}
+	
+	//now look for possible target planets
+	for (var i = 0; i < this.planets.length; i++) {
+		var currPlanet = this.planets[i];
+		console.log(currPlanet.ships);
+		for (var j = 0; j < currPlanet.linkedPlanets.length; j++)
+		{
+			var linkedPlanet = currPlanet.linkedPlanets[j];
+			
+			//TODO: add better checks here besides just do we
+			//have more ships than them...
+			if (linkedPlanet.player != this.id &&
+				linkedPlanet.ships.length < currPlanet.ships.length)
+			{
+				//TODO: send ships out to take over linkedPlanet
+			}
+		}
+	}
+	
 }

@@ -14,7 +14,8 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.player = planetOwner; 	// !! should we just keep an global array of players and then we can just keep an int here reflecting
 								// which player in the array owns it?
 	this.linkedPlanets = connectedPlanets;
-	this.ships = shipsGarrisoned;
+	//this.ships = shipsGarrisoned;
+	this.ships = [];
 	this.model = 0; //will store a ref id for the model that displays it
 	this.selected = false;
 	
@@ -23,27 +24,16 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
 	//if (planet.upgradeLevel < planet.upgradeLimit)
 	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
-	switch (this.type)
-	{
-		case "factory":
-			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 20, 90, 25, '#657383', "Built Ship Type 1", buttonType.BuildUnit1);	
-			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 55, 90, 25, '#657383', "Built Ship Type 2", buttonType.BuildUnit2);				
-			break;
-		case "plasma":
-			break;
-		case "antimatter":
-			break;
-		case "steel":
-			break;
-		default:
-			break;
 	
-	}
+	this.buildableShips = []; //only used if factory planet
 	
 	switch (planetType)
 	{
 		case "factory":
 			this.model = 0;
+			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 20, 90, 25, '#657383', "Built Ship Type 1", buttonType.BuildUnit1);	
+			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 55, 90, 25, '#657383', "Built Ship Type 2", buttonType.BuildUnit2);
+			//TODO: add buildable ship to list				
 		break;
 		case "plasma":
 			this.model = 1;
@@ -84,10 +74,14 @@ Planet.prototype.hideoptions = function(){
 
 Planet.prototype.linkPlanet = function(toPlanet) {
 	this.linkedPlanets.push(toPlanet);
-	var lnk = toPlanet.split('-');
-	var lnk_sys = lnk[0];
-	var lnk_planet = lnk[1];
-	mp.systems[lnk_sys].planets[lnk_planet].linkedPlanets.push(this.mySystem+"-"+this.id);
+	//var lnk = toPlanet.split('-');
+	//var lnk_sys = lnk[0];
+	//var lnk_planet = lnk[1];
+	var lnk_sys = toPlanet.mySystem;
+	var lnk_planet = toPlanet.id;
+	//mp.systems[lnk_sys].planets[lnk_planet].linkedPlanets.push(this.mySystem+"-"+this.id);
+	mp.systems[lnk_sys].planets[lnk_planet].linkedPlanets.push(this);
+	
 }
 Planet.prototype.garrisonShip = function(ship) {
 	this.ships.push(ship);

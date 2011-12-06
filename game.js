@@ -140,14 +140,33 @@ function setupLevel()
 	lev = load_level(data);
 	levelLength = lev.length;
 	}, 'html');*/
-	for (var i = 0; i < amtPlayers; i++){
-		players.push(new player(i));
-	}
+	//for (var i = 0; i < amtPlayers; i++){
+	//	players.push(new player(i));
+	//}
+	
+	//FOR NOW, JUST 2 PLAYERS (Human and AI)
+	players.push(new player(0, false));
+	players.push(new player(1, true));
 	
 	players[0].color = new v3(0.2,0.3,1.0);
 	players[1].color = new v3(1.0,0.1,0.3);
 	mp = new map();
 	mp.init();
+	
+	//init player controlled planets
+	var i,j;
+	for (i=0;i<mp.systems.length;i++)
+	{
+		for (j=0;j<mp.systems[i].planets.length;j++)
+		{
+			var owner = mp.systems[i].planets[j].player;
+			if (owner >= 0) //i.e. if not neutral
+			{
+				players[owner].addPlanet(mp.systems[i].planets[j]);
+			}
+		}
+	}	
+	
 	players[0].initializeCameraPos();
 	players[1].initializeCameraPos();
 	cam.flyToFull(players[currentPlayer].cPos,players[currentPlayer].cRot,players[currentPlayer].cDist);
@@ -178,7 +197,7 @@ function gameLoop() //switches between game states and performs correct loop ope
 			draw3d();
 			draw2d();
 			break;
-		case 2: // ??
+		case 2: // indicates that an AI is taking a turn
 			break;
 		case 3: // ??
 			break;
@@ -259,6 +278,18 @@ function nextTurn()
 	
 	//If (it's AI)
 	// do ai stuff. (including calling nextTurn)
+	
+	if (players[currentPlayer].ai) {
+		playState = 2;
+		players[currentPlayer].doTurn();
+		playState = 1;
+		
+		//For debugging, it may be useful to comment out the next
+		//line so that you can see what the AI did (you must then
+		//click the END TURN button to get back to the user's
+		//turn...)
+		nextTurn();
+	}
 }
 
 function gameOver() { 
