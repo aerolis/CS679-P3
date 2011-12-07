@@ -6,18 +6,36 @@ var OptionBarX;
 var OptionBarY;
 var OptionBarWidth;
 var OptionBarHeight;
+var OptionBarSidesWidth;
+var OptionBarMiddleDif;
+
+
+var InfoBarX;
+var InfoBarY;
+var InfoBarWidth;
+var InfoBarHeight;
 
 var unitsStart;
+var unitsWidth;
 var planetStart;
+var planetWidth;
 var permaStart;	
 
 var permaButtons;		
 
 function initDraw2d(){
-	OptionBarX = 10;
-	OptionBarY = canvas.height - 110;
-	OptionBarWidth = canvas.width - 20;
-	OptionBarHeight = 100;
+	OptionBarSidesWidth = 450;
+	OptionBarWidth = canvas.width;
+	OptionBarHeight = 250;
+	OptionBarMiddleDif = 50;
+	OptionBarX = 0;
+	OptionBarY = canvas.height - OptionBarHeight;
+	
+	
+	InfoBarX = 0;
+	InfoBarY = 0;
+	InfoBarWidth = canvas.width;
+	InfoBarHeight = 50;
 	
 	unitsStart = OptionBarX + 150;
 	planetStart = OptionBarX + 410;
@@ -46,20 +64,35 @@ function draw2d()
 		case 1:
 			//Default Game state
 			
-			//Draw background for HUD
+			//Draw infobar background
 			ctx.fillStyle = '#34282C';
-			ctx.fillRect(OptionBarX, OptionBarY, OptionBarWidth, OptionBarHeight);
+			ctx.fillRect(InfoBarX, InfoBarY, InfoBarWidth, InfoBarHeight);
 		
 			//Print inventory
 			ctx.fillStyle = 'white';
 			ctx.font = "15pt Calibri";		
-			ctx.fillText("Credits: " + players[0].credits, OptionBarX + 20, OptionBarY + 25);
-			ctx.fillText("Steel: " + players[0].steel, OptionBarX + 20, OptionBarY + 45);	
-			ctx.fillText("Plasma: " + players[0].plasma, OptionBarX + 20, OptionBarY + 65);	
-			ctx.fillText("Antimatter: " + players[0].antimatter, OptionBarX + 20, OptionBarY + 85);	
-
+			//ctx.fillText("Credits: " + players[0].credits, InfoBarX + 20, InfoBarY + 20);
+			//ctx.fillText("Steel: " + players[0].steel, InfoBarX + 100, InfoBarY + 20);	
+			//ctx.fillText("Plasma: " + players[0].plasma, InfoBarX + 180, InfoBarY + 20);	
+			//ctx.fillText("Antimatter: " + players[0].antimatter, InfoBarX + 260, InfoBarY + 20);	
+			ctx.fillText("Credits: " + players[0].credits + "   " + "Steel: " + players[0].steel + "   " + "Plasma: " + players[0].plasma + "   " + "Antimatter: " + players[0].antimatter, InfoBarX + 20, InfoBarY + 30);
 			
-			
+			//Draw background for HUD
+			ctx.beginPath();
+			ctx.moveTo(OptionBarX, OptionBarY);
+			ctx.lineTo(OptionBarX + OptionBarSidesWidth, OptionBarY);
+			ctx.lineTo(OptionBarX + OptionBarSidesWidth + 20, OptionBarY + OptionBarMiddleDif);
+			ctx.lineTo(OptionBarWidth - OptionBarSidesWidth - 20, OptionBarY + OptionBarMiddleDif);
+			ctx.lineTo(OptionBarWidth - OptionBarSidesWidth, OptionBarY);
+			ctx.lineTo(OptionBarX + OptionBarWidth, OptionBarY);
+			ctx.lineTo(OptionBarX + OptionBarWidth, OptionBarY + OptionBarHeight);
+			ctx.lineTo(OptionBarX, OptionBarY + OptionBarHeight);
+			ctx.closePath();
+			ctx.lineWidth = 1;
+			ctx.fillStyle = '#34282C';			
+			ctx.fill();
+						
+			/*
 			ctx.strokeStyle = 'white';
 			ctx.strokeRect(unitsStart, OptionBarY + 10, 250, OptionBarHeight - 20);
 			ctx.fillText("Available units; selection", unitsStart + 10, OptionBarY + 40);	
@@ -69,7 +102,7 @@ function draw2d()
 
 			ctx.strokeRect(permaStart, OptionBarY + 10, 200, OptionBarHeight - 20);
 			ctx.fillText("Next turn, back to menu... ", permaStart + 10, OptionBarY + 40);			
-
+			*/
 			//Draw planet menu
 			if (selectedPlanet != null && selectedPlanet.fl_showOptions == true){
 				selectedPlanet.optionButtons.draw();
