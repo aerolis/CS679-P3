@@ -411,6 +411,15 @@ function fbx_parsemesh(data)
 									properties.push(new fbx_property(propID,"rot",new v3(x,y,z)));
 									propCount++;
 							}
+							else if (lnTmp[13] == "\"GeometricTranslation\",")
+							{
+									p = lnTmp[16].split(',');
+									x = parseFloat(p[1]);
+									y = parseFloat(p[2]);
+									z = parseFloat(p[3].split('\r')[0]);
+									properties.push(new fbx_property(propID,"geometrictrans",new v3(x,y,z)));
+									propCount++;
+							}
 							else if (lnTmp[13] == "\"Lcl" && lnTmp[14] == "Translation\",")
 							{
 									p = lnTmp[18].split(',');
@@ -587,9 +596,9 @@ function fbx_parsemesh(data)
 						if (connections[i].c == '"d|X"')
 							animNodes[j].curves.x = tmp_curve;
 						else if (connections[i].c == '"d|Y"')
-							animNodes[j].curves.z = tmp_curve;
-						else if (connections[i].c == '"d|Z"')
 							animNodes[j].curves.y = tmp_curve;
+						else if (connections[i].c == '"d|Z"')
+							animNodes[j].curves.z = tmp_curve;
 					}
 				}
 			}
@@ -668,6 +677,9 @@ function fbx_parsemesh(data)
 					case "trans":
 						newMeshes[j].dlocTrans = properties[i].val;
 						newMeshes[j].locTrans = properties[i].val;
+						break;
+					case "geometrictrans":
+						newMeshes[j].gTrans = properties[i].val;
 						break;
 					case "rot":
 						newMeshes[j].dlocRot = properties[i].val;

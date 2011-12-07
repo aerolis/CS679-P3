@@ -20,7 +20,7 @@ function camera ()
 	this.maxScrollSpeed = 20;
 	
 	this.scrollMult = 10;
-	this.nearDist = 200;
+	this.nearDist = 20;
 	this.farDist = 10000;
 	this.closeFactor = 1000;
 	this.farFactor = 2000;

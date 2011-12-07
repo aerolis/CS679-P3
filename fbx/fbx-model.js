@@ -45,8 +45,8 @@ fbx_model.prototype.advance = function()
 	var i;
 	for (i=0;i<this.meshes.length;i++)
 	{
-		if(this.meshes[i].hasAnimation)
-			this.meshes[i].advance();
+		//if(this.meshes[i].hasAnimation)
+		//	this.meshes[i].advance();
 	}
 }
 //data structure to contain individual mesh
@@ -58,6 +58,7 @@ function fbx_mesh()
 	this.polygons = new Array();
 	this.uvs = new Array();
 	this.color = new v4(1.0,1.0,1.0,1.0);
+	this.gTrans = new v3(0,0,0);
 	this.dlocTrans = new v3(0,0,0);
 	this.dlocRot = new v3(0,0,0);
 	this.dlocScale = new v3(1,1,1);
@@ -242,6 +243,9 @@ function getMeshes(data)
 				case "sun_halo":
 					models[7] = tmpModel;
 					models[7].meshes[0].blendColor = true;
+					break;
+				case "warp":
+					models[8] = tmpModel;
 					break;
 			}
 			modelsChecked++;

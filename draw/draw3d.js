@@ -475,10 +475,12 @@ function drawMesh(modelID,meshID)
 			gl.uniform1f(shaderProgram.hasTransparent,0.0);
 		}
 		mvPushMatrix();
-		mat4.translate(mvMatrix,[mesh.locTrans.x,mesh.locTrans.y,mesh.locTrans.z]); //translate mesh local pos
-		mat4.rotate(mvMatrix,degToRad(mesh.locRot.x-90),[1,0,0]);
+		mat4.translate(mvMatrix,[mesh.locTrans.x,mesh.locTrans.y,mesh.locTrans.z]);
+		mat4.rotate(mvMatrix,degToRad(-90),[1,0,0]);
+		mat4.rotate(mvMatrix,degToRad(mesh.locRot.x),[1,0,0]);
 		mat4.rotate(mvMatrix,degToRad(mesh.locRot.z),[0,1,0]);
 		mat4.rotate(mvMatrix,degToRad(mesh.locRot.y),[0,0,1]);
+		mat4.translate(mvMatrix,[mesh.gTrans.x,mesh.gTrans.y,mesh.gTrans.z]);
 		mat4.scale(mvMatrix,[mesh.locScale.x,mesh.locScale.y,mesh.locScale.z]);
 	
 		gl.bindBuffer(gl.ARRAY_BUFFER, mesh.vertexPosBuffer);

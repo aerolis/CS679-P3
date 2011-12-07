@@ -67,6 +67,9 @@ Planet.prototype.specifyPlanetType = function()
 		case "credit":
 			this.model = 6;
 		break;
+		case "warp":
+			this.model = 8;
+		break;
 		case "default":
 			this.model = 0;
 		break;
