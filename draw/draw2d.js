@@ -21,7 +21,8 @@ var planetStart;
 var planetWidth;
 var permaStart;	
 
-var permaButtons;		
+var permaButtons;
+var combatResultScreen;		
 
 function initDraw2d(){
 	OptionBarSidesWidth = 450;
@@ -29,8 +30,7 @@ function initDraw2d(){
 	OptionBarHeight = 250;
 	OptionBarMiddleDif = 50;
 	OptionBarX = 0;
-	OptionBarY = canvas.height - OptionBarHeight;
-	
+	OptionBarY = canvas.height - OptionBarHeight;	
 	
 	InfoBarX = 0;
 	InfoBarY = 0;
@@ -43,6 +43,8 @@ function initDraw2d(){
 	
 	permaButtons = new buttonset();
 	permaButtons.addButton(permaStart + 10, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "End Turn", buttonType.EndTurn);
+	
+	combatResultScreen = new combatResults();
 	
 }
 
@@ -113,6 +115,11 @@ function draw2d()
 			}
 			
 			permaButtons.draw();
+			
+			if(combatResultScreen.active){
+				console.log("combatResultsScreen should be drawing");
+				combatResultScreen.draw();
+			}
 			
 			break;
 			

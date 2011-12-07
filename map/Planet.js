@@ -53,55 +53,9 @@ Planet.prototype.showOptions = function(){
 	//if (planet.upgradeLevel < planet.upgradeLimit)
 	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
 	
-
-	this.buildableShips = []; //only used if factory planet
 	this.specifyPlanetType();
-	
-	/*
-	// !!! Ask how to prototype-ify this
-	this.showPopUp = function(){
-		this.popUp.addButton(100, 100, 30, 40, 'red', "Click me!");
-		this.showPopUp = true;
-	}
-	
-	this.hidePopUp = function() {
-		this.popUp.clear();
-		this.showPopUp = false;
-	}
-	*/
 }
 
-Planet.prototype.specifyPlanetType = function()
-{
-	switch (this.type)
-	{
-		case "factory":
-			this.model = 0;
-			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 20, 90, 25, '#657383', "Built Ship Type 1", buttonType.BuildUnit1);	
-			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 55, 90, 25, '#657383', "Built Ship Type 2", buttonType.BuildUnit2);
-			//TODO: add buildable ship to list				
-		break;
-		case "plasma":
-			this.model = 1;
-		break;
-		case "antimatter":
-			this.model = 2;
-		break;
-		case "steel":
-			this.model = 3;
-		break;
-		case "credit":
-			this.model = 6;
-		break;
-		case "warp":
-			this.model = 8;
-		break;
-		case "default":
-			this.model = 0;
-		break;
-	}
-	this.fl_showOptions = true;
-}
 
 Planet.prototype.hideOptions = function(){
 	this.myFleet.addFleet(this.selectedFleet);
@@ -160,6 +114,39 @@ Planet.prototype.selectCapital = function(){
 	this.showShips();
 }
 
+
+Planet.prototype.specifyPlanetType = function()
+{
+	switch (this.type)
+	{
+		case "factory":
+			this.model = 0;
+			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 20, 90, 25, '#657383', "Built Ship Type 1", buttonType.BuildUnit1);	
+			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 55, 90, 25, '#657383', "Built Ship Type 2", buttonType.BuildUnit2);
+			//TODO: add buildable ship to list				
+		break;
+		case "plasma":
+			this.model = 1;
+		break;
+		case "antimatter":
+			this.model = 2;
+		break;
+		case "steel":
+			this.model = 3;
+		break;
+		case "credit":
+			this.model = 6;
+		break;
+		case "warp":
+			this.model = 8;
+		break;
+		case "default":
+			this.model = 0;
+		break;
+	}
+	this.fl_showOptions = true;
+}
+
 Planet.prototype.linkPlanet = function(toPlanet) {
 	this.linkedPlanets.push(toPlanet);
 	//var lnk = toPlanet.split('-');
@@ -211,6 +198,8 @@ Planet.prototype.onTurn = function() {
 
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	//Do battle stuff. The enemy that send it to you can be gotten from players[currentPlayer].
+	//Get a winner first.
+	//after we got winner,assign value to planet.player
 	
-	//after we got winner,assign value to planet owner
+	combatResultScreen.show();
 }

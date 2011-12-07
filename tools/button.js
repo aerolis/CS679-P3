@@ -1,11 +1,12 @@
 var buttonType = { 	"EndTurn": 0,
 					"Send": 1,
 					"Upgrade": 2,
-					"BuildUnit1": 3,
-					"BuildUnit2": 4,
+					"RemoveCR":3,
 					"Frigates":10,
 					"Cruisers":11,
-					"Capitals":12
+					"Capitals":12,					
+					"BuildUnit1": 20,
+					"BuildUnit2": 21,
 					};
 
 //Button object to hold data for all buttons
@@ -51,6 +52,12 @@ function Button(){
 			case buttonType.Upgrade:
 				//Do stuff
 				console.log("This planet wants to upgrade");
+				break;
+				
+			case buttonType.RemoveCR:
+				//Do stuff
+				combatResultScreen.hide();			
+				console.log("This planet wants to select a frigate");
 				break;
 				
 			case buttonType.BuildUnit1:
