@@ -227,7 +227,8 @@ function lb_parsePlayers(data)
 					tmp.id = id;
 				break;
 				case "<ai>":
-					tmp.ai = tokens[1];
+					if (tokens[1] == "true")
+						tmp.ai = true;
 				break;
 				case "<color>":
 					tmp.color = new v3(parseFloat(tokens[1]),parseFloat(tokens[2]),parseFloat(tokens[3]));
