@@ -62,13 +62,13 @@ function makeFleet(list){
 	for (var i = 0; i < list.length; i++){
 		ship = list[i];
 		if (ship.type == "Frigate"){
-			fleet.frigates.push(ship);
+			fleet.Frigates.push(ship);
 		}
 		else if (ship.type == "Cruiser"){
-			fleet.frigates.push(ship);
+			fleet.Cruisers.push(ship);
 		}
 		else if (ship.type == "Capital"){
-			fleet.frigates.push(ship);
+			fleet.Capitals.push(ship);
 		}
 	}
 	

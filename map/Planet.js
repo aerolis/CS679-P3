@@ -56,7 +56,6 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 
 // Check which buttons are necessary everytime the buttons get shown.
 Planet.prototype.showOptions = function(){
-	console.log("showOptions gets called");
 	this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
 	//if (planet.upgradeLevel < planet.upgradeLimit)
 	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
@@ -180,6 +179,7 @@ Planet.prototype.specifyPlanetType = function()
 	}
 }
 
+//Receives the actual planet object
 Planet.prototype.linkPlanet = function(toPlanet) {
 	this.linkedPlanets.push(toPlanet);
 	//var lnk = toPlanet.split('-');
@@ -191,15 +191,15 @@ Planet.prototype.linkPlanet = function(toPlanet) {
 	mp.systems[lnk_sys].planets[lnk_planet].linkedPlanets.push(this);
 	
 }
+
+//Check if it's linked to another planet. toPlanet is the actual Planet object.
 Planet.prototype.linkedTo = function(toPlanet)
 {
-	var lnk_sys = toPlanet.a;
-	var lnk_planet = toPlanet.b;
-	var lnk = lnk_sys + "-" + lnk_planet;
-	if (this.linkedPlanets.indexOf(lnk) != -1)
+	if (this.linkedPlanets.indexOf(toPlanet) != -1)
 		return true;
 	return false;
 }
+
 Planet.prototype.garrisonShip = function(ship) {
 	this.ships.push(ship);
 }
@@ -257,6 +257,35 @@ Planet.prototype.onTurn = function() {
 		default:
 		break;
 	}	
+}
+
+Planet.prototype.tryReceiveFleet = function(newFleet){
+	console.log("A fleet tried to reach me");
+	//See if it's possible to fly here.
+	console.log("selectedPlanetIndices:" + selectedPlanetIndices);
+	if (this.linkedTo(selectedPlanet)){
+		console.log("A fleet reached me");
+		//Do this stuff
+		// !!! Button things that need refactoring again
+		selectedPlanet.hideShips();
+		
+		//If it were your players, just add the fleet.
+		if (this.player == currentPlayer){
+			this.myFleet.addFleet(selectedPlanet.selectedFleet);
+			selectedPlanet.selectedFleet.empty();
+		}
+		//If it's an enemy planet, call receiveHostileFleet on it.
+		else if (targetPlanet.player != currentPlayer){
+			this.receiveHostileFleet(selectedPlanet.selectedFleet);
+			selectedPlanet.selectedFleet.empty();
+		}
+		selectedPlanet.showShips();			
+	}
+	else{
+		console.log("The fleet didn't reach me");
+		//You tried to send something to a planet that is not connected.
+		// !!! Does anything happen? Deselection?
+	}
 }
 
 Planet.prototype.receiveHostileFleet = function(enemyFleet){

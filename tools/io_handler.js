@@ -122,14 +122,14 @@ function handleMouseUp(evt)
 					if (selectedPlanet.player == currentPlayer){
 						selectedPlanet.showOptions();
 					}
-					console.log("A planet was selected");
+					//console.log("A planet was selected");
 				}
 				else
 				{
 					selectedPlanet = null;
 					selectedPlanetIndices = null;
 				}
-				console.log("found planet ss:"+planet.a+" pl:"+planet.b);
+				//console.log("found planet ss:"+planet.a+" pl:"+planet.b);
 				//this will return the a c2 object (just a container for two objects to be carried together)
 				//with: planet.a -> solar system number -> mp.systems[planet.a]
 				//		planet.b -> planet number -> mp.systems[planet.a].planets[planet.b]
@@ -159,23 +159,8 @@ function handleMouseUp(evt)
 				var planet = pickObject();
 				if (planet != -1)
 				{
-					console.log("Found a planet to send it to");
 					targetPlanet = mp.systems[planet.a].planets[planet.b];
-					// !!! Button things that need refactoring again
-					selectedPlanet.hideShips();
-					//If it's your planet, just add the fleet.
-					// !!! Needs to take movement left into account.
-					if (targetPlanet.player == currentPlayer){
-						console.log("About to add a fleet");
-						targetPlanet.myFleet.addFleet(selectedPlanet.selectedFleet);
-						selectedPlanet.selectedFleet.empty();
-					}
-					//If it's an enemy planet, call receiveHostileFleet on it.
-					else if (targetPlanet.player != currentPlayer){
-						targetPlanet.receiveHostileFleet(selectedPlanet.selectedFleet);
-						selectedPlanet.selectedFleet.empty();
-					}
-					selectedPlanet.showShips();
+					targetPlanet.tryReceiveFleet(selectedPlanet.selectedFleet);
 				}
 				//If no planet was clicked, just deselect your units.
 				else
