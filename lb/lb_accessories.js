@@ -47,3 +47,22 @@ function drawLB2d()
 		ctx.fillText("Current planet [SS]:" + currentPlanet.a + " [P]:" + currentPlanet.b,lpos2,tpos);
 		
 }
+function initDraw2d(){
+	OptionBarSidesWidth = 450;
+	OptionBarWidth = canvas.width;
+	OptionBarHeight = 250;
+	OptionBarMiddleDif = 50;
+	OptionBarX = 0;
+	OptionBarY = canvas.height - OptionBarHeight;	
+	
+	InfoBarX = 0;
+	InfoBarY = 0;
+	InfoBarWidth = canvas.width;
+	InfoBarHeight = 50;
+	
+	unitsStart = OptionBarX + 150;
+	planetStart = OptionBarX + 410;
+	permaStart = OptionBarX + 900;			
+	
+	
+}

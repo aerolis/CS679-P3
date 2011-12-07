@@ -25,7 +25,7 @@ function shipOrder(i_type,i_amt,start){
 	//this.finish = this.ship.period + start;
 }
 
-function produtionPlan(){
+function productionPlan(){
 	this.plan = [];
 }
 
@@ -37,7 +37,7 @@ productionPlan.prototype.sort = function(){ //sort plan by their finish time
 	this.plan.sort(sortItem);
 }
 
-productionPlan.prototype.release(){ 
+productionPlan.prototype.release = function(){ 
 	if(this.plan.length <= 0)  return;
 	while( this.plan[0].finish > currTurn){
 	
@@ -48,7 +48,7 @@ productionPlan.prototype.release(){
 	}
 }
 
-productionPlan.prototype.clear(){ //if planet is occupied by enemy, clear everything in production
+productionPlan.prototype.clear = function(){ //if planet is occupied by enemy, clear everything in production
 	for(var i=0; i < this.plan.length; i++)
 	{
 		var order = this.plan.pop();
@@ -56,7 +56,7 @@ productionPlan.prototype.clear(){ //if planet is occupied by enemy, clear everyt
 	}
 }
 
-productionPlan.prototype.logDraft(i_draftPlan){ //put draft to production
+productionPlan.prototype.logDraft = function(i_draftPlan){ //put draft to production
 	for(var i=0; i< i_draftPlan.length; i++){
 		var type = draftPlan.plan[i].type;
 		var amt = draftPlan.plan[i].amt;
