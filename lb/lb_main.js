@@ -92,6 +92,7 @@ var directionalLineAnchor = null;
 var dLinePosBuffer = null;
 var dLineColBuffer = null;
 var showPlayers = true;
+var selectionType = -1;
 
 //initialization functions
 function initGame() //begin the "official" game initialization
@@ -180,7 +181,7 @@ function gameLoop() //switches between game states and performs correct loop ope
 				doOnceLoad = true;
 				playState = 1;
 			}
-			drawLoading()
+			drawLoading();
 			break;
 		case 1: // play loop
 			update();

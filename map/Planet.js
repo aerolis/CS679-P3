@@ -29,8 +29,25 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
 	
 	this.buildableShips = []; //only used if factory planet
+	this.specifyPlanetType();
 	
-	switch (planetType)
+	/*
+	// !!! Ask how to prototype-ify this
+	this.showPopUp = function(){
+		this.popUp.addButton(100, 100, 30, 40, 'red', "Click me!");
+		this.showPopUp = true;
+	}
+	
+	this.hidePopUp = function() {
+		this.popUp.clear();
+		this.showPopUp = false;
+	}
+	*/
+}
+
+Planet.prototype.specifyPlanetType = function()
+{
+	switch (this.type)
 	{
 		case "factory":
 			this.model = 0;
@@ -50,19 +67,10 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 		case "credit":
 			this.model = 6;
 		break;
+		case "default":
+			this.model = 0;
+		break;
 	}
-	/*
-	// !!! Ask how to prototype-ify this
-	this.showPopUp = function(){
-		this.popUp.addButton(100, 100, 30, 40, 'red', "Click me!");
-		this.showPopUp = true;
-	}
-	
-	this.hidePopUp = function() {
-		this.popUp.clear();
-		this.showPopUp = false;
-	}
-	*/
 }
 
 Planet.prototype.showoptions = function(){

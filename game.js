@@ -135,23 +135,15 @@ function nextLevel()
 }
 function setupLevel()
 {
-	/*$.get("levels/l"+levNum+".html", function(data){
-	lev = load_level(data);
-	levelLength = lev.length;
-	}, 'html');*/
-	//for (var i = 0; i < amtPlayers; i++){
-	//	players.push(new player(i));
-	//}
-	
-	//FOR NOW, JUST 2 PLAYERS (Human and AI)
 	/*
+	//FOR NOW, JUST 2 PLAYERS (Human and AI)
+	players = new Array();
 	players.push(new player(0, false));
 	players.push(new player(1, true));
 	
 	players[0].color = new v3(0.2,0.3,1.0);
 	players[1].color = new v3(1.0,0.1,0.3);
 	mp = new map();
-	mp.init();
 	
 	//init player controlled planets
 	var i,j;
@@ -170,15 +162,14 @@ function setupLevel()
 	players[0].initializeCameraPos();
 	players[1].initializeCameraPos();
 	*/
+	
 	currentPlayer = 0;
 	
-	$.get("levels/lev1.html", function(data){
+	$.get("levels/dan3.html", function(data){
 		lb_parseMap(data);
 		lb_parsePlayers(data);
 	}, 'html');
 	
-	//while (mp == null || players == null)
-	//{	;	} //wait for them to finish parsing
 	var t = setTimeout("checkGameBegin();",1/30*1000);
 }
 function checkGameBegin()
@@ -212,7 +203,7 @@ function gameLoop() //switches between game states and performs correct loop ope
 				doOnceLoad = true;
 				playState = 1;
 			}
-			drawLoading()
+			drawLoading();
 			break;
 		case 1: // play loop
 			update();

@@ -52,12 +52,12 @@ function lb_generateMap()
 	{
 		for (j=0;j<mp.systems[i].planets.length;j++)
 		{
-			for (k=0;k<mp.systems[i].planets[k].linkedPlanets.length;k++)
+			for (k=0;k<mp.systems[i].planets[j].linkedPlanets.length;k++)
 			{
 				var pln_a	= j;
 				var ss_a	= i;
-				var pln_b	= mp.systems[i].planets[k].linkedPlanets[k].id;
-				var ss_b	= mp.systems[i].planets[k].linkedPlanets[k].mySystem;
+				var pln_b	= mp.systems[i].planets[j].linkedPlanets[k].id;
+				var ss_b	= mp.systems[i].planets[j].linkedPlanets[k].mySystem;
 				
 				var chkA = ""+ss_a+"-"+pln_a+":"+ss_b+"-"+pln_b;
 				var chkB = ""+ss_b+"-"+pln_b+":"+ss_a+"-"+pln_a;
@@ -116,6 +116,8 @@ function lb_parseMap(data)
 				break;
 				case "<color>":
 					tmp.sunColor = new v3(parseFloat(tokens[1]),parseFloat(tokens[2]),parseFloat(tokens[3]));
+					if (tmp.sunColor.r == 1 && tmp.sunColor.g == 1 && tmp.sunColor.b == 1)
+						tmp.randomizeColor();
 				break;
 				case "</ss>":
 					mp.systems[id] = tmp;
@@ -134,17 +136,18 @@ function lb_parseMap(data)
 					tmp = new Planet(new v3(0,0,0),"credit",1,-1,[],[],0);
 				break;
 				case "<ss>":
-					tmp.mySystem = tokens[1];
+					tmp.mySystem = parseInt(tokens[1]);
 				break;
 				case "<id>":
 					id = parseInt(tokens[1]);
-					globalPlanetID = id;
+					tmp.id = id;
 				break;
 				case "<type>":
 					tmp.type = tokens[1];
+					tmp.specifyPlanetType();
 				break;
 				case "<owner>":
-					tmp.player = tokens[1];
+					tmp.player = parseInt(tokens[1]);
 				break;
 				case "<pos>":
 					tmp.pos = new v3(parseFloat(tokens[1]),parseFloat(tokens[2]),parseFloat(tokens[3]));
@@ -169,8 +172,12 @@ function lb_parseMap(data)
 			switch (tokens[0])
 			{
 				case "<l>":
-				var pln = mp.systems[parseInt(tokens[3])].planets[parseInt(tokens[4])]
-				mp.systems[parseInt(tokens[1])].planets[parseInt(tokens[2])].linkPlanet(pln);
+				var ss_a = parseInt(tokens[1]);
+				var pln_a = parseInt(tokens[2]);
+				var ss_b = parseInt(tokens[3]);
+				var pln_b = parseInt(tokens[4]);
+				var pln = mp.systems[ss_b].planets[pln_b];
+				mp.systems[ss_a].planets[pln_a].linkPlanet(pln);
 				break;
 			}			
 			if(ln == "</links>")
@@ -247,4 +254,28 @@ function lb_parsePlayers(data)
 	}	
 		
 	return players;
+}
+function lb_loadMap()
+{
+	var file = document.getElementById("loadFile").value;
+	playState = 0;
+	$.get("levels/"+file, function(data){
+		lb_parseMap(data);
+		lb_parsePlayers(data);
+	}, 'html');
+	var t = setTimeout("lb_checkLoaded();",1/30*1000);
+}
+function lb_checkLoaded()
+{
+	if (map != null && players != null)
+		lb_startBuilder();
+	else	
+		var t = setTimeout("lb_checkLoaded();",1/30*1000);
+}
+function lb_startBuilder()
+{
+	mp.init();
+	lb_genPlayerList();
+	cam.flyTo(new v3(0,0,0));
+	playState = 1;
 }

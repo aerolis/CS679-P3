@@ -18,6 +18,7 @@ function lb_linkPlanet()
 }
 function lb_cancelActions()
 {
+	selectionType = -1;
 	if (placingPlanet)
 		placingPlanet = false;
 	if (placingSS)
@@ -31,6 +32,8 @@ function lb_cancelActions()
 		directionalLineAnchor = null;
 		linkingPlanet = false;
 	}
+	document.getElementById("ssOps").style.display = "none";
+	document.getElementById("planetOps").style.display = "none";
 }
 
 //player ops
@@ -39,9 +42,14 @@ function lb_createPlayer()
 	var pl = new player(amtPlayers,false);
 	players.push(pl);
 	amtPlayers++;
+	lb_genPlayerList();
+	//add to planet list
+}
+function lb_genPlayerList()
+{
 	var i;
 	var playerList = "";
-	for (i=0;i<amtPlayers;i++)
+	for (i=0;i<players.length;i++)
 	{
 		playerList += "Player "+ i + "<br>";
 		playerList += "<select id='p"+i+"_type' onchange='lb_setPlayerType("+i+")'><option value='false'>Human</option><option value='true'>AI</option></select><br>";
@@ -50,9 +58,9 @@ function lb_createPlayer()
 		playerList += "<input type='text' id='p"+i+"_b' value='"+players[i].color.z+"' onchange='lb_setPlayerColor("+i+");'>B<br>";
 	}
 	document.getElementById("playerList").innerHTML = playerList;
-	//add to planet list
 	lb_buildPlanetOps();
 }
+
 function lb_setPlayerType(id)
 {
 	var pl = players[id];
@@ -88,16 +96,19 @@ function lb_displayPlanetOps()
 function lb_buildPlanetOps()
 {
 	var plList = "";
-	plList = "Planet Ops:<br><form>";
-	plList += "<select id='pl"+currentPlanet.a+"-"+currentPlanet.b+"_player' onchange='lb_changePlanetOwner("+currentPlanet.a+","+currentPlanet.b+");'>";
-	plList += "<option value='-1'>No owner</option>";
-	var i;
-	for (i=0;i<amtPlayers;i++)
+	if (currentPlanet != null)
 	{
-		plList += "<option value='"+i+"'>Player "+i+"</option>";
+	plList = "Planet Ops:<br><form>";
+		plList += "<select id='pl"+currentPlanet.a+"-"+currentPlanet.b+"_player' onchange='lb_changePlanetOwner("+currentPlanet.a+","+currentPlanet.b+");'>";
+		plList += "<option value='-1'>No owner</option>";
+		var i;
+		for (i=0;i<players.length;i++)
+		{
+			plList += "<option value='"+i+"'>Player "+i+"</option>";
+		}
+		plList += "</select> Select Owner";
+		plList += "</form>";
 	}
-	plList += "</select> Select Owner";
-	plList += "</form>";	
 	document.getElementById("planetOps").innerHTML = plList;
 }
 function lb_changePlanetOwner(cpa,cpb)
@@ -107,6 +118,36 @@ function lb_changePlanetOwner(cpa,cpb)
 	if (mp.systems != null)
 		mp.rebuildLines();
 }
+function lb_deletePlanet(cp)
+{
+	var pl = mp.systems[cp.a].planets[cp.b];
+	//delete links
+	var i,j,k;
+	for (i=0;i<mp.systems.length;i++)
+	{
+		for (j=0;j<mp.systems[i].planets.length;j++)
+		{
+			if ((k=mp.systems[i].planets[j].linkedPlanets.indexOf(pl)) > -1)
+				mp.systems[i].planets[j].linkedPlanets.splice(k,1);
+		}
+	}
+	//delete planet
+	mp.systems[cp.a].planets.splice(cp.b,1);
+	mp.systems[cp.a].numOfPlanets--;
+	lb_refactorMap();
+}
+function lb_refactorMap()
+{
+	var i,j,k;
+	for (i=0;i<mp.systems.length;i++)
+	{
+		for (j=0;j<mp.systems[i].planets.length;j++)
+		{
+			mp.systems[i].planets[j].id = j;
+			mp.systems[i].planets[j].mySystem = i;
+		}
+	}
+}
 
 //solar system ops
 function lb_displaySSOps()
@@ -115,6 +156,19 @@ function lb_displaySSOps()
 	document.getElementById("ssOps").style.display = "block";
 	document.getElementById("planetOps").style.display = "none";
 	document.getElementById("playerOps").style.display = "none";
+}
+function lb_deleteSS()
+{
+	var ss = mp.systems[currentSS];
+	//delete planets
+	var i,j,k;
+	for (j=mp.systems[currentSS].planets.length;j>-1;j--)
+	{
+		lb_deletePlanet(new c2(currentSS,j));
+	}
+	//delete ss
+	mp.systems.splice(currentSS,1);
+	lb_refactorMap();
 }
 function lb_buildSSOps()
 {

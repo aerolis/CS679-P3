@@ -47,6 +47,20 @@ function handleMouseMove(evt)
 		
 		posAtMouse = getClickLocationOnPlane();
 
+		if (lPressed)
+		{
+			//drag selected planet
+			if (selectionType == 1) //ss
+			{
+				mp.systems[currentSS].pos.x = posAtMouse.x;
+				mp.systems[currentSS].pos.z = posAtMouse.z;
+			}
+			else if (selectionType == 2) //planet
+			{
+				mp.systems[currentPlanet.a].planets[currentPlanet.b].pos.x = posAtMouse.x;
+				mp.systems[currentPlanet.a].planets[currentPlanet.b].pos.z = posAtMouse.z;
+			}
+		}
 		
 	}
 }
@@ -57,6 +71,34 @@ function handleMouseDown(evt)
 		if (evt.which == 1) //left mouse button
 		{
 			lPressed = true;
+			if (!placingSS && !placingPlanet)
+			{
+				selectionType = -1;
+				var planet = pickObject();
+				if (planet != -1)
+				{
+					selectedPlanetIndices = planet;
+					selectedPlanet = mp.systems[planet.a].planets[planet.b];
+					currentPlanet = planet;
+					selectionType = 2;
+				}
+				else
+				{
+					selectedPlanet = null;
+					selectedPlanetIndices = null;
+				}
+				if (selectedPlanet == null)
+				{
+					//check for suns
+					var ss = pickSun();
+					if (ss != -1)
+					{
+						currentSS = mp.systems.indexOf(ss);
+						lb_displaySSOps();
+						selectionType = 1;
+					}
+				}
+			}
 		}
 		else if (evt.which == 2)
 		{
@@ -74,6 +116,7 @@ function handleMouseDown(evt)
 			if (evt.preventDefault)
 				evt.preventDefault();
 		}
+		
 	}
 }
 function handleMouseUp(evt)
@@ -123,13 +166,14 @@ function handleMouseUp(evt)
 						}
 						currentPlanet = planet;
 						lb_displayPlanetOps();
+						selectionType = 2;
 					}
 					else
 					{
 						selectedPlanet = null;
 						selectedPlanetIndices = null;
 					}
-					console.log("found planet ss:"+planet.a+" pl:"+planet.b);
+					//console.log("found planet ss:"+planet.a+" pl:"+planet.b);
 					if (selectedPlanet == null)
 					{
 						//check for suns
@@ -138,9 +182,11 @@ function handleMouseUp(evt)
 						{
 							currentSS = mp.systems.indexOf(ss);
 							lb_displaySSOps();
+							selectionType = 1;
 						}
 					}
 				}
+				mp.rebuildLines();
 				//this will return the a c2 object (just a container for two objects to be carried together)
 				//with: planet.a -> solar system number -> mp.systems[planet.a]
 				//		planet.b -> planet number -> mp.systems[planet.a].planets[planet.b]
@@ -320,6 +366,24 @@ function handleKeyUp(evt) {
 		break;
 		case 16: // ctrl
 			shiftPressed = false;
+		break;
+		case 46: 	//delete
+			//deleted the currently selected element, if any
+			if (selectionType == 1) //ss
+			{
+				lb_deleteSS();
+				currentSS = null;
+				selectionType == -1;
+				mp.rebuildLines();
+			}
+			else if (selectionType == 2)
+			{
+				lb_deletePlanet(currentPlanet);
+				currentPlanet = null;
+				selectionType == -1;
+				mp.rebuildLines();
+			}
+			lb_cancelActions();
 		break;
 		//only relevant if we are placing a planet (for now)
 		case 38:  // up

@@ -209,14 +209,20 @@ function handleKeyUp(evt) {
 			console.log("pos>> x:"+cam.pos.x+" y:"+cam.pos.y+" z:"+cam.pos.z);
 			console.log("distance>> dist:"+cam.distance+" magn:"+tmp);*/
 		break;
-		case 85: // ctrl
+		case 85:
 			if (shiftPressed)
 			{
 				ui.toggle();
 			}
 		break;
-		case 16: // ctrl
+		case 16: // shift
 			shiftPressed = false;
+		break;
+		case 80:
+			if (shiftPressed)
+			{
+				lb_generateMap();
+			}
 		break;
 		/*case 38:  // up
 			cam.rup = false;
