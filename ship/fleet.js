@@ -1,10 +1,14 @@
 function fleet(){
 
-	this.amtFrigate = 0;
-	this.amtCruiser = 0;	
-	this.amtCapital = 0;
+	this.Frigates = [];
+	this.FrigatesMoved = [];
+	this.Cruisers = [];	
+	this.CruisersMoved = [];
+	this.Capitals = [];
+	this.CapitalsMoved = [];
 };
 
+/*
 //This can be a negative amount too ofcourse, so no decrease methods are needed.
 fleet.prototype.addFrigates = function(amt){
 	this.amtFrigate += amt;
@@ -17,21 +21,35 @@ fleet.prototype.addCruisers = function(amt){
 fleet.prototype.addCapitals = function(amt){
 	this.amtCapital += amt;
 }
-
+*/
 //For easily combining two fleets
 fleet.prototype.addFleet = function(toAdd){
-	this.amtFrigate += toAdd.amtFrigate;
-	this.amtCruiser += toAdd.amtCruiser;
-	this.amtCapital += toAdd.amtCapital;
+	this.Frigates = this.Frigates.concat(toAdd.Frigates);
+	this.Cruisers = this.Cruisers.concat(toAdd.Cruisers);
+	this.Capitals = this.Capitals.concat(toAdd.Capitals);
+	this.FrigatesMoved = this.FrigatesMoved.concat(toAdd.FrigatesMoved);
+	this.CruisersMoved = this.CruisersMoved.concat(toAdd.CruisersMoved);
+	this.CapitalsMoved = this.CapitalsMoved.concat(toAdd.CapitalsMoved);
 }
 
 fleet.prototype.empty = function(){
-	this.amtFrigate = 0;
-	this.amtCruiser = 0;	
-	this.amtCapital = 0;
+	this.Frigates = [];
+	this.FrigatesMoved = [];
+	this.Cruisers = [];	
+	this.CruisersMoved = [];
+	this.Capitals = [];
+	this.CapitalsMoved = [];
 }
 
+// !!! Rewriting needed
 fleet.prototype.getTotal = function(){
-	var total = this.amtFrigate + this.amtCruiser + this.amtCapital;
+	var total = this.getList().length;
 	return total;
+}
+
+//Combine everything into one list.
+fleet.prototype.getList = function(){
+	var list = [];
+	list = list.concat(this.Frigates, this.FrigatesMoved, this.Cruisers, this.CruisersMoved, this.Capitals, this.CapitalsMoved);
+	return list;
 }

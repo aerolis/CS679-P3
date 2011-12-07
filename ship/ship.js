@@ -8,16 +8,16 @@ var shipTypes = { 	"Frigate": 0,
 function shipCatalog(i_owner){ //add testing catalog items for now
 	this.owner = i_owner;
 	this.catalog = [];
-	this.catalog.push(new ship(i_owner, "Frigate",[0,0,0])); 
-	this.catalog.push(new ship(i_owner, "Cruiser",[0,0,0]));
-	this.catalog.push(new ship(i_owner, "Capital",[0,0,0]));
+	this.catalog.push(new ship(i_owner, "Frigate")); 
+	this.catalog.push(new ship(i_owner, "Cruiser"));
+	this.catalog.push(new ship(i_owner, "Capital"));
 }
 //Basic ship class
-function ship(i_owner,i_Type,i_pos){
+function ship(i_owner,i_type){
 	//basic information initialized in the factory
 	this.owner = i_owner;
 	this.type = i_type;
-	this.pos = i_pos;
+	//this.pos = i_pos;
 	//hardcode 3 kinds of ships, dont need shiptype.js anymore
 	
 	if(this.type == "Frigate" )
@@ -73,10 +73,11 @@ function ship(i_owner,i_Type,i_pos){
 	}
 	
 }
-
+/*
 ship.prototype.moveTo = function(i_pos){
 	this.pos = i_pos;
 }
+*/
 
 ship.prototype.attack = function(target){ //i_target is the target ship, estimate total damage
 	var damage = 0;

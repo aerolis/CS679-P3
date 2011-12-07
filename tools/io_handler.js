@@ -142,6 +142,7 @@ function handleMouseUp(evt)
 			mPressed = false;
 		else if (evt.which == 3) //right mouse button
 		{
+			console.log("Right clicked");
 			if (justRightClicked)
 			{
 				//this is a double click
@@ -158,12 +159,14 @@ function handleMouseUp(evt)
 				var planet = pickObject();
 				if (planet != -1)
 				{
+					console.log("Found a planet to send it to");
 					targetPlanet = mp.systems[planet.a].planets[planet.b];
 					// !!! Button things that need refactoring again
 					selectedPlanet.hideShips();
 					//If it's your planet, just add the fleet.
 					// !!! Needs to take movement left into account.
 					if (targetPlanet.player == currentPlayer){
+						console.log("About to add a fleet");
 						targetPlanet.myFleet.addFleet(selectedPlanet.selectedFleet);
 						selectedPlanet.selectedFleet.empty();
 					}

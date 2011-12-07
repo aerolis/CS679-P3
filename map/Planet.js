@@ -26,9 +26,9 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.selectedFleet = new fleet();
 	
 	// !!! ==== For testing only, should be removed! ===========
-	this.myFleet.addFrigates(5);	
-	this.myFleet.addCruisers(3);
-	this.myFleet.addCapitals(4);
+	this.myFleet.Frigates.push(new ship(this.player, "frigate"));	
+	//this.myFleet.addCruisers(3);
+	//this.myFleet.addCapitals(4);
 	// !!! ==== End of testing purposes :) =====================
 	
 	this.model = 0; //will store a ref id for the model that displays it
@@ -100,14 +100,15 @@ Planet.prototype.hideOptions = function(){
 Planet.prototype.showShips = function(){
 	//populate shipButtons;
 	// !!! buttonTypes
-	if (this.myFleet.amtFrigate + this.selectedFleet.amtFrigate > 0){
-		this.shipButtons.addButton(unitsStart, OptionBarY + 10, 90, 40, '#657383', "Frigates: " + this.myFleet.amtFrigate + ", " + this.selectedFleet.amtFrigate, buttonType.Frigates);	
+	
+	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
+		this.shipButtons.addButton(unitsStart, OptionBarY + 10, 90, 40, '#657383', "Frigates: " + this.myFleet.Frigates.length + ", " + this.selectedFleet.Frigates.length, buttonType.Frigates);	
 	}
-	if (this.myFleet.amtCruiser + this.selectedFleet.amtCruiser  > 0){
-		this.shipButtons.addButton(unitsStart, OptionBarY + 60, 90, 40, '#657383', "Cruisers: " + this.myFleet.amtCruiser + ", " + this.selectedFleet.amtCruiser, buttonType.Cruisers);	
+	if (this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length  > 0){
+		this.shipButtons.addButton(unitsStart, OptionBarY + 60, 90, 40, '#657383', "Cruisers: " + this.myFleet.Cruisers.length + ", " + this.selectedFleet.Cruisers.length, buttonType.Cruisers);	
 	}
-	if (this.myFleet.amtCapital + this.selectedFleet.amtCapital  > 0){
-		this.shipButtons.addButton(unitsStart + 100, OptionBarY + 10, 90, 40, '#657383', "Capitals: " + this.myFleet.amtCapital + ", " + this.selectedFleet.amtCapital, buttonType.Capitals);	
+	if (this.myFleet.Capitals.length + this.selectedFleet.Capitals.length  > 0){
+		this.shipButtons.addButton(unitsStart + 100, OptionBarY + 10, 90, 40, '#657383', "Capitals: " + this.myFleet.Capitals.length + ", " + this.selectedFleet.Capitals.length, buttonType.Capitals);	
 	}	
 	this.fl_showShips = true;
 }
@@ -119,9 +120,9 @@ Planet.prototype.hideShips = function(){
 
 Planet.prototype.selectFrigate = function(){
 	this.hideShips();
-	if (this.myFleet.amtFrigate > 0){
-		this.myFleet.addFrigates(-1);
-		this.selectedFleet.addFrigates(1);
+	if (this.myFleet.Frigates.length > 0){
+		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
+		//this.selectedFleet.addFrigates(1);
 	}
 	// !!! Buttons need to be refactored. I really don't want to do this this way.
 	this.showShips();
@@ -129,9 +130,9 @@ Planet.prototype.selectFrigate = function(){
 
 Planet.prototype.selectCruiser = function(){
 	this.hideShips();
-	if (this.myFleet.amtCruiser > 0){
-		this.myFleet.addCruisers(-1);
-		this.selectedFleet.addCruisers(1);
+	if (this.myFleet.Cruisers.length > 0){
+		this.selectedFleet.Cruisers.push(this.myFleet.Cruisers.pop());
+		//this.selectedFleet.addFrigates(1);
 	}
 	// !!! Buttons need to be refactored. I really don't want to do this this way.
 	this.showShips();
@@ -139,9 +140,9 @@ Planet.prototype.selectCruiser = function(){
 
 Planet.prototype.selectCapital = function(){
 	this.hideShips();
-	if (this.myFleet.amtCapital > 0){
-		this.myFleet.addCapitals(-1);
-		this.selectedFleet.addCapitals(1);
+	if (this.myFleet.Capitals.length > 0){
+		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
+		//this.selectedFleet.addFrigates(1);
 	}
 	// !!! Buttons need to be refactored. I really don't want to do this this way.
 	this.showShips();
@@ -262,6 +263,10 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	//Do battle stuff. The enemy that send it to you can be gotten from players[currentPlayer].
 	//Get a winner first.
 	//after we got winner,assign value to planet.player
+	var winner = battle(enemyFleet, this.myFleet);
+	if (winner.length > 0){
+		this.player = winner[0].owner;
+	}
 	
 	combatResultScreen.show();
 }
