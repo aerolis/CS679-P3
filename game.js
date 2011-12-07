@@ -73,7 +73,7 @@ var maxDiff = 300;
 var zNear = 0.1;
 var zFar = 5000;
 var fov = 60;
-var lightingPower = 4*Math.PI*Math.pow(400,2);
+var lightingPower = 4*Math.PI*Math.pow(700,2);
 
 //initialization functions
 function initGame() //begin the "official" game initialization
@@ -267,9 +267,9 @@ function nextTurn()
 	// do ai stuff. (including calling nextTurn)
 	
 	if (players[currentPlayer].ai) {
-		playState = 2;
+		//playState = 2;
 		players[currentPlayer].doTurn();
-		playState = 1;
+		//playState = 1;
 		
 		//For debugging, it may be useful to comment out the next
 		//line so that you can see what the AI did (you must then

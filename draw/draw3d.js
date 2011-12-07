@@ -100,7 +100,7 @@ function initBlendModes()
 }
 function defineLighting()
 {
-	gl.uniform3f(shaderProgram.ambientColorUniform,0.25,0.25,0.25);
+	gl.uniform3f(shaderProgram.ambientColorUniform,0.4,0.4,0.4);
 	gl.uniform3f(shaderProgram.emissiveColorUniform,0.0,0.0,0.0);
 	var lightingDirection = [-0.25,-0.25,0.0];
 	var adjustedLD = vec3.create();
@@ -141,7 +141,7 @@ function writeFrameBuffer(pass)
 	gl.useProgram(shaderProgram);
 	
 	mat4.identity(mvMatrix);
-    mat4.translate(mvMatrix, [0, 0.0, -1.7]);
+    mat4.translate(mvMatrix, [0, 0.0, -Math.sqrt(3)]);
 		
 	gl.uniform1f(shaderProgram.hasMaterial,1.0);
 	if (pass == 1) //bloom effect
@@ -219,8 +219,8 @@ function drawMap()
 	{
 		drawMapLines();
 		drawPlanetHalos();
-		drawPlanets();
 		drawSuns();
+		drawPlanets();
 	}
 }
 
@@ -325,44 +325,113 @@ function drawPlanets()
 	shaderProgram = shaderProgram_main;
 	gl.useProgram(shaderProgram);
 	
-	//lighting
-	defineLighting();
-	initBlendModes();
-	useLighting(true,false,true,true);
-	
-	for (i=0;i<mp.systems.length;i++)
+	if (!blendLayer)
 	{
-		if (mp.systems[i] != null)
+		//lighting
+		defineLighting();
+		initBlendModes();
+		useLighting(true,false,true,true);
+		for (i=0;i<mp.systems.length;i++)
 		{
-			mvPushMatrix();
-			// translate to location of solar system
-			mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
-			//set up the sun's lighting
-			gl.uniform3f(shaderProgram.pointColorUniform,mp.systems[i].sunColor.x,mp.systems[i].sunColor.y,mp.systems[i].sunColor.z);
-			gl.uniform3f(shaderProgram.pointLocationUniform,mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z);
-			
-			for (j=0;j<mp.systems[i].planets.length;j++)
+			if (mp.systems[i] != null)
 			{
-				//per planet drawing
-
 				mvPushMatrix();
-				var pln = mp.systems[i].planets[j];
-				mat4.translate(mvMatrix,[pln.pos.x,pln.pos.y,pln.pos.z]);
-				mat4.scale(mvMatrix,[pln.scale,pln.scale,pln.scale]);
-				mat4.rotate(mvMatrix,degToRad(pln.rot.x),[1,0,0]);
-				mat4.rotate(mvMatrix,degToRad(pln.rot.y),[0,1,0]);
-				mat4.rotate(mvMatrix,degToRad(pln.rot.z),[0,0,1]);
-				//
-				for (k=0;k<models[mp.systems[i].planets[j].model].meshes.length;k++)
+				// translate to location of solar system
+				mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
+				//set up the sun's lighting
+				//gl.uniform3f(shaderProgram.pointColorUniform,mp.systems[i].sunColor.x,mp.systems[i].sunColor.y,mp.systems[i].sunColor.z);
+				gl.uniform3f(shaderProgram.pointColorUniform,0.8,0.8,0.8);
+				gl.uniform3f(shaderProgram.pointLocationUniform,mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z);
+				
+				for (j=0;j<mp.systems[i].planets.length;j++)
 				{
-					drawMesh(mp.systems[i].planets[j].model,k);
+					//per planet drawing
+	
+					mvPushMatrix();
+					var pln = mp.systems[i].planets[j];
+					mat4.translate(mvMatrix,[pln.pos.x,pln.pos.y,pln.pos.z]);
+					mat4.scale(mvMatrix,[pln.scale,pln.scale,pln.scale]);
+					mat4.rotate(mvMatrix,degToRad(pln.rot.x),[1,0,0]);
+					mat4.rotate(mvMatrix,degToRad(pln.rot.y),[0,1,0]);
+					mat4.rotate(mvMatrix,degToRad(pln.rot.z),[0,0,1]);
+					//
+					for (k=0;k<models[mp.systems[i].planets[j].model].meshes.length;k++)
+					{
+						drawMesh(mp.systems[i].planets[j].model,k);
+					}
+					mvPopMatrix();
 				}
 				mvPopMatrix();
 			}
-			mvPopMatrix();
-		}
-	}	
+		}	
+	}
+	else
+	{
+		//lighting
+		defineLighting();
+		initBlendModes();
+		useLighting(true,true,false,false);
+		//draw atmospheres
+		for (i=0;i<mp.systems.length;i++)
+		{
+			if (mp.systems[i] != null)
+			{
+				mvPushMatrix();
+				// translate to location of solar system
+				mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
+					
+				for (j=0;j<mp.systems[i].planets.length;j++)
+				{
+					//per planet drawing
+					/* 
+					var type = getPlanetColorType(mp.systems[i].planets[j].type);
+					var col = type.a;
+					var style = type.b;
+					
+					gl.uniform3f(shaderProgram.emissiveColorUniform,col.x,col.y,col.z);
+					var pln = mp.systems[i].planets[j];
+					// translate to location of solar system
+					mvPushMatrix();
+					mat4.translate(mvMatrix,[pln.pos.x,pln.pos.y,pln.pos.z]);
+					mat4.rotate(mvMatrix,pln.haloRot.y+Math.PI/2,[0,-1,0]);
+					mat4.rotate(mvMatrix,pln.haloRot.x,[1,0,0]);
+					mat4.rotate(mvMatrix,pln.haloRot.z,[0,0,1]);
+					mat4.scale(mvMatrix,[pln.scale,pln.scale,pln.scale]);
+					
+					if (style == 1)
+					{ //regular atmosphere
+						for (k=0;k<models[9].meshes.length;k++)
+						{
+							drawMesh(9,k);
+						}
+					}
+					
+					mvPopMatrix();
+					*/
+				}
+				mvPopMatrix();
+			}
+		}	
+	}
 }
+function getPlanetColorType(s)
+{
+	var col;
+	var atmosphereType;
+	switch (s)
+	{
+		case "plasma":
+			col = new v3(0.313,0.484,0.746);
+			atmosphereType = 1;
+		break;
+		default:
+			col = new v3(0.3,0.3,0.3);
+			atmosphereType = 1;
+		break;
+	}
+	return new c2(col,atmosphereType);
+}
+
 function drawSuns()
 {
 	//first draw physical sun
@@ -476,7 +545,7 @@ function drawMesh(modelID,meshID)
 		}
 		mvPushMatrix();
 		mat4.translate(mvMatrix,[mesh.locTrans.x,mesh.locTrans.y,mesh.locTrans.z]);
-		mat4.rotate(mvMatrix,degToRad(-90),[1,0,0]);
+		mat4.rotate(mvMatrix,degToRad(mesh.preRot.x),[1,0,0]);
 		mat4.rotate(mvMatrix,degToRad(mesh.locRot.x),[1,0,0]);
 		mat4.rotate(mvMatrix,degToRad(mesh.locRot.z),[0,1,0]);
 		mat4.rotate(mvMatrix,degToRad(mesh.locRot.y),[0,0,1]);

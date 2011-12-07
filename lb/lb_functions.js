@@ -242,13 +242,13 @@ function lb_getPlanetTypeModel(index)
 			model = 0;
 		break;
 		case 5:
-			model = 3;
+			model = 8;
 		break;
 		case 6:
-			model = 6;
+			model = 0;
 		break;
 		default:
-			model = 6;
+			model = 0;
 		break;
 	}
 	return model;

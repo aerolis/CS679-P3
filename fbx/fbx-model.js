@@ -45,8 +45,8 @@ fbx_model.prototype.advance = function()
 	var i;
 	for (i=0;i<this.meshes.length;i++)
 	{
-		//if(this.meshes[i].hasAnimation)
-		//	this.meshes[i].advance();
+		if(this.meshes[i].hasAnimation)
+			this.meshes[i].advance();
 	}
 }
 //data structure to contain individual mesh
@@ -58,6 +58,7 @@ function fbx_mesh()
 	this.polygons = new Array();
 	this.uvs = new Array();
 	this.color = new v4(1.0,1.0,1.0,1.0);
+	this.preRot = new v3(-90,0,0);
 	this.gTrans = new v3(0,0,0);
 	this.dlocTrans = new v3(0,0,0);
 	this.dlocRot = new v3(0,0,0);
@@ -78,7 +79,7 @@ fbx_mesh.prototype.advance = function()
 {
 	this.animation.advance();
 	this.locTrans = this.dlocTrans.add(this.animation.trans);
-	this.locRot = this.dlocRot.add(this.animation.rot);
+	this.locRot = this.dlocRot.add(this.animation.rot.add(this.preRot));
 	this.locScale = this.dlocScale.multiply(this.animation.scale);
 }
 fbx_mesh.prototype.addVertex = function(v)
@@ -108,7 +109,7 @@ fbx_mesh.prototype.addUVIndex = function(pid,uvid,n)
 fbx_mesh.prototype.bindMesh = function()
 {
 	//console.log("binding mesh");
-	pausecomp(500);
+	pausecomp(200);
 	
 	var i;	
 	var verts = [];
@@ -246,6 +247,10 @@ function getMeshes(data)
 					break;
 				case "warp":
 					models[8] = tmpModel;
+					break;
+				case "atmosphere":
+					models[9] = tmpModel;
+					models[9].meshes[0].blendColor = true;
 					break;
 			}
 			modelsChecked++;

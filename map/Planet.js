@@ -11,6 +11,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.pos = planetPosition;
 	this.rot_rate = new v3(0,Math.random()*0.1,0);
 	this.rot = new v3(0,0,0);
+	this.haloRot = new v3(0,0,0);
 	this.scale = 0.6+Math.random()*0.8;
 	this.type = planetType;
 	this.size = planetSize;
@@ -95,6 +96,9 @@ Planet.prototype.specifyPlanetType = function()
 		break;
 		case "warp":
 			this.model = 8;
+		break;
+		case "academy":
+			this.model = 0;
 		break;
 		case "default":
 			this.model = 0;
@@ -188,6 +192,15 @@ Planet.prototype.update = function() {
 	this.rot.x += this.rot_rate.x % 360;
 	this.rot.y += this.rot_rate.y % 360;
 	this.rot.z += this.rot_rate.z % 360;
+	
+	//calculate the billboard rotations
+	var dx = cam.pos.x-(this.pos.x+mp.systems[this.mySystem].pos.x);
+	var dy = cam.pos.y-(this.pos.y+mp.systems[this.mySystem].pos.y);
+	var dz = cam.pos.z-(this.pos.z+mp.systems[this.mySystem].pos.z);
+	var dh = Math.sqrt(dx*dx+dz*dz);
+	this.haloRot.y = Math.atan2(dz,dx);
+	this.haloRot.x = Math.atan2(dy,dh);
+	this.haloRot.z += 0.001%(2*Math.PI);
 }
 Planet.prototype.onTurn = function() {
 	switch (this.type)
