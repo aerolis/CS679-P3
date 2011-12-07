@@ -84,8 +84,12 @@ function handleMouseUp(evt)
 		
 		if (evt.which == 1) //left mouse button
 		{
+			//If combat results are shown, only that is active.
+			if (combatResultScreen.active){
+				combatResultScreen.buttons.checkClicked(mouseX, mouseY);
+			}
 			//If you're in a 'button area', do these checks to see if a button was clicked
-			if (mouseX > OptionBarX && mouseX < (OptionBarX + OptionBarWidth) && mouseY > OptionBarY && mouseY < (OptionBarY + OptionBarHeight))
+			else if (mouseX > OptionBarX && mouseX < (OptionBarX + OptionBarWidth) && mouseY > OptionBarY && mouseY < (OptionBarY + OptionBarHeight))
 			{
 				var foundTarget = false;
 				if (selectedPlanet != null){
@@ -99,8 +103,7 @@ function handleMouseUp(evt)
 				if (!foundTarget){
 					//See if you clicked a general button (like next turn)
 					foundTarget = permaButtons.checkClicked(mouseX, mouseY);
-				}
-				
+				}				
 			}
 			//This really does need an else. You don't want to secretly select planets hiding under the option bar.
 			else{

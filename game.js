@@ -266,6 +266,7 @@ function nextTurn()
 	//If (it's AI)
 	// do ai stuff. (including calling nextTurn)
 	
+	
 	if (players[currentPlayer].ai) {
 		//playState = 2;
 		players[currentPlayer].doTurn();
@@ -275,8 +276,10 @@ function nextTurn()
 		//line so that you can see what the AI did (you must then
 		//click the END TURN button to get back to the user's
 		//turn...)
-		nextTurn();
+		// !!! It crashes when it's not commented.
+		//nextTurn();
 	}
+	
 }
 
 function gameOver() { 
