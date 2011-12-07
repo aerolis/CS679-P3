@@ -267,6 +267,7 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	if (winner.length > 0){
 		this.player = winner[0].owner;
 	}
+	this.myFleet = winner;
 	
 	combatResultScreen.show();
 }

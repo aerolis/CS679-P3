@@ -19,6 +19,7 @@ function ship(i_owner,i_type){
 	this.type = i_type;
 	//this.pos = i_pos;
 	//hardcode 3 kinds of ships, dont need shiptype.js anymore
+	this.moved = false;
 	
 	if(this.type == "Frigate" )
 	{

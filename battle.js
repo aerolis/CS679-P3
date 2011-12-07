@@ -72,6 +72,7 @@ function battle(Fleet1, Fleet2)
 			}
 		}	
 	}*/
+	winner = makeFleet(winner);
 	return winner;
 	// !!! Somehow split into a Fleet again.	
 }
