@@ -26,7 +26,9 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.selectedFleet = new fleet();
 	
 	// !!! ==== For testing only, should be removed! ===========
-	this.myFleet.Frigates.push(new ship(this.player, "frigate"));	
+	this.myFleet.Frigates.push(new ship(this.player, "Frigate"));	
+	this.myFleet.Cruisers.push(new ship(this.player, "Cruiser"));
+	this.myFleet.Capitals.push(new ship(this.player, "Capital"));
 	//this.myFleet.addCruisers(3);
 	//this.myFleet.addCapitals(4);
 	// !!! ==== End of testing purposes :) =====================
@@ -56,7 +58,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 
 // Check which buttons are necessary everytime the buttons get shown.
 Planet.prototype.showOptions = function(){
-	this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
+	//this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
 	//if (planet.upgradeLevel < planet.upgradeLimit)
 	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
 	
@@ -99,15 +101,26 @@ Planet.prototype.hideOptions = function(){
 Planet.prototype.showShips = function(){
 	//populate shipButtons;
 	// !!! buttonTypes
-	
+	//Movable ships
 	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
-		this.shipButtons.addButton(unitsStart, OptionBarY + 10, 90, 40, '#657383', "Frigates: " + this.myFleet.Frigates.length + ", " + this.selectedFleet.Frigates.length, buttonType.Frigates);	
+		this.shipButtons.addButton(unitsStart, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Frigates: " + this.myFleet.Frigates.length + ", " + this.selectedFleet.Frigates.length, buttonType.Frigates);	
 	}
 	if (this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length  > 0){
-		this.shipButtons.addButton(unitsStart, OptionBarY + 60, 90, 40, '#657383', "Cruisers: " + this.myFleet.Cruisers.length + ", " + this.selectedFleet.Cruisers.length, buttonType.Cruisers);	
+		this.shipButtons.addButton(unitsStart + (OptionBarSidesWidth - 40)/3 + 10, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Cruisers: " + this.myFleet.Cruisers.length + ", " + this.selectedFleet.Cruisers.length, buttonType.Cruisers);	
 	}
 	if (this.myFleet.Capitals.length + this.selectedFleet.Capitals.length  > 0){
-		this.shipButtons.addButton(unitsStart + 100, OptionBarY + 10, 90, 40, '#657383', "Capitals: " + this.myFleet.Capitals.length + ", " + this.selectedFleet.Capitals.length, buttonType.Capitals);	
+		this.shipButtons.addButton(unitsStart + 2*(OptionBarSidesWidth - 40)/3 + 20, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Capitals: " + this.myFleet.Capitals.length + ", " + this.selectedFleet.Capitals.length, buttonType.Capitals);	
+	}	
+	//These don't actually need to be buttons
+	//Non-movable ships
+	if (this.myFleet.FrigatesMoved.length + this.selectedFleet.FrigatesMoved.length > 0){
+		this.shipButtons.addButton(unitsStart                                      , OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "FrigatesMoved: " + this.myFleet.FrigatesMoved.length + ", " + this.selectedFleet.FrigatesMoved.length, buttonType.Empty);	
+	}
+	if (this.myFleet.CruisersMoved.length + this.selectedFleet.CruisersMoved.length  > 0){
+		this.shipButtons.addButton(unitsStart + (OptionBarSidesWidth - 40)/3 + 10  , OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "CruisersMoved: " + this.myFleet.CruisersMoved.length + ", " + this.selectedFleet.CruisersMoved.length, buttonType.Empty);	
+	}
+	if (this.myFleet.CapitalsMoved.length + this.selectedFleet.CapitalsMoved.length  > 0){
+		this.shipButtons.addButton(unitsStart + 2*(OptionBarSidesWidth - 40)/3 + 20, OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "CapitalsMoved: " + this.myFleet.CapitalsMoved.length + ", " + this.selectedFleet.CapitalsMoved.length, buttonType.Empty);	
 	}	
 	this.fl_showShips = true;
 }
@@ -257,6 +270,10 @@ Planet.prototype.onTurn = function() {
 		default:
 		break;
 	}	
+	
+	this.myFleet.addFleet(this.selectedFleet);
+	this.selectedFleet.empty();
+	this.myFleet.setUnMoved();
 }
 
 Planet.prototype.tryReceiveFleet = function(newFleet){
@@ -271,6 +288,7 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 		
 		//If it were your players, just add the fleet.
 		if (this.player == currentPlayer){
+			selectedPlanet.selectedFleet.setMoved();
 			this.myFleet.addFleet(selectedPlanet.selectedFleet);
 			selectedPlanet.selectedFleet.empty();
 		}

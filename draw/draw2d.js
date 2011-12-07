@@ -37,7 +37,7 @@ function initDraw2d(){
 	InfoBarWidth = canvas.width;
 	InfoBarHeight = 50;
 	
-	unitsStart = OptionBarX + 150;
+	unitsStart = OptionBarX + 10;
 	planetStart = OptionBarX + 410;
 	permaStart = OptionBarX + 900;			
 	
