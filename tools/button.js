@@ -3,6 +3,9 @@ var buttonType = { 	"EndTurn": 0,
 					"Upgrade": 2,
 					"BuildUnit1": 3,
 					"BuildUnit2": 4,
+					"Frigates":10,
+					"Cruisers":11,
+					"Capitals":12
 					};
 
 //Button object to hold data for all buttons
@@ -59,6 +62,27 @@ function Button(){
 				//Do stuff
 				console.log("This planet wants to build a unit type 2");
 				break;
+				
+			//Selecting units buttons
+			case buttonType.Frigates:
+				//Do stuff
+				selectedPlanet.selectFrigate();
+				console.log("This planet wants to select a frigate");
+				break;
+				
+			case buttonType.Cruisers:
+				//Do stuff
+				selectedPlanet.selectCruiser();				
+				console.log("This planet wants to select a cruiser");
+				break;
+				
+			case buttonType.Capitals:
+				//Do stuff
+				selectedPlanet.selectCapital();				
+				console.log("This planet wants to select a frigate");
+				break;
+				
+				
 			default:
 				console.log("I do go through the switch. that.type = " + that.type);
 				break;

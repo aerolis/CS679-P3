@@ -71,8 +71,12 @@ function draw2d()
 			ctx.fillText("Next turn, back to menu... ", permaStart + 10, OptionBarY + 40);			
 
 			//Draw planet menu
-			if (selectedPlanet != null && selectedPlanet.showOptions == true){
+			if (selectedPlanet != null && selectedPlanet.fl_showOptions == true){
 				selectedPlanet.optionButtons.draw();
+			}
+			
+			if (selectedPlanet != null && selectedPlanet.fl_showShips == true){
+				selectedPlanet.shipButtons.draw();
 			}
 			
 			permaButtons.draw();

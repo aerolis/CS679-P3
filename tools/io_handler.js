@@ -81,42 +81,58 @@ function handleMouseUp(evt)
 			
 			
 		//moved them all back inside the same if statements because we still need to check mouseups even if it's over a menu	
-		if (selectedPlanet != null){
-			selectedPlanet.showOptions = false;
-		}
+		
 		if (evt.which == 1) //left mouse button
 		{
+			//If you're in a 'button area', do these checks to see if a button was clicked
 			if (mouseX > OptionBarX && mouseX < (OptionBarX + OptionBarWidth) && mouseY > OptionBarY && mouseY < (OptionBarY + OptionBarHeight))
 			{
 				var foundTarget = false;
 				if (selectedPlanet != null){
+					//See if you clicked an optionButton belonging to the selected planet.
 					foundTarget = selectedPlanet.optionButtons.checkClicked(mouseX, mouseY);
+					if (!foundTarget && selectedPlanet.player == currentPlayer){
+						//See if you clicked a unit available on the selected planet.
+						foundTarget = selectedPlanet.shipButtons.checkClicked(mouseX, mouseY);
+					}
 				}	
 				if (!foundTarget){
-					permaButtons.checkClicked(mouseX, mouseY);
+					//See if you clicked a general button (like next turn)
+					foundTarget = permaButtons.checkClicked(mouseX, mouseY);
 				}
 				
 			}
-			var planet = pickObject();
-			if (planet != -1)
-			{
-				selectedPlanetIndices = planet;
-				selectedPlanet = mp.systems[planet.a].planets[planet.b];
-				if (selectedPlanet.player == currentPlayer){
-					selectedPlanet.showOptions = true;
+			//This really does need an else. You don't want to secretly select planets hiding under the option bar.
+			else{
+				//Only need to stop showing selection if there's a chance of deselection.
+				if (selectedPlanet != null){
+					selectedPlanet.hideOptions();
+					selectedPlanet.hideShips();
 				}
-				console.log("A planet was selected");
+		
+				var planet = pickObject();
+				if (planet != -1)
+				{
+					selectedPlanetIndices = planet;
+					selectedPlanet = mp.systems[planet.a].planets[planet.b];
+					selectedPlanet.showShips();
+					if (selectedPlanet.player == currentPlayer){
+						selectedPlanet.showOptions();
+					}
+					console.log("A planet was selected");
+				}
+				else
+				{
+					selectedPlanet = null;
+					selectedPlanetIndices = null;
+				}
+				console.log("found planet ss:"+planet.a+" pl:"+planet.b);
+				//this will return the a c2 object (just a container for two objects to be carried together)
+				//with: planet.a -> solar system number -> mp.systems[planet.a]
+				//		planet.b -> planet number -> mp.systems[planet.a].planets[planet.b]
+				//returns -1 if no planet is clicked
 			}
-			else
-			{
-				selectedPlanet = null;
-				selectedPlanetIndices = null;
-			}
-			console.log("found planet ss:"+planet.a+" pl:"+planet.b);
-			//this will return the a c2 object (just a container for two objects to be carried together)
-			//with: planet.a -> solar system number -> mp.systems[planet.a]
-			//		planet.b -> planet number -> mp.systems[planet.a].planets[planet.b]
-			//returns -1 if no planet is clicked
+			
 			lPressed = false;
 		}
 		else if (evt.which == 2)
@@ -133,6 +149,41 @@ function handleMouseUp(evt)
 				evt.preventDefault();
 			justRightClicked = true;
 			var t = setTimeout("clearRightClick();",(1/4)*1000);
+			
+			if (selectedPlanet != null && selectedPlanet.selectedFleet.getTotal() > 0){
+				//See if you're sending out units. 
+				var planet = pickObject();
+				if (planet != -1)
+				{
+					targetPlanet = mp.systems[planet.a].planets[planet.b];
+					// !!! Button things that need refactoring again
+					selectedPlanet.hideShips();
+					//If it's your planet, just add the fleet.
+					// !!! Needs to take movement left into account.
+					if (targetPlanet.player == currentPlayer){
+						targetPlanet.myFleet.addFleet(selectedPlanet.selectedFleet);
+						selectedPlanet.selectedFleet.empty();
+					}
+					//If it's an enemy planet, call receiveHostileFleet on it.
+					else if (targetPlanet.player != currentPlayer){
+						targetPlanet.receiveHostileFleet(selectedPlanet.selectedFleet);
+						selectedPlanet.selectedFleet.empty();
+					}
+					selectedPlanet.showShips();
+				}
+				//If no planet was clicked, just deselect your units.
+				else
+				{
+					selectedPlanet.myFleet.addFleet(selectedPlanet.selectedFleet);
+					selectedPlanet.selectedFleet.empty();
+				}				
+			
+			}
+			
+			// !!! If (there's a planet selected and there are units selected)
+			//Check if you just hit a planet
+			//If so, keep the old planet selected, but send units there. 
+			//Call handle send units method.
 		}
 	}
 

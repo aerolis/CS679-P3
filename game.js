@@ -40,6 +40,8 @@ var selectedPlanetIndices = null;
 //LOADING IN PLAY VARIABLES HERE
 var levNum = 0;
 //ENDING PLAY VARS
+//add parameter for turns
+var currTurn = 0;
 
 //load in model files for game
 var models = new Array();
@@ -135,33 +137,6 @@ function nextLevel()
 }
 function setupLevel()
 {
-	/*
-	//FOR NOW, JUST 2 PLAYERS (Human and AI)
-	players = new Array();
-	players.push(new player(0, false));
-	players.push(new player(1, true));
-	
-	players[0].color = new v3(0.2,0.3,1.0);
-	players[1].color = new v3(1.0,0.1,0.3);
-	mp = new map();
-	
-	//init player controlled planets
-	var i,j;
-	for (i=0;i<mp.systems.length;i++)
-	{
-		for (j=0;j<mp.systems[i].planets.length;j++)
-		{
-			var owner = mp.systems[i].planets[j].player;
-			if (owner >= 0) //i.e. if not neutral
-			{
-				players[owner].addPlanet(mp.systems[i].planets[j]);
-			}
-		}
-	}	
-	
-	players[0].initializeCameraPos();
-	players[1].initializeCameraPos();
-	*/
 	
 	currentPlayer = 0;
 	

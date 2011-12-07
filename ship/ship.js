@@ -1,3 +1,17 @@
+//Enum to store shiptypes
+// !!! Not in use currently, but this is the better practice way to do this...
+var shipTypes = { 	"Frigate": 0,
+					"Cruiser": 1,
+					"Capital": 2,
+					};
+
+function shipCatalog(i_owner){ //add testing catalog items for now
+	this.owner = i_owner;
+	this.catalog = [];
+	this.catalog.push(new ship(i_owner, "Frigate",[0,0,0])); 
+	this.catalog.push(new ship(i_owner, "Cruiser",[0,0,0]));
+	this.catalog.push(new ship(i_owner, "Capital",[0,0,0]));
+}
 //Basic ship class
 function ship(i_owner,i_Type,i_pos){
 	//basic information initialized in the factory
@@ -9,14 +23,14 @@ function ship(i_owner,i_Type,i_pos){
 	if(this.type == "Frigate" )
 	{
 		//Damage and defense value of this ship
-		this.lasor = 10;
-		this.missle = 20;
+		this.laser = 10;
+		this.missile = 20;
 		this.armor = 10;
 		this.shield = 0;  //Frigate ship has no shield
 		
 		this.currentHp = 100;
 		this.maxHp = 100;
-		this.status = 1; // alive 1, dead 0
+		this.status = 1; // alive 1, dead 0   => This is what booleans were invented for!
 		
 		//resources consumed to build ship
 		this.steel = 20;
@@ -25,9 +39,9 @@ function ship(i_owner,i_Type,i_pos){
 		//turns it takes to build this ship
 		this.period = 1; 
 	}
-	if(this.type == "Cruiser" ){	
-		this.lasor = 30;
-		this.missle = 40;
+	else if(this.type == "Cruiser" ){	
+		this.laser = 30;
+		this.missile = 40;
 		this.armor = 30;
 		this.shield = 50;
 		
@@ -41,9 +55,9 @@ function ship(i_owner,i_Type,i_pos){
 		//turns it takes to build this ship
 		this.period = 2; 
 	}
-	if(this.type == "Capital" ){
-		this.lasor = 80;
-		this.missle = 100;
+	else if(this.type == "Capital" ){
+		this.laser = 80;
+		this.missile = 100;
 		this.armor = 80;
 		this.shield = 100;
 		
@@ -68,12 +82,12 @@ ship.prototype.attack = function(target){ //i_target is the target ship, estimat
 	var damage = 0;
 	if( target.status = 0){ return damage;} //if target ship is already, possible damage is 0
 	if( target.shield > 0){ //if target still has shield on, attack shield first
-		if ( 1.5*this.lasor > this.missle){ damage = 1.5*this.lasor; } 
-		else { damage = this.missle; }
+		if ( 1.5*this.laser > this.missile){ damage = 1.5*this.laser; } 
+		else { damage = this.missile; }
 	}
 	else{
-		if ( 1.5*this.missle > this.lasor){ damage = 1.5*this.missle; } 
-		else { damage = this.lasor; }
+		if ( 1.5*this.missile > this.laser){ damage = 1.5*this.missile; } 
+		else { damage = this.laser; }
 	}
 	return damage;
 }
@@ -87,7 +101,7 @@ ship.prototype.hpUpdate = function(damage){
 		if(this.currentHp + this.armor > damage) { this.currentHp = this.currentHp - damage + this.armor;} //armor will reflect/absorb part of damage
 		else { 
 			this.currentHp = 0;
-			this.status = 0
+			this.status = 0;
 		}
 	}
 }
