@@ -5,6 +5,13 @@ var shipTypes = { 	"Frigate": 0,
 					"Capital": 2,
 					};
 
+function shipCatalog(i_owner){ //add testing catalog items for now
+	this.owner = i_owner;
+	this.catalog = [];
+	this.catalog.push(new ship(i_owner, "Frigate",[0,0,0])); 
+	this.catalog.push(new ship(i_owner, "Cruiser",[0,0,0]));
+	this.catalog.push(new ship(i_owner, "Capital",[0,0,0]));
+}
 //Basic ship class
 function ship(i_owner,i_Type,i_pos){
 	//basic information initialized in the factory
@@ -16,8 +23,8 @@ function ship(i_owner,i_Type,i_pos){
 	if(this.type == "Frigate" )
 	{
 		//Damage and defense value of this ship
-		this.lasor = 10;
-		this.missle = 20;
+		this.laser = 10;
+		this.missile = 20;
 		this.armor = 10;
 		this.shield = 0;  //Frigate ship has no shield
 		
@@ -33,8 +40,8 @@ function ship(i_owner,i_Type,i_pos){
 		this.period = 1; 
 	}
 	else if(this.type == "Cruiser" ){	
-		this.lasor = 30;
-		this.missle = 40;
+		this.laser = 30;
+		this.missile = 40;
 		this.armor = 30;
 		this.shield = 50;
 		
@@ -49,8 +56,8 @@ function ship(i_owner,i_Type,i_pos){
 		this.period = 2; 
 	}
 	else if(this.type == "Capital" ){
-		this.lasor = 80;
-		this.missle = 100;
+		this.laser = 80;
+		this.missile = 100;
 		this.armor = 80;
 		this.shield = 100;
 		
@@ -75,12 +82,12 @@ ship.prototype.attack = function(target){ //i_target is the target ship, estimat
 	var damage = 0;
 	if( target.status = 0){ return damage;} //if target ship is already, possible damage is 0
 	if( target.shield > 0){ //if target still has shield on, attack shield first
-		if ( 1.5*this.lasor > this.missle){ damage = 1.5*this.lasor; } 
-		else { damage = this.missle; }
+		if ( 1.5*this.laser > this.missile){ damage = 1.5*this.laser; } 
+		else { damage = this.missile; }
 	}
 	else{
-		if ( 1.5*this.missle > this.lasor){ damage = 1.5*this.missle; } 
-		else { damage = this.lasor; }
+		if ( 1.5*this.missile > this.laser){ damage = 1.5*this.missile; } 
+		else { damage = this.laser; }
 	}
 	return damage;
 }

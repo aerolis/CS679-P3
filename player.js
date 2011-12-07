@@ -101,6 +101,10 @@ player.prototype.doTurn = function()
 		if (this.planets[i].type == "factory")
 		{
 			//TODO: attempt to build a ship
+			//Xixi, update plans for this planet
+			//currPlanet.productionPlan.logDraft(currPlanet.draftOrder);
+			//currPlanet.draftOrder.clear();
+			//currPlanet.productionPlan.release(); //release finished ships and add them to fleet
 		}
 	}
 	

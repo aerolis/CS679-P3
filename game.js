@@ -40,6 +40,8 @@ var selectedPlanetIndices = null;
 //LOADING IN PLAY VARIABLES HERE
 var levNum = 0;
 //ENDING PLAY VARS
+//add parameter for turns
+var currTurn = 0;
 
 //load in model files for game
 var models = new Array();
