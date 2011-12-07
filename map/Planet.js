@@ -39,6 +39,11 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	
 	// !!! I don't think this should be stored here. I think we want a general place that stores what planet types are unlocked. (and possibly other techs).
 	this.buildableShips = []; //only used if factory planet
+	
+	//keep track of ships in production,Xixi 
+	this.draftPlan = new draftPlan();
+	this.productionPlan = new productionPlan();
+	this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
 }
 
 // Check which buttons are necessary everytime the buttons get shown.
@@ -180,4 +185,6 @@ Planet.prototype.onTurn = function() {
 
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	//Do battle stuff. The enemy that send it to you can be gotten from players[currentPlayer].
+	
+	//after we got winner,assign value to planet owner
 }

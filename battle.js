@@ -54,7 +54,12 @@ function battle( List1, List2)
 			//return remaining ships in List2
 			for(var i=0; i<List2.length; i++)
 			{
-				if(List2[i].status > 0) winner.push(List2[i]);
+				if(List2[i].status > 0) 
+				{
+					List2[i].currentHp = List2[i].maxHp;
+					winner.push(List2[i]);
+					
+				}
 				
 			}
 			return winner;
