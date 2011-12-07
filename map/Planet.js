@@ -17,6 +17,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.player = planetOwner; 	// !! should we just keep an global array of players and then we can just keep an int here reflecting
 								// which player in the array owns it?
 	this.linkedPlanets = connectedPlanets;
+	
 	//this.ships = shipsGarrisoned;
 	this.ships = [];
 	
@@ -37,6 +38,10 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.fl_showShips = false;
 	this.shipButtons = new buttonset();
 	
+	this.upgradeLevel = 1;
+	this.maxUpgradeLevel = 3; // Probably dependant on planet type.
+	this.upgradeCost = [];
+	
 	// !!! I don't think this should be stored here. I think we want a general place that stores what planet types are unlocked. (and possibly other techs).
 	this.buildableShips = []; //only used if factory planet
 	
@@ -44,6 +49,8 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	//this.draftPlan = new draftPlan();
 	//this.productionPlan = new productionPlan();
 	//this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
+	
+	this.specifyPlanetType();
 }
 
 // Check which buttons are necessary everytime the buttons get shown.
@@ -53,7 +60,29 @@ Planet.prototype.showOptions = function(){
 	//if (planet.upgradeLevel < planet.upgradeLimit)
 	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
 	
-	this.specifyPlanetType();
+	//This gets called regularly. DO NOT move it to specifyPlanetType.
+	switch (this.type)
+	{
+		case "factory":
+			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 20, 90, 25, '#657383', "Built Ship Type 1", buttonType.BuildUnit1);	
+			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 55, 90, 25, '#657383', "Built Ship Type 2", buttonType.BuildUnit2);
+			//TODO: add buildable ship to list				
+		break;
+		case "plasma":
+		break;
+		case "antimatter":
+		break;
+		case "steel":
+		break;
+		case "credit":
+		break;
+		case "warp":
+		break;
+		case "default":
+		break;
+	}
+	
+	this.fl_showOptions = true;
 }
 
 
@@ -121,12 +150,12 @@ Planet.prototype.specifyPlanetType = function()
 	{
 		case "factory":
 			this.model = 0;
-			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 20, 90, 25, '#657383', "Built Ship Type 1", buttonType.BuildUnit1);	
-			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 55, 90, 25, '#657383', "Built Ship Type 2", buttonType.BuildUnit2);
-			//TODO: add buildable ship to list				
+			//TODO: add buildable ship to list
+			this.upgradeCost.push(new cost("antimatter", 100));			
 		break;
 		case "plasma":
 			this.model = 1;
+			this.upgradeCost.push(new cost("antimatter", 100));
 		break;
 		case "antimatter":
 			this.model = 2;
@@ -144,7 +173,6 @@ Planet.prototype.specifyPlanetType = function()
 			this.model = 0;
 		break;
 	}
-	this.fl_showOptions = true;
 }
 
 Planet.prototype.linkPlanet = function(toPlanet) {
@@ -176,6 +204,27 @@ Planet.prototype.update = function() {
 	this.rot.y += this.rot_rate.y % 360;
 	this.rot.z += this.rot_rate.z % 360;
 }
+
+Planet.prototype.tryUpgrade = function() {
+	if (this.upgradeLevel < this.maxUpgradeLevel){
+		var gotEnough = true;
+		for (var i = 0; i < this.upgradeCost.length; i++){
+			//Check if you have it
+			var current = this.upgradeCost[i];
+			if (current.type == "credits"){
+				if (current.amount > this.player.credits){
+					gotEnough = false;
+				}
+			}
+			// !!! Do for all other types
+		}
+		if(gotEnough){
+			this.upgradeLevel++;
+			//Pay resources;
+		}
+	}
+}
+
 Planet.prototype.onTurn = function() {
 	switch (this.type)
 	{

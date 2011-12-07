@@ -51,6 +51,7 @@ function Button(){
 				
 			case buttonType.Upgrade:
 				//Do stuff
+				selectedPlanet.tryUpgrade();
 				console.log("This planet wants to upgrade");
 				break;
 				
