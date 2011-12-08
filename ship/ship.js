@@ -94,7 +94,11 @@ ship.prototype.moveTo = function(i_pos){
 	this.pos = i_pos;
 }
 */
+<<<<<<< HEAD
+
+=======
 /*
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 ship.prototype.attack = function(target){ //target is the target ship, estimate total damage
 	//console.log("inside ship.attack");
 	var damage = 0;
@@ -164,6 +168,34 @@ ship.prototype.calculateBaseDamage = function(target){
 }
 
 //if this ship was attacked
+<<<<<<< HEAD
+// !!! Take a look at this.
+ship.prototype.hpUpdate = function(damage){
+	//console.log("Start hpUpdate; currentHP = " + this.currentHp + ", damage = " + damage);
+	if(this.shield > 0 ){ // shield gets attacked first
+		//If you damage less than the shield, just damage the shield.
+		if (damage < this.shield){
+			this.shield -= damage;
+			damage = 0;
+		}
+		//Calculate damage left after killing the shield.
+		else {
+			damage -= this.shield;
+			this.shield = 0;
+		}
+	}
+	 
+	// armor will negate the damage. 1 armor point =  1 less damage.
+	// If you hit more than the available armor.
+	if(damage > this.armor) {
+		damage -= this.armor;	//Armor negates some damage.
+		this.currentHp -= damage;	
+	} 
+	
+	//See if you're still alive.
+	if (this.currentHp <= 0){
+		this.alive = false;	
+=======
 ship.prototype.attack = function(target){	
 	
 	var useLaser = false;
@@ -248,6 +280,7 @@ ship.prototype.attack = function(target){
 	//See if you're still alive.
 	if (target.currentHp <= 0){
 		target.alive = false;	
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 	}
 	//console.log("End hpUpdate; currentHP = " + this.currentHp);	
 }
