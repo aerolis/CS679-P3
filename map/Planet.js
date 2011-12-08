@@ -354,18 +354,25 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
     
     //after we got winner,assign value to planet.player
     if (winner.length > 0){
-        console.log("Winner is: " + winner[0].owner);
-        this.player = winner[0].owner;
+		//If you lost
+		console.log("I am: " + this.player + ", winner is " + winner[0].owner);
+        if (this.player == winner[0].owner){
+			//Defender won.
+			this.myFleet = makeFleetNotMoved(winner);    
+		}
+		//If you won
+		else{
+			//Attacker own.
+			this.myFleet = makeFleetMoved(winner);
+			this.player = winner[0].owner;		
+		}
     }
     else{
         console.log("Everything died. This shouldn't be able to happen.");    
     }
-    this.myFleet = makeFleetMoved(winner);
-    
+    console.log("So now I am: " + this.player);
     combatResultScreen.show();
 }
-
-
 
 Planet.prototype.getNewShips = function(){ //Add new ships realeased from production and put them into fleet
 	var newShipArray = [];
