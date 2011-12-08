@@ -6,8 +6,9 @@ var buttonType = { 	"EndTurn": 0,
 					"Frigates":10,
 					"Cruisers":11,
 					"Capitals":12,					
-					"BuildUnit1": 20,
-					"BuildUnit2": 21,
+					"BuildFrigate": 20,
+					"BuildCruiser": 21,					
+					"BuildCapital": 22,
 					};
 
 //Button object to hold data for all buttons
@@ -30,7 +31,7 @@ function Button(){
   		targetCanvas.fillRect(that.x, that.y, that.w, that.h);
   		targetCanvas.fillStyle = 'black';
 		ctx.font = that.fontStyle;
-		targetCanvas.fillText(that.title, that.x + 2, that.y + 10);
+		targetCanvas.fillText(that.title, that.x + 2, that.y + 15);
 	}
 	
 	that.gotClicked = function(){
@@ -62,18 +63,23 @@ function Button(){
 				console.log("This planet wants to select a frigate");
 				break;
 				
-			case buttonType.BuildUnit1:
+			case buttonType.BuildFrigate:
 				//Do stuff
-				console.log("This planet wants to build a unit type 1");
+				console.log("This planet wants to build a Frigate");
 				//for now, just building frigates
-				if (selectedPlanet.type == "factory") {
-					selectedPlanet.buildShip("Frigate");
-				}
+				selectedPlanet.buildShip("Frigate");
 				break;
 				
-			case buttonType.BuildUnit2:
+			case buttonType.BuildCruiser:
 				//Do stuff
-				console.log("This planet wants to build a unit type 2");
+				console.log("This planet wants to build a Cruiser");
+				selectedPlanet.buildShip("Cruiser");
+				break;
+				
+			case buttonType.BuildCapital:
+				//Do stuff
+				console.log("This planet wants to build a Capital");
+				selectedPlanet.buildShip("Capital");
 				break;
 				
 			//Selecting units buttons

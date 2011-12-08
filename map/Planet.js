@@ -61,25 +61,23 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 Planet.prototype.buildShip = function(type)
 {
 	//for now, just builds Frigates and doesn't take any resources
-	if (this.type == "factory")
-	{
-		this.myFleet.Frigates.push(new ship(this.player, "Frigate"));
-		this.showShips();
-	}
+	this.myFleet.addNewShip(new ship(this.player, type));
+	this.showShips();
 }
 
 // Check which buttons are necessary everytime the buttons get shown.
 Planet.prototype.showOptions = function(){
 	//this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
 	//if (planet.upgradeLevel < planet.upgradeLimit)
-	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
+	this.optionButtons.addButton(OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarHeight - 50, (OptionBarWidth - 2 * OptionBarSidesWidth - 60), 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
 	
 	//This gets called regularly. DO NOT move it to specifyPlanetType.
 	switch (this.type)
 	{
 		case "factory":
-			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 20, 90, 25, '#657383', "Built Ship Type 1", buttonType.BuildUnit1);	
-			this.optionButtons.addButton(OptionBarX + 620, OptionBarY + 55, 90, 25, '#657383', "Built Ship Type 2", buttonType.BuildUnit2);
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10                                     , OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Build Frigate", buttonType.BuildFrigate);	
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + (OptionBarSidesWidth - 40)/3 + 20      , OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Build Cruiser", buttonType.BuildCruiser);
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 2 * ((OptionBarSidesWidth - 40)/3) + 30, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Build Capital", buttonType.BuildCapital);	
 			//TODO: add buildable ship to list				
 		break;
 		case "plasma":
