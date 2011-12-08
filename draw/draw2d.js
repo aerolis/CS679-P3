@@ -95,7 +95,7 @@ function draw2d()
 				//Draw info
 				ctx.fillStyle = 'white';
 				ctx.font = "15pt Calibri";
-				ctx.drawImage(getPlanetImage(selectedPlanet.type), OptionBarX + OptionBarSidesWidth + 25, OptionBarY + OptionBarMiddleDif + 30 );
+				//ctx.drawImage(getPlanetImage(selectedPlanet.type), OptionBarX + OptionBarSidesWidth + 25, OptionBarY + OptionBarMiddleDif + 30 );
 				ctx.fillText("Planet type: " + selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 30);
 				ctx.fillText("Planet level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 55);
 				if (selectedPlanet.upgradeLevel < selectedPlanet.upgradeStats.maxUpgradeLevel){

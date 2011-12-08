@@ -16,24 +16,26 @@ function images()
 	var i;
 	for (i=0;i<6;i++)
 	{
-		this.planet_64[i] = new Image();
+		this.planets_64[i] = new Image();
 	}
-	this.planet_64[0].src = "images/credits_64.png"; //factory
-	this.planet_64[1].src = "images/credits_64.png"; //credit
-	this.planet_64[2].src = "images/steel_64.png"; //steel
-	this.planet_64[3].src = "images/plasma_64.png"; //plasma
-	this.planet_64[4].src = "images/antimatter_64.png"; //antimatter
-	this.planet_64[5].src = "images/credits_64.png"; //warp
+	this.planets_64[0].src = "images/credits_64.png"; //factory
+	this.planets_64[1].src = "images/credits_64.png"; //credit
+	this.planets_64[2].src = "images/steel_64.png"; //steel
+	this.planets_64[3].src = "images/plasma_64.png"; //plasma
+	this.planets_64[4].src = "images/antimatter_64.png"; //antimatter
+	this.planets_64[5].src = "images/credits_64.png"; //warp
 }
 
 function getPlanetImage(type)
 {
+	/*
+	var img;
 	switch (type)
 	{
 		case:
-		
+			
 		break;
-	}
+	}*/
 }
 
 var pln_images = { 	"factory": 0,

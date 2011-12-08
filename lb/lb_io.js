@@ -45,7 +45,8 @@ function handleMouseMove(evt)
 			cam.translate(dz/100,-dx/100);
 		}
 		
-		planetHover = pickObject();
+		//planetHover = pickObject();
+		posAtMouse = getClickLocationOnPlane();
 		
 		if (lPressed)
 		{
