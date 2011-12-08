@@ -51,7 +51,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.buildableShips = []; //only used if factory planet
 	
 	//keep track of ships in production,Xixi 
-	this.draftPlan = new draftPlan();
+	//this.draftPlan = new draftPlan();
 	this.productionPlan = new productionPlan();
 	this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
 	
