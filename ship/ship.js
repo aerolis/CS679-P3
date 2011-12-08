@@ -25,7 +25,7 @@ function ship(i_owner,i_type){
 	
 	this.currentHp = 0;
 	this.maxHp = 0;
-	this.status = 1; // alive 1, dead 0   => This is what booleans were invented for!
+	this.alive = true;
 	
 	//resources consumed to build ship
 	this.steel = 0;
@@ -43,10 +43,10 @@ function ship(i_owner,i_type){
 		this.missile = 20;
 		this.armor = 10;
 		this.shield = 0;  //Frigate ship has no shield
+		this.maxShield = 0;
 		
 		this.currentHp = 100;
 		this.maxHp = 100;
-		this.status = 1; // alive 1, dead 0   => This is what booleans were invented for!
 		
 		//resources consumed to build ship
 		this.steel = 20;
@@ -60,10 +60,10 @@ function ship(i_owner,i_type){
 		this.missile = 40;
 		this.armor = 30;
 		this.shield = 50;
+		this.maxShield = 50;
 		
 		this.currentHp = 300;
 		this.maxHp = 300;		
-		this.status = 1; // alive 1, dead 0
 		
 		this.steel = 40;
 		this.plasma = 40;
@@ -76,10 +76,10 @@ function ship(i_owner,i_type){
 		this.missile = 100;
 		this.armor = 80;
 		this.shield = 100;
+		this.maxShield = 100;
 		
 		this.currentHp = 700;
 		this.maxHp = 700;		
-		this.status = 1; // alive 1, dead 0
 		
 		this.steel = 80;
 		this.plasma = 80;
@@ -95,13 +95,17 @@ ship.prototype.moveTo = function(i_pos){
 }
 */
 
-ship.prototype.attack = function(target){ //i_target is the target ship, estimate total damage
+ship.prototype.attack = function(target){ //target is the target ship, estimate total damage
 	//console.log("inside ship.attack");
 	var damage = 0;
-	if( target.status == 0){ 
+	
+	// !!! You shouldn't be shooting at a dead target anyway, but this is necessary for picking your target for now.
+	if(!target.alive){ 
 		//console.log("target status is 0");
 		return damage;
-	} //if target ship is already, possible damage is 0
+	} //if target ship is already dead, possible damage is 0
+	
+	// !!! These numbers and calculations are weird/wrong too, but it should work for now.
 	if( target.shield > 0){ //if target still has shield on, attack shield first
 		//console.log("target has shield");
 		if ( 1.5*this.laser > this.missile){ damage = 1.5*this.laser; } 
@@ -126,15 +130,32 @@ ship.prototype.attack = function(target){ //i_target is the target ship, estimat
 }
 
 //if this ship was attacked
+// !!! Take a look at this.
 ship.prototype.hpUpdate = function(damage){
-	if(this.shield > 0 ){ // shield get attacked first
-		this.shield -= damage;
-	}
-	else{ 
-		if(this.currentHp + this.armor > damage) { this.currentHp = this.currentHp - damage + this.armor;} //armor will reflect/absorb part of damage
-		else { 
-			this.currentHp = 0;
-			this.status = 0;
+	//console.log("Start hpUpdate; currentHP = " + this.currentHp + ", damage = " + damage);
+	if(this.shield > 0 ){ // shield gets attacked first
+		//If you damage less than the shield, just damage the shield.
+		if (damage < this.shield){
+			this.shield -= damage;
+			damage = 0;
+		}
+		//Calculate damage left after killing the shield.
+		else {
+			damage -= this.shield;
+			this.shield = 0;
 		}
 	}
+	 
+	// armor will negate the damage. 1 armor point =  1 less damage.
+	// If you hit more than the available armor.
+	if(damage > this.armor) {
+		damage -= this.armor;	//Armor negates some damage.
+		this.currentHp -= damage;	
+	} 
+	
+	//See if you're still alive.
+	if (this.currentHp <= 0){
+		this.alive = false;	
+	}
+	//console.log("End hpUpdate; currentHP = " + this.currentHp);	
 }

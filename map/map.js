@@ -321,7 +321,6 @@ map.prototype.setupPlanetLists = function()
 			var x = this.systems[i].pos.x + this.systems[i].planets[j].pos.x;
 			var y = this.systems[i].pos.y + this.systems[i].planets[j].pos.y;
 			var z = this.systems[i].pos.z + this.systems[i].planets[j].pos.z;
-			this.systems[i].planets[j].initFleetOwner();
 			this.planetPos.push(new v3(x,y,z));
 			this.planetList.push(new c2(i,j));
 		}

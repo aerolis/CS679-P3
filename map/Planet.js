@@ -3,6 +3,7 @@
  */
 function Planet(planetPosition, planetType, planetSize, planetOwner,
 				connectedPlanets, shipsGarrisoned, mySys) {
+	//console.log("Planet constructor. planetType = " + planetType);
 	if (createdViaMap)
 		this.id = globalPlanetID;
 	else
@@ -26,24 +27,21 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.myFleet = new fleet();	
 	this.selectedFleet = new fleet();
 	
-	// !!! ==== For testing only, should be removed! ===========
-	this.myFleet.Frigates.push(new ship(this.player, "Frigate"));	
-	this.myFleet.Cruisers.push(new ship(this.player, "Cruiser"));
-	this.myFleet.Capitals.push(new ship(this.player, "Capital"));
-
-	//this.myFleet.addCruisers(3);
-	//this.myFleet.addCapitals(4);
-	// !!! ==== End of testing purposes :) =====================
 	
 	this.model = 0; //will store a ref id for the model that displays it
 	this.selected = false;
+	
 	
 	this.fl_showOptions = false;
 	this.optionButtons = new buttonset();
 	this.fl_showShips = false;
 	this.shipButtons = new buttonset();
 	
-	this.upgradeLevel = 1;
+	this.upgradeLevel = 1;	
+	this.amtResourcesToAdd = 0;
+	this.amtCreditsToAdd = 6;
+	// !!! TODO: Find out where this should go...
+	this.upgradeStats = new upgradeData(this);	
 	
 	// !!! I don't think this should be stored here. I think we want a general place that stores what planet types are unlocked. (and possibly other techs).
 	this.buildableShips = []; //only used if factory planet
@@ -53,14 +51,20 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.productionPlan = new productionPlan();
 	this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
 	
-	this.specifyPlanetType();
+	//this.specifyPlanetType();
 }
 
-Planet.prototype.buildShip = function(type)
+Planet.prototype.buildShip = function(type,amt)
 {
 	//for now, just builds Frigates and doesn't take any resources
-	this.myFleet.addNewShip(new ship(this.player, type));
+	//this.myFleet.addNewShip(new ship(this.player, type));
+	//this.showShips();
+	
+	//add new item to production plan, need to specify amt of each order
+	console.log("planet buildship amt: " + amt);
+	var status = this.productionPlan.addOrder(this.player,type,amt);
 	this.showShips();
+	return status;
 }
 
 // Check which buttons are necessary everytime the buttons get shown.
@@ -175,17 +179,21 @@ Planet.prototype.specifyPlanetType = function()
 		case "factory":
 			this.model = 0;		
 		break;
-		case "plasma":
-			this.model = 1;
-		break;
-		case "antimatter":
-			this.model = 2;
+		case "credit":
+			this.model = 6;
+			this.amtResourcesToAdd = 40;
 		break;
 		case "steel":
 			this.model = 3;
+			this.amtResourcesToAdd = 10;
 		break;
-		case "credit":
-			this.model = 6;
+		case "plasma":
+			this.model = 1;
+			this.amtResourcesToAdd = 8;
+		break;
+		case "antimatter":
+			this.model = 2;			
+			this.amtResourcesToAdd = 5;
 		break;
 		case "warp":
 			this.model = 8;
@@ -197,7 +205,20 @@ Planet.prototype.specifyPlanetType = function()
 			this.model = 0;
 		break;
 	}
+	//Apparently, after this the planet type is properly set...
+	// !!! Could probably use a better location.
+	this.upgradeStats = new upgradeData(this);	
+	
+	// !!! ==== For testing only, should be removed! ===========
+	this.myFleet.Frigates.push(new ship(this.player, "Frigate"));	
+	this.myFleet.Cruisers.push(new ship(this.player, "Cruiser"));
+	this.myFleet.Capitals.push(new ship(this.player, "Capital"));
+
+	// !!! ==== End of testing purposes :) =====================
+	
+	
 }
+ 
 
 //Receives the actual planet object
 Planet.prototype.linkPlanet = function(toPlanet) {
@@ -240,19 +261,25 @@ Planet.prototype.update = function() {
 }
 
 Planet.prototype.tryUpgrade = function() {
-	var upgradeStats = new upgradeData(this);		
-	if (this.upgradeLevel < upgradeStats.maxUpgradeLevel){
+	if (this.upgradeLevel < this.upgradeStats.maxUpgradeLevel){
 		//If you own enough resources
-		if (	players[this.player].credits >= upgradeStats.credits &&
-				players[this.player].steel >= upgradeStats.steel &&
-				players[this.player].plasma >= upgradeStats.plasma &&
-				players[this.player].antimatter >= upgradeStats.antimatter){
-			//Upgrade the planet & Pay resources.
-			players[this.player].credits -= upgradeStats.credits;
-			players[this.player].steel -= upgradeStats.steel;
-			players[this.player].plasma -= upgradeStats.plasma;
-			players[this.player].antimatter -= upgradeStats.antimatter;
-			this.upgradeLevel++;	
+		if (	players[this.player].credits >= this.upgradeStats.credits &&
+				players[this.player].steel >= this.upgradeStats.steel &&
+				players[this.player].plasma >= this.upgradeStats.plasma &&
+				players[this.player].antimatter >= this.upgradeStats.antimatter){
+					
+			//Pay resources.
+			players[this.player].credits -= this.upgradeStats.credits;
+			players[this.player].steel -= this.upgradeStats.steel;
+			players[this.player].plasma -= this.upgradeStats.plasma;
+			players[this.player].antimatter -= this.upgradeStats.antimatter;
+			
+			//Upgrade the planet
+			this.upgradeLevel++;
+			this.amtCreditsToAdd += 5;
+			this.amtResourcesToAdd = this.upgradeStats.newResources;				
+			// !!! Change things for non-resource planets.
+			this.upgradeStats = new upgradeData(this);
 		}
 	}
 }
@@ -267,19 +294,21 @@ Planet.prototype.deselect = function() {
 }
 
 Planet.prototype.onTurn = function() {
+	players[this.player].addCredits(this.amtCreditsToAdd);
+	
 	switch (this.type)
-	{
-		case "plasma":
-			players[this.player].addPlasma(8);
-			break;
-		case "antimatter":
-			players[this.player].addAntimatter(5);
+	{	
+		case "credit":
+			players[this.player].addCredits(this.amtResourcesToAdd);
 			break;
 		case "steel":
-			players[this.player].addSteel(10);
+			players[this.player].addSteel(this.amtResourcesToAdd);
+			break;		
+		case "plasma":
+			players[this.player].addPlasma(this.amtResourcesToAdd);
 			break;
-		case "credit":
-			players[this.player].addCredits(50);
+		case "antimatter":
+			players[this.player].addAntimatter(this.amtResourcesToAdd);
 			break;
 		default:
 		break;
@@ -291,10 +320,8 @@ Planet.prototype.onTurn = function() {
 }
 
 Planet.prototype.tryReceiveFleet = function(newFleet){
-	console.log("A fleet tried to reach me");
 	//See if it's possible to fly here.
 	if (this.linkedTo(selectedPlanet)){
-		console.log("A fleet reached me");
 		//Do this stuff
 		// !!! Button things that need refactoring again
 		selectedPlanet.hideShips();
@@ -320,14 +347,11 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 }
 
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
-	console.log("I received a hostile fleet");
-	console.log("Hostile size: " + enemyFleet.getTotal() + ", my size: " + this.myFleet.getTotal());
-	//Do battle stuff. The enemy that send it to you can be gotten from players[currentPlayer].
 	//Get a winner first.
-	//after we got winner,assign value to planet.player
 	var winner = battle(enemyFleet, this.myFleet);
+	
+	//after we got winner,assign value to planet.player
 	if (winner.length > 0){
-		console.log("Something is left");
 		this.player = winner[0].owner;
 	}
 	else{
@@ -338,19 +362,9 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	combatResultScreen.show();
 }
 
-Planet.prototype.initFleetOwner = function()
-{
-	var i;
-	for (i=0;i<this.myFleet.Frigates.length;i++)
-	{
-		this.myFleet.Frigates[i].owner = this.player;
-	}
-	for (i=0;i<this.myFleet.Cruisers.length;i++)
-	{
-		this.myFleet.Frigates[i].owner = this.player;
-	}
-	for (i=0;i<this.myFleet.Capitals.length;i++)
-	{
-		this.myFleet.Frigates[i].owner = this.player;
+Planet.prototype.getNewShips = function(){ //Add new ships released from production and put them into fleet
+	var newShipArray = this.productionPlan.release();
+	for(var i=0; i < newShipArray.length; i++){
+		this.myFleet.addNewShip( newShipArray[i]);
 	}
 }
