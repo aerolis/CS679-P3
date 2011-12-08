@@ -105,6 +105,10 @@ function draw2d()
 				ctx.font = "15pt Calibri";		
 				ctx.fillText("Planet type: " + selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 30);
 				ctx.fillText("Planet level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 55);
+				if (selectedPlanet.upgradeLevel < selectedPlanet.upgradeStats.maxUpgradeLevel){
+					// !!! Should be nicer.
+					ctx.fillText("Upgrade cost: " + selectedPlanet.upgradeStats.credits + ", " + selectedPlanet.upgradeStats.steel + ", " + selectedPlanet.upgradeStats.plasma + ", " + selectedPlanet.upgradeStats.antimatter, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 80);
+				}
 			}
 				
 			permaButtons.draw();
