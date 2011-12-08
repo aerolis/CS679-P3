@@ -49,9 +49,10 @@ function ship(i_owner,i_type){
 		this.maxHp = 100;
 		
 		//resources consumed to build ship
-		this.steel = 20;
-		this.plasma = 20;
-		this.antiMatter = 20;
+		this.credits = 50;
+		this.steel = 0;
+		this.plasma = 0;
+		this.antiMatter = 0;
 		//turns it takes to build this ship
 		this.period = 1; 
 	}
@@ -65,6 +66,7 @@ function ship(i_owner,i_type){
 		this.currentHp = 300;
 		this.maxHp = 300;		
 		
+		this.credits = 100;
 		this.steel = 40;
 		this.plasma = 40;
 		this.antiMatter = 40;
@@ -81,6 +83,7 @@ function ship(i_owner,i_type){
 		this.currentHp = 700;
 		this.maxHp = 700;		
 		
+		this.credits = 250;
 		this.steel = 80;
 		this.plasma = 80;
 		this.antiMatter = 80;
