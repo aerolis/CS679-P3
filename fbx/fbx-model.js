@@ -79,7 +79,10 @@ fbx_mesh.prototype.advance = function()
 {
 	this.animation.advance();
 	this.locTrans = this.dlocTrans.add(this.animation.trans);
-	this.locRot = this.dlocRot.add(this.animation.rot.add(this.preRot));
+	if (this.hasAnimation)
+		this.locRot = this.dlocRot.add(this.animation.rot.add(this.preRot));
+	else
+		this.locRot = this.dlocRot;
 	this.locScale = this.dlocScale.multiply(this.animation.scale);
 }
 fbx_mesh.prototype.addVertex = function(v)
@@ -220,7 +223,7 @@ function getMeshes(data)
 			switch (tmpModel.name)
 			{
 				// will need to set this up for each model
-				case "earth3":
+				case "factory":
 					models[0] = tmpModel;
 					break;
 				case "plasma":
@@ -251,6 +254,12 @@ function getMeshes(data)
 				case "atmosphere":
 					models[9] = tmpModel;
 					models[9].meshes[0].blendColor = true;
+					break;
+				case "capital_ship":
+					models[10] = tmpModel;
+					break;
+				case "fighter_ship":
+					model[11] = tmpModel;
 					break;
 			}
 			modelsChecked++;
