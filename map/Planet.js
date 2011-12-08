@@ -49,7 +49,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	//keep track of ships in production,Xixi 
 	//this.draftPlan = new draftPlan();
 	this.productionPlan = new productionPlan();
-	this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
+	//this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
 	
 	//this.specifyPlanetType();
 }
@@ -61,7 +61,6 @@ Planet.prototype.buildShip = function(type,amt)
 	//this.showShips();
 	
 	//add new item to production plan, need to specify amt of each order
-	console.log("planet buildship amt: " + amt);
 	var status = this.productionPlan.addOrder(this.player,type,amt);
 	this.showShips();
 	return status;
@@ -310,6 +309,9 @@ Planet.prototype.onTurn = function() {
 		case "antimatter":
 			players[this.player].addAntimatter(this.amtResourcesToAdd);
 			break;
+		case "factory":
+			this.getNewShips();
+			break;
 		default:
 		break;
 	}	
@@ -352,6 +354,10 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	
 	//after we got winner,assign value to planet.player
 	if (winner.length > 0){
+<<<<<<< HEAD
+=======
+		console.log("Winner is: " + winner[0].owner);
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 		this.player = winner[0].owner;
 	}
 	else{
@@ -361,9 +367,16 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	
 	combatResultScreen.show();
 }
+<<<<<<< HEAD
+
+Planet.prototype.getNewShips = function(){ //Add new ships realeased from production and put them into fleet
+	var newShipArray = [];
+	newShipArray = newShipArray.concat(this.productionPlan.release());
+=======
 
 Planet.prototype.getNewShips = function(){ //Add new ships released from production and put them into fleet
 	var newShipArray = this.productionPlan.release();
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 	for(var i=0; i < newShipArray.length; i++){
 		this.myFleet.addNewShip( newShipArray[i]);
 	}

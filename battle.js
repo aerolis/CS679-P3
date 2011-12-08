@@ -26,11 +26,14 @@ function battle(Fleet1, Fleet2)
 			var tIndex = 0;
 			var damage = 0;
 			var survivors = 0;
+<<<<<<< HEAD
 			//console.log("attacker owner:" + attacker.owner);
 			//console.log("attacker status:" + attacker.status);
 			
 			//console.log("target owner:" + target.owner);
 			//console.log("target status:" + target.status);
+=======
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 			
 			//List1 gets to attack first.
 			attackList(List1, List2);
@@ -39,6 +42,7 @@ function battle(Fleet1, Fleet2)
 				console.log("BATTLE FINISHED. k: " + k);				
 				return List1;				
 			}
+<<<<<<< HEAD
 			
 			//List2 gets to attack second.
 			attackList(List2, List1);
@@ -93,6 +97,15 @@ function battle(Fleet1, Fleet2)
 				}
 				console.log("BATTLE FINISHED. in : " + k +" rounds");
 				return winner;
+=======
+			
+			//List2 gets to attack second.
+			attackList(List2, List1);
+			//If there are no attacking survivors
+			if (List1.length <= 0){
+				console.log("BATTLE FINISHED. k: " + k);				
+				return List2;				
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 			}
 			*/
 			k++;
@@ -118,7 +131,7 @@ function selectTarget(i_ship,List){
 	var targetIndex;
 	for( j=0; j < List.length; j++){
 		var target = List[j];
-		var damage = i_ship.attack(target);
+		var damage = i_ship.calculateBaseDamage(target);
 		if ( damage > maxDamage){
 			targetIndex = j;
 			maxDamage = damage;
@@ -137,7 +150,11 @@ function attackList(AttackerList, DefenderList){
 			target = DefenderList[tIndex];
 			//Calculate damage
 			damage = attacker.attack(target);			// !!! Look at this.
+<<<<<<< HEAD
 			target.hpUpdate(damage);   			
+=======
+			//target.hpUpdate(damage);   			
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 		}
 	}	
 	
