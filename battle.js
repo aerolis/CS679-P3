@@ -3,26 +3,40 @@ function battle(Fleet1, Fleet2)
 	var winner = [];
 	var List1 = Fleet1.getList();
 	var List2 = Fleet2.getList();
-	/*
+	//console.log("List1 length: "+List1.length);
+	//console.log("List2 length: "+List1.length);
+	
+	//console.log("List1 owner: "+ List1[0].owner);
+	//console.log("List2 owner: "+ List2[0].owner);
+	var k=0;
+	
 	if (List1.length > 0 && List2.length > 0){
-		while(winner.length <=0)
+		while( k<800 )
 		{	
-			console.log("In while loop");
+			//console.log("In while loop");
 			var attacker = List1[0];
 			var target = List2[0];
 			var tIndex = 0;
 			var damage = 0;
 			var survivor = 0;
-			console.log("Battle starts");
+			//console.log("attacker owner:" + attacker.owner);
+			//console.log("attacker status:" + attacker.status);
+			
+			//console.log("target owner:" + target.owner);
+			//console.log("target status:" + target.status);
 			
 			//List1 are aggressors,they go first
 			for(var i=0; i<List1.length; i++){
 				attacker = List1[i];
 				if(attacker.status > 0){ //if this ship is till alive
+					//console.log("target index:" + tIndex);
 					tIndex = selectTarget(attacker,List2);
 					target = List2[tIndex];
+					//console.log("target index:" + tIndex);
 					damage = attacker.attack(target);
 					target.hpUpdate(damage);
+					//console.log("target hp:" + target.owner);
+					
 				}
 			}
 			//after List1 finished their moves, check if entire List2 was destroyed
@@ -37,6 +51,7 @@ function battle(Fleet1, Fleet2)
 					if(List1[i].status > 0) winner.push(List1[i]);
 					
 				}
+				console.log("BATTLE FINISHED. k: " + k);
 				return winner;
 			}
 			
@@ -67,16 +82,18 @@ function battle(Fleet1, Fleet2)
 					}
 					
 				}
-				console.log("Battle fought.");
+				console.log("BATTLE FINISHED. in : " + k " rounds");
 				return winner;
 			}
+			k++;
 		}	
-	}*/
+	}
 	return winner;
 	// !!! Somehow split into a Fleet again.	
 }
 
 function selectTarget(i_ship,List){ 
+	//console.log("inside selectTarget");
 	var j=0;
 	var maxDamage = 0;
 	var targetIndex;

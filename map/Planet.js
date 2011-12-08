@@ -17,6 +17,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.size = planetSize;
 	this.player = planetOwner; 	// !! should we just keep an global array of players and then we can just keep an int here reflecting
 								// which player in the array owns it?
+	//console.log("this new PLANET's owner is: " + planetOwner); 
 	this.linkedPlanets = connectedPlanets;
 	
 	//this.ships = shipsGarrisoned;
@@ -26,7 +27,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.selectedFleet = new fleet();
 	
 	// !!! ==== For testing only, should be removed! ===========
-	this.myFleet.Frigates.push(new ship(this.player, "frigate"));	
+	this.myFleet.Frigates.push(new ship(this.player, "Frigate"));	
 	//this.myFleet.addCruisers(3);
 	//this.myFleet.addCapitals(4);
 	// !!! ==== End of testing purposes :) =====================
