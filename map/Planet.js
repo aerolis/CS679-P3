@@ -349,34 +349,27 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 }
 
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
-	//Get a winner first.
-	var winner = battle(enemyFleet, this.myFleet);
-	
-	//after we got winner,assign value to planet.player
-	if (winner.length > 0){
-<<<<<<< HEAD
-=======
-		console.log("Winner is: " + winner[0].owner);
->>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
-		this.player = winner[0].owner;
-	}
-	else{
-		console.log("Everything died. This shouldn't be able to happen.");	
-	}
-	this.myFleet = makeFleetMoved(winner);
-	
-	combatResultScreen.show();
+    //Get a winner first.
+    var winner = battle(enemyFleet, this.myFleet);
+    
+    //after we got winner,assign value to planet.player
+    if (winner.length > 0){
+        console.log("Winner is: " + winner[0].owner);
+        this.player = winner[0].owner;
+    }
+    else{
+        console.log("Everything died. This shouldn't be able to happen.");    
+    }
+    this.myFleet = makeFleetMoved(winner);
+    
+    combatResultScreen.show();
 }
-<<<<<<< HEAD
+
+
 
 Planet.prototype.getNewShips = function(){ //Add new ships realeased from production and put them into fleet
 	var newShipArray = [];
 	newShipArray = newShipArray.concat(this.productionPlan.release());
-=======
-
-Planet.prototype.getNewShips = function(){ //Add new ships released from production and put them into fleet
-	var newShipArray = this.productionPlan.release();
->>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 	for(var i=0; i < newShipArray.length; i++){
 		this.myFleet.addNewShip( newShipArray[i]);
 	}

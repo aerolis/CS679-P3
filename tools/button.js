@@ -74,9 +74,8 @@ function Button(){
 				
 			case buttonType.BuildFrigate:
 				//Do stuff
-				//console.log("This planet wants to build a Frigate");
+				console.log("This planet wants to build a Frigate");
 				//for now, just building frigates
-<<<<<<< HEAD
 				selectedPlanet.buildShip("Frigate",1);
 				break;
 				
@@ -92,22 +91,9 @@ function Button(){
 				//Do stuff
 				console.log("This planet wants to build a Capital");
 				selectedPlanet.buildShip("Capital",1);
-=======
-				selectedPlanet.buildShip("Frigate", 1);
 				break;
 				
-			case buttonType.BuildCruiser:
-				//Do stuff
-				//console.log("This planet wants to build a Cruiser");
-				selectedPlanet.buildShip("Cruiser", 1);
-				break;
-				
-			case buttonType.BuildCapital:
-				//Do stuff
-				//console.log("This planet wants to build a Capital");
-				selectedPlanet.buildShip("Capital", 1);
->>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
-				break;
+
 				
 			//Selecting units buttons
 			case buttonType.Frigates:
