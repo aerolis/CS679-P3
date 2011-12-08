@@ -100,10 +100,10 @@ player.prototype.doTurn = function()
 		//console.log("I own planet " + this.planets[i].id);
 		if (this.planets[i].type == "factory")
 		{
+			this.planets[i].buildShip("Frigate");
 			//TODO: attempt to build a ship
 			//Xixi, update plans for this planet
-			//currPlanet.productionPlan.logDraft(currPlanet.draftOrder);
-			//currPlanet.draftOrder.clear();
+			//make a Frigate ship
 			//currPlanet.productionPlan.release(); //release finished ships and add them to fleet
 		}
 	}
@@ -119,8 +119,11 @@ player.prototype.doTurn = function()
 			//TODO: add better checks here besides just do we
 			//have more ships than them...
 			if (linkedPlanet.player != this.id &&
-				linkedPlanet.ships.length < currPlanet.ships.length)
+				linkedPlanet.myFleet.Frigates.length <
+				currPlanet.myFleet.Frigates.length)
+				//linkedPlanet.ships.length < currPlanet.ships.length)
 			{
+				linkedPlanet.recieveHostileFleet(currPlanet.myFleet);
 				//TODO: send ships out to take over linkedPlanet
 			}
 		}

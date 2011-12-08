@@ -51,11 +51,21 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.buildableShips = []; //only used if factory planet
 	
 	//keep track of ships in production,Xixi 
-	this.draftPlan = new draftPlan();
+	//this.draftPlan = new draftPlan();
 	this.productionPlan = new productionPlan();
 	this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
 	
 	this.specifyPlanetType();
+}
+
+Planet.prototype.buildShip = function(type)
+{
+	//for now, just builds Frigates and doesn't take any resources
+	if (this.type == "factory")
+	{
+		this.myFleet.Frigates.push(new ship(this.player, "Frigate"));
+		this.showShips();
+	}
 }
 
 // Check which buttons are necessary everytime the buttons get shown.

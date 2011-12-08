@@ -65,6 +65,10 @@ function Button(){
 			case buttonType.BuildUnit1:
 				//Do stuff
 				console.log("This planet wants to build a unit type 1");
+				//for now, just building frigates
+				if (selectedPlanet.type == "factory") {
+					selectedPlanet.buildShip("Frigate");
+				}
 				break;
 				
 			case buttonType.BuildUnit2:
