@@ -21,11 +21,11 @@ function battle(Fleet1, Fleet2)
 			console.log("In while loop");
 			//var attacker = List1[0];
 			//var target = List2[0];
-			var attacker;
-			var target;
-			var tIndex = 0;
-			var damage = 0;
-			var survivors = 0;
+			//var attacker;
+			//var target;
+			//var tIndex = 0;
+			//var damage = 0;
+			//var survivors = 0;
 			
 			//List1 gets to attack first.
 			attackList(List1, List2);
@@ -72,14 +72,15 @@ function selectTarget(i_ship,List){
 
 function attackList(AttackerList, DefenderList){
 	//List1 are aggressors,they go first
+	var tIndex = 0;
 	for(var i=0; i<AttackerList.length; i++){
 		attacker = AttackerList[i];
-		if(attacker.alive == true){ //if this ship is still alive
+		if(attacker.alive == true && DefenderList.length > 0){ //if this ship is still alive
 			//Find your target
 			tIndex = selectTarget(attacker,DefenderList);      // !!! Look at this.
 			target = DefenderList[tIndex];
 			//Calculate damage
-			damage = attacker.attack(target);			// !!! Look at this.
+			attacker.attack(target);			// !!! Look at this.
 			//target.hpUpdate(damage);   			
 		}
 	}	
