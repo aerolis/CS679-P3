@@ -94,7 +94,7 @@ ship.prototype.moveTo = function(i_pos){
 	this.pos = i_pos;
 }
 */
-
+/*
 ship.prototype.attack = function(target){ //target is the target ship, estimate total damage
 	//console.log("inside ship.attack");
 	var damage = 0;
@@ -128,16 +128,15 @@ ship.prototype.attack = function(target){ //target is the target ship, estimate 
 	//console.log("final damage: " + damage);
 	return damage;
 }
-
-ship.prototype.calculateBaseDamage = function(){
+*/
+ship.prototype.calculateBaseDamage = function(target){
 	var damage = 0;
 	
 	//Necessary for picking a target
 	if(!target.alive){ 
 		//If ship is dead, possible damage = 0
-		return damage;
-	}
-	
+		damage = 0;
+	}	
 	//Lasers do 1.5 *laser on shield and 1 * laser on health/armor.
 	//Missiles do 1 * missile on shield and 1.5 * missile on health/armor.
 	
@@ -152,7 +151,7 @@ ship.prototype.calculateBaseDamage = function(){
 		}		
 	}
 	//If there is no shield, focus on armor/HP:
-	else //Whichever does more damage on the thing itself.
+	else {//Whichever does more damage on the thing itself.
 		if ( this.laser > 1.5 * this.missile){ 
 			damage = this.laser; 
 		} 
@@ -186,7 +185,7 @@ ship.prototype.attack = function(target){
 		}		
 	}
 	//If there is no shield, focus on armor/HP:
-	else //Whichever does more damage on the thing itself.
+	else{ //Whichever does more damage on the thing itself.
 		if ( this.laser > 1.5 * this.missile){ 
 			useLaser = true;
 		} 
