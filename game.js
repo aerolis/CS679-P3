@@ -194,7 +194,7 @@ function gameLoop() //switches between game states and performs correct loop ope
 			break;
 	}
 	ui.update();
-	T = setTimeout("gameLoop()", 1/45 * 1000);
+	T = setTimeout("gameLoop()", 1/30 * 1000);
 }
 
 
