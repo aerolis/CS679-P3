@@ -77,24 +77,28 @@ fleet.prototype.addNewShip = function(newShip){
 
 //Add a single ship that has moved to the fleet.
 fleet.prototype.addMovedShip = function(movedShip){
+	
 	if (movedShip.type == "Frigate"){
 		this.FrigatesMoved.push(movedShip);
 	}
-	else if (ship.type == "Cruiser"){
+	else if (movedShip.type == "Cruiser"){
 		this.CruisersMoved.push(movedShip);
 	}
-	else if (ship.type == "Capital"){
+	else if (movedShip.type == "Capital"){
 		this.CapitalsMoved.push(movedShip);
 	}
 }
 
 //Make a fleet out of a list of ships.
 function makeFleetMoved(list){
+	console.log("Making a fleet of size: " + list.length);
 	var newFleet = new fleet();
 		
 	var ship;
 	for (var i = 0; i < list.length; i++){
+		console.log("I'm adding a ship!");
 		newFleet.addMovedShip(list[i]);
 	}	
+	console.log("Made a fleet of size: " + newFleet.getTotal());
 	return newFleet;
 }

@@ -114,7 +114,6 @@ function draw2d()
 			permaButtons.draw();
 			
 			if(combatResultScreen.active){
-				console.log("combatResultsScreen should be drawing");
 				combatResultScreen.draw();
 			}
 			

@@ -45,7 +45,6 @@ function upgradeData(planet){
 		switch (planet.type)
 		{
 			case "factory":
-				console.log("I get set");
 				this.credits = 500;
 				this.steel = 50;
 				this.plasma = 80;
