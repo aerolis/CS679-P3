@@ -27,11 +27,19 @@ function Button(){
 
 	//targetCanvas = either real canvas or ghostcanvas. ghostcanvas for checking if selected.
   	that.draw = function(targetCanvas){
-		targetCanvas.fillStyle = that.fill;
-  		targetCanvas.fillRect(that.x, that.y, that.w, that.h);
-  		targetCanvas.fillStyle = 'black';
-		ctx.font = that.fontStyle;
-		targetCanvas.fillText(that.title, that.x + 2, that.y + 15);
+		switch (this.type)
+		{
+			case buttonType.EndTurn:
+				targetCanvas.drawImage(img.end_turn,that.x,that.y);
+			break;
+			default:
+				targetCanvas.fillStyle = that.fill;
+				targetCanvas.fillRect(that.x, that.y, that.w, that.h);
+				targetCanvas.fillStyle = 'black';
+				ctx.font = that.fontStyle;
+				targetCanvas.fillText(that.title, that.x + 2, that.y + 15);
+			break;
+		}
 	}
 	
 	that.gotClicked = function(){

@@ -42,7 +42,7 @@ function initDraw2d(){
 	permaStart = OptionBarX + 900;			
 	
 	permaButtons = new buttonset();
-	permaButtons.addButton(InfoBarX + InfoBarWidth - 210, InfoBarY + 10, 200, InfoBarHeight - 20, '#657383', "End Turn", buttonType.EndTurn);
+	permaButtons.addButton(InfoBarX + InfoBarWidth - 210, InfoBarY + 5, 200, 36, '#657383', "", buttonType.EndTurn);
 	
 	combatResultScreen = new combatResults();
 	
@@ -67,28 +67,20 @@ function draw2d()
 			//Default Game state
 			
 			//Draw infobar background
-			ctx.fillStyle = '#34282C';
-			ctx.fillRect(InfoBarX, InfoBarY, InfoBarWidth, InfoBarHeight);
+			ctx.drawImage(img.info_bar,InfoBarX,InfoBarY);
 		
-			//Print inventory
+			//Print inventoryw
 			ctx.fillStyle = 'white';
 			ctx.font = "15pt Calibri";		
-			ctx.fillText("Credits: " + players[0].credits + "   " + "Steel: " + players[0].steel + "   " + "Plasma: " + players[0].plasma + "   " + "Antimatter: " + players[0].antimatter, InfoBarX + 20, InfoBarY + 30);
+			ctx.fillText(players[0].credits,InfoBarX+110,InfoBarY+30);
+			ctx.fillText(players[0].steel,InfoBarX+300,InfoBarY+30);
+			ctx.fillText(players[0].plasma,InfoBarX+490,InfoBarY+30);
+			ctx.fillText(players[0].antimatter,InfoBarX+680,InfoBarY+30);
+			
 			
 			//Draw background for HUD
-			ctx.beginPath();
-			ctx.moveTo(OptionBarX, OptionBarY);
-			ctx.lineTo(OptionBarX + OptionBarSidesWidth, OptionBarY);
-			ctx.lineTo(OptionBarX + OptionBarSidesWidth + 20, OptionBarY + OptionBarMiddleDif);
-			ctx.lineTo(OptionBarWidth - OptionBarSidesWidth - 20, OptionBarY + OptionBarMiddleDif);
-			ctx.lineTo(OptionBarWidth - OptionBarSidesWidth, OptionBarY);
-			ctx.lineTo(OptionBarX + OptionBarWidth, OptionBarY);
-			ctx.lineTo(OptionBarX + OptionBarWidth, OptionBarY + OptionBarHeight);
-			ctx.lineTo(OptionBarX, OptionBarY + OptionBarHeight);
-			ctx.closePath();
-			ctx.lineWidth = 1;
-			ctx.fillStyle = '#34282C';			
-			ctx.fill();
+			ctx.drawImage(img.options_bar,OptionBarX,OptionBarY-10);
+			
 						
 			//Draw everything related to selected planet 
 			if (selectedPlanet != null){
@@ -102,7 +94,8 @@ function draw2d()
 				}
 				//Draw info
 				ctx.fillStyle = 'white';
-				ctx.font = "15pt Calibri";		
+				ctx.font = "15pt Calibri";
+				ctx.drawImage(getPlanetImage(selectedPlanet.type), OptionBarX + OptionBarSidesWidth + 25, OptionBarY + OptionBarMiddleDif + 30 );
 				ctx.fillText("Planet type: " + selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 30);
 				ctx.fillText("Planet level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 55);
 			}

@@ -54,6 +54,7 @@ var doOnceLoad = false;
 var startedBinding = false;
 var initsComplete = 0;
 var totalInits = 3;
+var img = new images();
 
 //mouse position vars stored
 var mousex = 0;
