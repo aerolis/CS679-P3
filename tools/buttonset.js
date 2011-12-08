@@ -1,14 +1,13 @@
 // we use a fake canvas to draw individual shapes for selection testing
 var ghostcanvas;
 var gctx;
-//var mx, my; // mouse coordinates => mousex, mousez
 var HEIGHT;
 var WIDTH;
 
 function buttonset(){
 	var that = {};
 	
-	var buttons = [];
+	that.buttons = [];
 
 	//Initialize things
 	HEIGHT = canvas.height;
@@ -38,7 +37,7 @@ function buttonset(){
 	// theGoal = what should happen when pressed
 	// theType = type of button: navigational or weapon
 	that.addButton = function(x, y, w, h, fill, title, type){
-		var item = new Button;
+		var item = new Button();
   		item.x = x;
   		item.y = y;
   		item.w = w
@@ -46,31 +45,27 @@ function buttonset(){
   		item.fill = fill;
   		item.title = title;	
 		item.type = type;
-  		buttons.push(item);
+  		that.buttons.push(item);
 	} ;
 
 	that.draw = function(){
-		//Reset background
-		//ctx.fillStyle = that.backgColor;
-		//ctx.fillRect(0, 0, WIDTH, HEIGHT);
-		//Draw all buttons
-       	for (var i = 0; i < buttons.length; i++){
-			buttons[i].draw(ctx);
+		for (var i = 0; i < that.buttons.length; i++){
+			that.buttons[i].draw(ctx);
 		}
 	};
 	
 	//Remove everything
 	that.clear = function(){
 		clear(ctx);
-		buttons = [];
+		that.buttons = [];
 	}
 	
 	that.checkClicked = function(mouseX, mouseY){
 		clear(gctx);
-		var l = buttons.length;
+		var l = that.buttons.length;
 		for (var i = l-1; i >= 0; i--) {
 			// draw shape onto ghost context
-			buttons[i].draw(gctx);
+			that.buttons[i].draw(gctx);
 		
 			// get image data at the mouse x,y pixel
 			var imageData = gctx.getImageData(mouseX, mouseY, 1, 1);
@@ -78,7 +73,7 @@ function buttonset(){
 
 			// if the mouse pixel exists, select and break
 			if (imageData.data[3] > 0) {
-				var mySel = buttons[i];
+				var mySel = that.buttons[i];
 				mySel.gotClicked();
 				// owner.handleButton(mySel);
 				clear(gctx);
