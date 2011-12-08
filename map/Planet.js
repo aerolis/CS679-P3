@@ -58,6 +58,16 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.specifyPlanetType();
 }
 
+Planet.prototype.buildShip = function(type)
+{
+	//for now, just builds Frigates and doesn't take any resources
+	if (this.type == "factory")
+	{
+		this.myFleet.Frigates.push(new ship(this.player, "Frigate"));
+		this.showShips();
+	}
+}
+
 // Check which buttons are necessary everytime the buttons get shown.
 Planet.prototype.showOptions = function(){
 	//this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
