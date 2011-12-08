@@ -28,12 +28,14 @@ function images()
 
 function getPlanetImage(type)
 {
+	/*
+	var img;
 	switch (type)
 	{
 		case:
-		
+			
 		break;
-	}
+	}*/
 }
 
 var pln_images = { 	"factory": 0,
