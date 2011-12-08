@@ -244,6 +244,10 @@ function drawLoading()
 
 function nextTurn()
 {
+	if (selectedPlanet != null){
+		selectedPlanet.deselect();		
+	}
+	
 	players[currentPlayer].saveCameraPosition();
 	currentPlayer = (currentPlayer + 1) % amtPlayers;
 	console.log("Next turn got called. New current Player = " + currentPlayer);

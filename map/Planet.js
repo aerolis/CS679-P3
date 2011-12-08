@@ -264,6 +264,15 @@ Planet.prototype.tryUpgrade = function() {
 	}
 }
 
+Planet.prototype.deselect = function() {
+	// !!! Is this even in use still?
+	this.selected = false;	
+	selectedPlanet = null;
+	selectedPlanetIndices = null;
+	this.hideOptions();
+	this.hideShips();
+}
+
 Planet.prototype.onTurn = function() {
 	switch (this.type)
 	{
