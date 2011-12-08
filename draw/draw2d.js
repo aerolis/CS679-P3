@@ -95,12 +95,25 @@ function draw2d()
 				//Draw info
 				ctx.fillStyle = 'white';
 				ctx.font = "15pt Calibri";
-				//ctx.drawImage(getPlanetImage(selectedPlanet.type), OptionBarX + OptionBarSidesWidth + 25, OptionBarY + OptionBarMiddleDif + 30 );
-				ctx.fillText("Planet type: " + selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 30);
-				ctx.fillText("Planet level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 55);
-				if (selectedPlanet.upgradeLevel < selectedPlanet.upgradeStats.maxUpgradeLevel){
-					// !!! Should be nicer.
-					ctx.fillText("Upgrade cost: " + selectedPlanet.upgradeStats.credits + ", " + selectedPlanet.upgradeStats.steel + ", " + selectedPlanet.upgradeStats.plasma + ", " + selectedPlanet.upgradeStats.antimatter, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 80);
+				img.drawPlanetImage(selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 25, OptionBarY + OptionBarMiddleDif + 25 );
+				ctx.fillText("" + selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 100);
+				
+				ctx.font = "12pt Calibri";
+				ctx.fillText("level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 115);
+				
+				
+				
+				if (selectedPlanet.upgradeLevel < selectedPlanet.upgradeStats.maxUpgradeLevel && selectedPlanet.player == currentPlayer){
+					ctx.font = "13pt Calibri";
+					ctx.fillText("upgrade cost:", OptionBarX + OptionBarSidesWidth + 120, OptionBarY + OptionBarMiddleDif + 40);
+					//draw upgrade img
+					ctx.drawImage(img.planet_cost, OptionBarX + OptionBarSidesWidth + 110, OptionBarY + OptionBarMiddleDif + 50);
+					//now draw upgrade costs
+					ctx.font = "12pt Calibri";
+					ctx.fillText(selectedPlanet.upgradeStats.credits, OptionBarX + OptionBarSidesWidth + 140, OptionBarY + OptionBarMiddleDif + 62);
+					ctx.fillText(selectedPlanet.upgradeStats.steel, OptionBarX + OptionBarSidesWidth + 140, OptionBarY + OptionBarMiddleDif + 62+16);
+					ctx.fillText(selectedPlanet.upgradeStats.plasma, OptionBarX + OptionBarSidesWidth + 140, OptionBarY + OptionBarMiddleDif + 62+32);
+					ctx.fillText(selectedPlanet.upgradeStats.antimatter, OptionBarX + OptionBarSidesWidth + 140, OptionBarY + OptionBarMiddleDif + 62+48);
 				}
 			}
 				
