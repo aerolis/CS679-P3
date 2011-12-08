@@ -2,6 +2,7 @@ var buttonType = { 	"EndTurn": 0,
 					"Send": 1,
 					"Upgrade": 2,
 					"RemoveCR":3,
+					"Empty":4,
 					"Frigates":10,
 					"Cruisers":11,
 					"Capitals":12,					
@@ -90,6 +91,8 @@ function Button(){
 				console.log("This planet wants to select a frigate");
 				break;
 				
+			case buttonType.Empty:
+				break;
 				
 			default:
 				console.log("I do go through the switch. that.type = " + that.type);

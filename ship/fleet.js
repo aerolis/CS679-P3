@@ -51,5 +51,44 @@ fleet.prototype.getTotal = function(){
 fleet.prototype.getList = function(){
 	var list = [];
 	list = list.concat(this.Frigates, this.FrigatesMoved, this.Cruisers, this.CruisersMoved, this.Capitals, this.CapitalsMoved);
+	//list = list.concat(this.Frigates, this.Cruisers,  this.Capitals);
 	return list;
+}
+
+fleet.prototype.setMoved = function(){
+	this.FrigatesMoved = this.Frigates.concat(this.FrigatesMoved);
+	this.CruisersMoved = this.Cruisers.concat(this.CruisersMoved);
+	this.CapitalsMoved = this.Capitals.concat(this.CapitalsMoved);
+	this.Frigates = [];
+	this.Cruisers = [];	
+	this.Capitals = [];
+}
+
+fleet.prototype.setUnMoved = function(){
+	this.Frigates = this.Frigates.concat(this.FrigatesMoved);
+	this.Cruisers = this.Cruisers.concat(this.CruisersMoved);
+	this.Capitals = this.Capitals.concat(this.CapitalsMoved);
+	this.FrigatesMoved = [];
+	this.CruisersMoved = [];	
+	this.CapitalsMoved = [];
+}
+
+//Make a fleet out of a list of ships.
+function makeFleetMoved(list){
+	var newFleet = new fleet();
+		
+	var ship;
+	for (var i = 0; i < list.length; i++){
+		ship = list[i];
+		if (ship.type == "Frigate"){
+			fleet.FrigatesMoved.push(ship);
+		}
+		else if (ship.type == "Cruiser"){
+			fleet.CruisersMoved.push(ship);
+		}
+		else if (ship.type == "Capital"){
+			fleet.CapitalsMoved.push(ship);
+		}
+	}	
+	return newFleet;
 }

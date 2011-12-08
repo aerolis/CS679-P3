@@ -10,7 +10,8 @@ function battle(Fleet1, Fleet2)
 	//console.log("List2 owner: "+ List2[0].owner);
 	var k=0;
 	
-	if (List1.length > 0 && List2.length > 0){
+	if (List1.length > 0 && List2.length > 0)
+	{
 		while( k<800 )
 		{	
 			//console.log("In while loop");
@@ -82,11 +83,12 @@ function battle(Fleet1, Fleet2)
 					}
 					
 				}
-				console.log("BATTLE FINISHED. in : " + k " rounds");
+				console.log("BATTLE FINISHED. in : " + k +" rounds");
 				return winner;
 			}
 			k++;
 		}	
+
 	}
 	return winner;
 	// !!! Somehow split into a Fleet again.	
