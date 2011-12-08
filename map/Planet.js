@@ -337,3 +337,20 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	
 	combatResultScreen.show();
 }
+
+Planet.prototype.initFleetOwner = function()
+{
+	var i;
+	for (i=0;i<this.myFleet.Frigates.length;i++)
+	{
+		this.myFleet.Frigates[i].owner = this.player;
+	}
+	for (i=0;i<this.myFleet.Cruisers.length;i++)
+	{
+		this.myFleet.Frigates[i].owner = this.player;
+	}
+	for (i=0;i<this.myFleet.Capitals.length;i++)
+	{
+		this.myFleet.Frigates[i].owner = this.player;
+	}
+}
