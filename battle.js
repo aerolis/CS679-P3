@@ -118,7 +118,7 @@ function selectTarget(i_ship,List){
 	var targetIndex;
 	for( j=0; j < List.length; j++){
 		var target = List[j];
-		var damage = i_ship.attack(target);
+		var damage = i_ship.calculateBaseDamage(target);
 		if ( damage > maxDamage){
 			targetIndex = j;
 			maxDamage = damage;
@@ -137,7 +137,7 @@ function attackList(AttackerList, DefenderList){
 			target = DefenderList[tIndex];
 			//Calculate damage
 			damage = attacker.attack(target);			// !!! Look at this.
-			target.hpUpdate(damage);   			
+			//target.hpUpdate(damage);   			
 		}
 	}	
 	
