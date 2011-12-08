@@ -1,4 +1,4 @@
-function draftOrdr(i_type,i_amt){
+/*function draftOrdr(i_type,i_amt){
 	this.type = i_type;
 	this.amt  = i_amt;
 }
@@ -17,35 +17,54 @@ draftPlan.prototype.clear = function(i_type,i_amt){
 		delete order;
 	}
 }
-function shipOrder(i_type,i_amt,start){
+*/
+function shipOrder(i_owner,i_type,i_amt){
+	this.owner = i_owner;
 	this.shipType = i_type;
 	this.amt = i_amt;
-	//look up ship in catalog and consume resources
-	//this.period = fleet 
-	//this.finish = this.ship.period + start;
+	//sample ship for lookup purpose
+	var sampleShip = new ship(-1,this.shipType);
+	
+	this.timer = sampleShip.period;
+	//resources consumption
+	this.steel = sampleShip.steel;
+	this.plasma = sampleShip.plasma;
+	this.antiMatter = sampleShip.antiMatter;
+	
+	delete sampleShip;
 }
 
 function productionPlan(){
 	this.plan = [];
 }
 
-productionPlan.prototype.addOrder = function(i_type,i_num,start){ //add items into ship production plan
-	this.plan.push(new shipOrder(i_type,i_num,start));
-}
-
-productionPlan.prototype.sort = function(){ //sort plan by their finish time
-	this.plan.sort(sortItem);
-}
-
-productionPlan.prototype.release = function(){ 
-	if(this.plan.length <= 0)  return;
-	while( this.plan[0].finish > currTurn){
+productionPlan.prototype.addOrder = function(i_owner,i_type,i_num,start){ //add items into ship production plan
 	
-		var newOrder = this.plan.shift();
-		//add new orders to fleet's array
-		//add ships to fleet here
+	var newOrder = new shipOrder(i_owner,i_type,i_amt);
+	if (players[currentPlayer].plasma < this.plasma || players[currentPlayer].steel < this.steel ||players[currentPlayer].antimatter < this.antiMatter)
+	{
 		delete newOrder;
+		return "Resources not enough";
 	}
+	
+	this.plan.push(newOrder);
+	//consume resources
+	players[currentPlayer].plasma -= this.plasma;
+	players[currentPlayer].steel -= this.steel;
+	players[currentPlayer].antimatter -= this.antiMatter;
+	
+}
+
+
+productionPlan.prototype.release = function(){ //return an array of ships
+	var finishedOrders = [];
+	if(this.plan.length <= 0)  return;
+	for( var i=0; i<this.plan.length; i++){
+	
+		plan[i].timer -= 1;
+		if (plan[i].timer == 0) finishedOrders.push(plan.splice(i,1));
+	}
+	return finishedOrders;
 }
 
 productionPlan.prototype.clear = function(){ //if planet is occupied by enemy, clear everything in production
@@ -55,7 +74,7 @@ productionPlan.prototype.clear = function(){ //if planet is occupied by enemy, c
 		delete order;
 	}
 }
-
+/*
 productionPlan.prototype.logDraft = function(i_draftPlan){ //put draft to production
 	for(var i=0; i< i_draftPlan.length; i++){
 		var type = draftPlan.plan[i].type;
@@ -68,4 +87,9 @@ productionPlan.prototype.logDraft = function(i_draftPlan){ //put draft to produc
 function sortItem(a,b){
 	return a.period - b.period;
 }
+
+productionPlan.prototype.sort = function(){ //sort plan by their finish time
+	this.plan.sort(sortItem);
+}
+*/
 

@@ -68,6 +68,7 @@ var mousezAtMPress = 0;
 var maxRot = 60;
 var rotAmt = 15;
 var maxDiff = 300;
+var planetHover = null;
 
 //draw vars
 var zNear = 0.1;
@@ -243,6 +244,11 @@ function drawLoading()
 
 function nextTurn()
 {
+	
+	if (selectedPlanet != null){
+		selectedPlanet.deselect();		
+	}
+	
 	players[currentPlayer].saveCameraPosition();
 	currentPlayer = (currentPlayer + 1) % amtPlayers;
 	console.log("Next turn got called. New current Player = " + currentPlayer);
@@ -276,8 +282,7 @@ function nextTurn()
 		//line so that you can see what the AI did (you must then
 		//click the END TURN button to get back to the user's
 		//turn...)
-		// !!! It crashes when it's not commented.
-		//nextTurn();
+		nextTurn();
 	}
 	
 }

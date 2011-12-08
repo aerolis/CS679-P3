@@ -273,11 +273,14 @@ function drawPlanetHalos()
 	var num = 0;
 	var selectColor = new v3(2.0,2.0,2.0);
 	var neutralColor = new v3(0.4,0.4,0.4);
+	var drawMe = false;
+	
 	for (i=0;i<mp.systems.length;i++)
 	{
 		for (j=0;j<mp.systems[i].planets.length;j++)
 		{
 			//deal with halo shading
+			drawMe = false;
 			if (mp.systems[i].planets[j].player != -1)
 			{
 				if (selectedPlanetIndices != null)
@@ -295,11 +298,15 @@ function drawPlanetHalos()
 					var pl = players[mp.systems[i].planets[j].player];
 					gl.uniform3f(shaderProgram.haloColor,pl.color.x,pl.color.y,pl.color.z);
 				}
+				drawMe = true;
 			}
 			else if (selectedPlanetIndices != null)
 			{
 				if (selectedPlanetIndices.a == i && selectedPlanetIndices.b == j)
+				{
 					gl.uniform3f(shaderProgram.haloColor,selectColor.x,selectColor.y,selectColor.z);
+					drawMe = true;
+				}
 				else
 					gl.uniform3f(shaderProgram.haloColor,neutralColor.x,neutralColor.y,neutralColor.z);
 			}
@@ -308,11 +315,14 @@ function drawPlanetHalos()
 				gl.uniform3f(shaderProgram.haloColor,neutralColor.x,neutralColor.y,neutralColor.z);
 			}
 			
-			gl.bindBuffer(gl.ARRAY_BUFFER, mp.haloPosBuffers[num]);
-			gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,mp.haloPosBuffers[num].itemSize, gl.FLOAT, false, 0, 0);
-			gl.getError();
-			setMatrixUniforms();
-			gl.drawArrays(gl.TRIANGLES, 0, mp.haloPosBuffers[num].numItems);	
+			if (drawMe)
+			{
+				gl.bindBuffer(gl.ARRAY_BUFFER, mp.haloPosBuffers[num]);
+				gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,mp.haloPosBuffers[num].itemSize, gl.FLOAT, false, 0, 0);
+				gl.getError();
+				setMatrixUniforms();
+				gl.drawArrays(gl.TRIANGLES, 0, mp.haloPosBuffers[num].numItems);
+			}
 			num++;
 		}
 	}
@@ -330,7 +340,6 @@ function drawPlanets()
 		//lighting
 		defineLighting();
 		initBlendModes();
-		useLighting(true,false,true,true);
 		for (i=0;i<mp.systems.length;i++)
 		{
 			if (mp.systems[i] != null)
@@ -346,6 +355,13 @@ function drawPlanets()
 				for (j=0;j<mp.systems[i].planets.length;j++)
 				{
 					//per planet drawing
+	
+					var type = getPlanetLightingType(mp.systems[i].planets[j].type);
+					if (type.c)
+						useLighting(true,false,true,true);
+					else
+						useLighting(true,false,true,false);
+						
 	
 					mvPushMatrix();
 					var pln = mp.systems[i].planets[j];
@@ -367,69 +383,31 @@ function drawPlanets()
 	}
 	else
 	{
-		//lighting
-		defineLighting();
-		initBlendModes();
-		useLighting(true,true,false,false);
-		//draw atmospheres
-		for (i=0;i<mp.systems.length;i++)
-		{
-			if (mp.systems[i] != null)
-			{
-				mvPushMatrix();
-				// translate to location of solar system
-				mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
-					
-				for (j=0;j<mp.systems[i].planets.length;j++)
-				{
-					//per planet drawing
-					/* 
-					var type = getPlanetColorType(mp.systems[i].planets[j].type);
-					var col = type.a;
-					var style = type.b;
-					
-					gl.uniform3f(shaderProgram.emissiveColorUniform,col.x,col.y,col.z);
-					var pln = mp.systems[i].planets[j];
-					// translate to location of solar system
-					mvPushMatrix();
-					mat4.translate(mvMatrix,[pln.pos.x,pln.pos.y,pln.pos.z]);
-					mat4.rotate(mvMatrix,pln.haloRot.y+Math.PI/2,[0,-1,0]);
-					mat4.rotate(mvMatrix,pln.haloRot.x,[1,0,0]);
-					mat4.rotate(mvMatrix,pln.haloRot.z,[0,0,1]);
-					mat4.scale(mvMatrix,[pln.scale,pln.scale,pln.scale]);
-					
-					if (style == 1)
-					{ //regular atmosphere
-						for (k=0;k<models[9].meshes.length;k++)
-						{
-							drawMesh(9,k);
-						}
-					}
-					
-					mvPopMatrix();
-					*/
-				}
-				mvPopMatrix();
-			}
-		}	
+
 	}
 }
-function getPlanetColorType(s)
+function getPlanetLightingType(s)
 {
-	var col;
-	var atmosphereType;
+	var col = new v3(0,0,0);
+	var atmosphereType = 1;
+	var usePoint = true;
 	switch (s)
 	{
 		case "plasma":
 			col = new v3(0.313,0.484,0.746);
 			atmosphereType = 1;
 		break;
+		case "factory":
+			col = new v3(0.3,0.3,0.3);
+			atmosphereType = 1;
+			usePoint = false;
+		break;
 		default:
 			col = new v3(0.3,0.3,0.3);
 			atmosphereType = 1;
 		break;
 	}
-	return new c2(col,atmosphereType);
+	return new c3(col,atmosphereType,usePoint);
 }
 
 function drawSuns()

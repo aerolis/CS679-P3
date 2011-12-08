@@ -37,12 +37,12 @@ function initDraw2d(){
 	InfoBarWidth = canvas.width;
 	InfoBarHeight = 50;
 	
-	unitsStart = OptionBarX + 150;
+	unitsStart = OptionBarX + 10;
 	planetStart = OptionBarX + 410;
 	permaStart = OptionBarX + 900;			
 	
 	permaButtons = new buttonset();
-	permaButtons.addButton(permaStart + 10, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "End Turn", buttonType.EndTurn);
+	permaButtons.addButton(InfoBarX + InfoBarWidth - 210, InfoBarY + 10, 200, InfoBarHeight - 20, '#657383', "End Turn", buttonType.EndTurn);
 	
 	combatResultScreen = new combatResults();
 	
@@ -73,10 +73,6 @@ function draw2d()
 			//Print inventory
 			ctx.fillStyle = 'white';
 			ctx.font = "15pt Calibri";		
-			//ctx.fillText("Credits: " + players[0].credits, InfoBarX + 20, InfoBarY + 20);
-			//ctx.fillText("Steel: " + players[0].steel, InfoBarX + 100, InfoBarY + 20);	
-			//ctx.fillText("Plasma: " + players[0].plasma, InfoBarX + 180, InfoBarY + 20);	
-			//ctx.fillText("Antimatter: " + players[0].antimatter, InfoBarX + 260, InfoBarY + 20);	
 			ctx.fillText("Credits: " + players[0].credits + "   " + "Steel: " + players[0].steel + "   " + "Plasma: " + players[0].plasma + "   " + "Antimatter: " + players[0].antimatter, InfoBarX + 20, InfoBarY + 30);
 			
 			//Draw background for HUD
@@ -94,26 +90,23 @@ function draw2d()
 			ctx.fillStyle = '#34282C';			
 			ctx.fill();
 						
-			/*
-			ctx.strokeStyle = 'white';
-			ctx.strokeRect(unitsStart, OptionBarY + 10, 250, OptionBarHeight - 20);
-			ctx.fillText("Available units; selection", unitsStart + 10, OptionBarY + 40);	
-
-			ctx.strokeRect(planetStart, OptionBarY + 10, 480, OptionBarHeight - 20);
-			ctx.fillText("Planet options (send attack, upgrade, create things... ", planetStart + 10, OptionBarY + 40);
-
-			ctx.strokeRect(permaStart, OptionBarY + 10, 200, OptionBarHeight - 20);
-			ctx.fillText("Next turn, back to menu... ", permaStart + 10, OptionBarY + 40);			
-			*/
-			//Draw planet menu
-			if (selectedPlanet != null && selectedPlanet.fl_showOptions == true){
-				selectedPlanet.optionButtons.draw();
+			//Draw everything related to selected planet 
+			if (selectedPlanet != null){
+				//Draw options
+				if (selectedPlanet.fl_showOptions == true){
+					selectedPlanet.optionButtons.draw();
+				}
+				//Draw available units
+				if (selectedPlanet.fl_showShips == true){
+					selectedPlanet.shipButtons.draw();
+				}
+				//Draw info
+				ctx.fillStyle = 'white';
+				ctx.font = "15pt Calibri";		
+				ctx.fillText("Planet type: " + selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 30);
+				ctx.fillText("Planet level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarMiddleDif + 55);
 			}
-			
-			if (selectedPlanet != null && selectedPlanet.fl_showShips == true){
-				selectedPlanet.shipButtons.draw();
-			}
-			
+				
 			permaButtons.draw();
 			
 			if(combatResultScreen.active){
@@ -129,16 +122,4 @@ function draw2d()
 			break;
 	}		
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
