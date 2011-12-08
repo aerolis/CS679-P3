@@ -276,8 +276,7 @@ function nextTurn()
 		//line so that you can see what the AI did (you must then
 		//click the END TURN button to get back to the user's
 		//turn...)
-		// !!! It crashes when it's not commented.
-		//nextTurn();
+		nextTurn();
 	}
 	
 }
