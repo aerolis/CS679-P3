@@ -107,13 +107,11 @@ player.prototype.doTurn = function()
 			if (status == "RESNOTENOUGH") {// resources not enough, show some message
 			}
 			//receive newly built ships 
-			this.planets[i].getNewShips();
-			
-			
+			this.planets[i].getNewShips();			
 		}
 	}
 	
-	//now look for possible target planets
+	//now do any attacking that we can
 	for (var i = 0; i < this.planets.length; i++) {
 		var currPlanet = this.planets[i];
 		console.log(currPlanet.ships);
@@ -121,17 +119,69 @@ player.prototype.doTurn = function()
 		{
 			var linkedPlanet = currPlanet.linkedPlanets[j];
 			
-			//TODO: add better checks here besides just do we
-			//have more ships than them...
-			if (linkedPlanet.player != this.id &&
-				linkedPlanet.myFleet.Frigates.length <
-				currPlanet.myFleet.Frigates.length)
-				//linkedPlanet.ships.length < currPlanet.ships.length)
-			{
-				linkedPlanet.recieveHostileFleet(currPlanet.myFleet);
-				//TODO: send ships out to take over linkedPlanet
+			if(linkedPlanet.player != this.id) {
+				//TODO: add better checks here besides just do we
+			    //have more ships than them...
+			    var ourShips = currPlanet.myFleet.Frigates.length +
+			    			   currPlanet.myFleet.Capitals.length +
+			    			   currPlanet.myFleet.Cruisers.length;
+			    
+			    var enemyShips = linkedPlanet.myFleet.Frigates.length +
+			    			   linkedPlanet.myFleet.Capitals.length +
+			    			   linkedPlanet.myFleet.Cruisers.length;
+				if(ourShips >= enemyShips)
+				{
+					//linkedPlanet.recieveHostileFleet(currPlanet.myFleet);
+					selectedPlanet = currPlanet;
+					selectedPlanet.selectedFleet = currPlanet.myFleet;
+					linkedPlanet.tryReceiveFleet(selectedPlanet);
+				}
 			}
 		}
 	}
 	
+	//look for planets to reinforce
+	var dangerPlanets = [];
+	
+	for (var i = 0; i < this.planets.length; i++) {
+		var currPlanet = this.planets[i];
+		for (var j = 0; j < currPlanet.linkedPlanets.length; j++)
+		{
+			var linkedPlanet = currPlanet.linkedPlanets[j];
+			
+			if(linkedPlanet.player != this.id) {
+				dangerPlanets.push(currPlanet);
+				break;
+			}
+		}
+	}
+	
+	//Move ships to outlying planets
+	for (var i = 0; i < this.planets.length; i++) {
+		var currPlanet = this.planets[i];
+		if(dangerPlanets.indexOf(currPlanet) == -1)
+		{
+			var sendToPlanet = null;
+			for (var j = 0; j < currPlanet.linkedPlanets.length; j++)
+			{
+				var childPlanet = currPlanet.linkedPlanets[j];
+				if (dangerPlanets.indexOf(childPlanet) != -1)
+				{
+					sendToPlanet = childPlanet;
+					break;
+				}
+			}
+			if (sendToPlanet == null)
+			{
+				//TODO: Find nearest danger planet, send
+				//ships out on a path to it...
+				//for now, send them out to random linked planet
+				var rand = Math.floor(Math.random()*currPlanet.linkedPlanets.length);
+				sendPlanet = currPlanet.linkedPlanets[rand];
+			}
+			selectedPlanet = currPlanet;
+			selectedPlanet.selectedFleet = currPlanet.myFleet;
+			sendPlanet.tryReceiveFleet(selectedPlanet);
+		}
+	}
 }
