@@ -259,7 +259,7 @@ function getMeshes(data)
 					models[10] = tmpModel;
 					break;
 				case "fighter_ship":
-					model[11] = tmpModel;
+					models[11] = tmpModel;
 					break;
 			}
 			modelsChecked++;

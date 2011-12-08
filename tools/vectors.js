@@ -202,15 +202,6 @@ function c3(a,b,c)
 	this.b = b;
 	this.c = c;
 }
-function transformVector(v3) {
-	//legacy code
-    var vecRet = new v3(0,0,0);
-    vecRet.x = v3.x - human.worldPos.x + human.screenPos.x;
-    vecRet.y = v3.y - human.worldPos.y + human.screenPos.y;
-    vecRet.z = v3.z - human.worldPos.z + human.screenPos.z;
-    return vecRet;
-}
-
 function pausecomp(ms) {
 ms += new Date().getTime();
 while (new Date() < ms){}

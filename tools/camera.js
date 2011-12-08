@@ -215,7 +215,7 @@ camera.prototype.zoom = function(delta)
 }
 camera.prototype.translate = function(vert,horz)
 {
-	var scaleFactor = Math.max((this.distance/(750*this.scrollScale)),0.1);
+	var scaleFactor = Math.max((this.distance/(750*this.scrollScale)),1.5);
 	//vertical scrolling
 	this.lookat.z -= scaleFactor*this.scrollamt*Math.cos(degToRad(this.yaw))*vert;
 	this.lookat.x -= scaleFactor*this.scrollamt*Math.sin(degToRad(this.yaw))*vert;

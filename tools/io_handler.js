@@ -44,6 +44,8 @@ function handleMouseMove(evt)
 			
 			cam.translate(dz/100,-dx/100);
 		}
+		
+		posAtMouse = getClickLocationOnPlane();
 	}
 }
 function handleMouseDown(evt)

@@ -114,6 +114,7 @@ function draw2d()
 				selectedPlanet.shipButtons.draw();
 			}
 			
+			
 			permaButtons.draw();
 			
 			if(combatResultScreen.active){
@@ -129,16 +130,3 @@ function draw2d()
 			break;
 	}		
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -68,6 +68,7 @@ var mousezAtMPress = 0;
 var maxRot = 60;
 var rotAmt = 15;
 var maxDiff = 300;
+var planetHover = null;
 
 //draw vars
 var zNear = 0.1;
