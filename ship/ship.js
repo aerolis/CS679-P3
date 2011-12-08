@@ -94,7 +94,11 @@ ship.prototype.moveTo = function(i_pos){
 	this.pos = i_pos;
 }
 */
+<<<<<<< HEAD
 
+=======
+/*
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 ship.prototype.attack = function(target){ //target is the target ship, estimate total damage
 	//console.log("inside ship.attack");
 	var damage = 0;
@@ -128,8 +132,43 @@ ship.prototype.attack = function(target){ //target is the target ship, estimate 
 	//console.log("final damage: " + damage);
 	return damage;
 }
+*/
+ship.prototype.calculateBaseDamage = function(target){
+	var damage = 0;
+	
+	//Necessary for picking a target
+	if(!target.alive){ 
+		//If ship is dead, possible damage = 0
+		damage = 0;
+	}	
+	//Lasers do 1.5 *laser on shield and 1 * laser on health/armor.
+	//Missiles do 1 * missile on shield and 1.5 * missile on health/armor.
+	
+	//If there is any shield left, focus on the shield.
+	else if (target.shield > 0){
+		//Whichever does more damage on the shield.
+		if ( 1.5 * this.laser > this.missile){ 
+			damage = 1.5 * this.laser; 
+		} 
+		else { 
+			damage = this.missile; 
+		}		
+	}
+	//If there is no shield, focus on armor/HP:
+	else {//Whichever does more damage on the thing itself.
+		if ( this.laser > 1.5 * this.missile){ 
+			damage = this.laser; 
+		} 
+		else { 
+			damage = 1.5 * this.missile; 
+		}		
+	}
+	
+	return damage;
+}
 
 //if this ship was attacked
+<<<<<<< HEAD
 // !!! Take a look at this.
 ship.prototype.hpUpdate = function(damage){
 	//console.log("Start hpUpdate; currentHP = " + this.currentHp + ", damage = " + damage);
@@ -156,6 +195,92 @@ ship.prototype.hpUpdate = function(damage){
 	//See if you're still alive.
 	if (this.currentHp <= 0){
 		this.alive = false;	
+=======
+ship.prototype.attack = function(target){	
+	
+	var useLaser = false;
+	var useMissile = false;
+	
+	//Lasers do 1.5 *laser on shield and 1 * laser on health/armor.
+	//Missiles do 1 * missile on shield and 1.5 * missile on health/armor.
+	
+	//If there is any shield left, focus on the shield.
+	if (target.shield > 0){
+		//Whichever does more damage on the shield.
+		if ( 1.5 * this.laser > this.missile){ 
+			//Use laser.
+			useLaser = true;
+		} 
+		else { 
+			//Use Missile
+			useMissile = true;
+		}		
+	}
+	//If there is no shield, focus on armor/HP:
+	else{ //Whichever does more damage on the thing itself.
+		if ( this.laser > 1.5 * this.missile){ 
+			useLaser = true;
+		} 
+		else { 
+			useMissile = true; 
+		}		
+	}
+	
+	var damage = 0;
+	
+	// Add some randomness. (between 0.75 and 1.25 * normalDamage)
+	if (useLaser){
+		damage = (Math.random()/2 + 0.75) * this.laser; 
+	}
+	else if(useMissile){
+		damage = (Math.random()/2 + 0.75) * this.missile; 
+	}
+	
+	//Now do the actual damage.
+	//If there is any shield left, hit that first.
+	if(this.shield > 0){
+		if (useLaser){
+			//If you won't kill the shield
+			if (damage * 1.5 < target.shield){
+				target.shield -= damage * 1.5;
+				damage = 0;
+			}
+			//Calculate damage left after killing the shield.
+			else {
+				var onArmor;
+				onArmor = damage - (target.shield/1.5);
+				damage = onArmor;
+				target.shield = 0;			
+			}
+		}
+		if (useMissile){
+			//If you won't kill the shield
+			if (damage < target.shield){
+				target.shield -= damage;
+				damage = 0;
+			}
+			//Calculate damage left after killing the shield.
+			else {
+				damage -= target.shield;
+				target.shield = 0;
+			}
+		}		
+	}
+	
+	// armor will negate the damage. 1 armor point =  1 less damage.
+	// You will only reach the target if you hit more than the available armor.	
+	if(damage > target.armor) {
+		if (useMissile){
+			damage = damage * 1.5;	
+		}
+		damage -= this.armor;	//Armor negates some damage.
+		target.currentHp -= damage;
+	} 
+	
+	//See if you're still alive.
+	if (target.currentHp <= 0){
+		target.alive = false;	
+>>>>>>> d57eb8046ef0199d2a492af9dd8a0276d3755f4f
 	}
 	//console.log("End hpUpdate; currentHP = " + this.currentHp);	
 }
