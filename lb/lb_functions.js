@@ -213,7 +213,7 @@ function lb_getPlanetType(index)
 			type = "warp";
 		break;
 		case 6:
-			type = "academy";
+			type = "factory";
 		break;
 		default:
 			type = "credit";
