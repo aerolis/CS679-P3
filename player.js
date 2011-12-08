@@ -102,8 +102,7 @@ player.prototype.doTurn = function()
 		{
 			//TODO: attempt to build a ship
 			//Xixi, update plans for this planet
-			//currPlanet.productionPlan.logDraft(currPlanet.draftOrder);
-			//currPlanet.draftOrder.clear();
+			//make a Frigate ship
 			//currPlanet.productionPlan.release(); //release finished ships and add them to fleet
 		}
 	}

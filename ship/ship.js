@@ -8,16 +8,32 @@ var shipTypes = { 	"Frigate": 0,
 function shipCatalog(i_owner){ //add testing catalog items for now
 	this.owner = i_owner;
 	this.catalog = [];
-	this.catalog.push(new ship(i_owner, "Frigate",[0,0,0])); 
-	this.catalog.push(new ship(i_owner, "Cruiser",[0,0,0]));
-	this.catalog.push(new ship(i_owner, "Capital",[0,0,0]));
+	this.catalog.push(new ship(i_owner, "Frigate")); 
+	this.catalog.push(new ship(i_owner, "Cruiser"));
+	this.catalog.push(new ship(i_owner, "Capital"));
 }
 //Basic ship class
-function ship(i_owner,i_Type,i_pos){
+function ship(i_owner,i_type){
 	//basic information initialized in the factory
 	this.owner = i_owner;
 	this.type = i_type;
-	this.pos = i_pos;
+	//console.log("this new ship's owner is: " + i_owner); 
+	this.laser = 0;
+	this.missile = 0;
+	this.armor = 0;
+	this.shield = 0;  //Frigate ship has no shield
+	
+	this.currentHp = 0;
+	this.maxHp = 0;
+	this.status = 1; // alive 1, dead 0   => This is what booleans were invented for!
+	
+	//resources consumed to build ship
+	this.steel = 0;
+	this.plasma = 0;
+	this.antiMatter = 0;
+	//turns it takes to build this ship
+	this.period = 1; 
+	//this.pos = i_pos;
 	//hardcode 3 kinds of ships, dont need shiptype.js anymore
 	
 	if(this.type == "Frigate" )
@@ -73,22 +89,39 @@ function ship(i_owner,i_Type,i_pos){
 	}
 	
 }
-
+/*
 ship.prototype.moveTo = function(i_pos){
 	this.pos = i_pos;
 }
+*/
 
 ship.prototype.attack = function(target){ //i_target is the target ship, estimate total damage
+	//console.log("inside ship.attack");
 	var damage = 0;
-	if( target.status = 0){ return damage;} //if target ship is already, possible damage is 0
+	if( target.status == 0){ 
+		//console.log("target status is 0");
+		return damage;
+	} //if target ship is already, possible damage is 0
 	if( target.shield > 0){ //if target still has shield on, attack shield first
+		//console.log("target has shield");
 		if ( 1.5*this.laser > this.missile){ damage = 1.5*this.laser; } 
 		else { damage = this.missile; }
 	}
 	else{
-		if ( 1.5*this.missile > this.laser){ damage = 1.5*this.missile; } 
-		else { damage = this.laser; }
+		//console.log("target does NOT have shield");
+		if ( 1.5*this.missile > this.laser){ 
+			//console.log("use missile");
+			damage = 1.5*this.missile; 
+			//console.log("missile: " + this.missile);
+			//console.log("damage: " + damage);
+			} 
+		else {
+			//console.log("use laser"); 
+			damage = this.laser; 
+			//console.log("damage: " + damage);
+			}
 	}
+	//console.log("final damage: " + damage);
 	return damage;
 }
 

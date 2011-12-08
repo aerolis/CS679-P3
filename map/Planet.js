@@ -17,6 +17,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.size = planetSize;
 	this.player = planetOwner; 	// !! should we just keep an global array of players and then we can just keep an int here reflecting
 								// which player in the array owns it?
+	//console.log("this new PLANET's owner is: " + planetOwner); 
 	this.linkedPlanets = connectedPlanets;
 	
 	//this.ships = shipsGarrisoned;
@@ -26,9 +27,12 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.selectedFleet = new fleet();
 	
 	// !!! ==== For testing only, should be removed! ===========
-	this.myFleet.addFrigates(5);	
-	this.myFleet.addCruisers(3);
-	this.myFleet.addCapitals(4);
+	this.myFleet.Frigates.push(new ship(this.player, "Frigate"));	
+	this.myFleet.Cruisers.push(new ship(this.player, "Cruiser"));
+	this.myFleet.Capitals.push(new ship(this.player, "Capital"));
+
+	//this.myFleet.addCruisers(3);
+	//this.myFleet.addCapitals(4);
 	// !!! ==== End of testing purposes :) =====================
 	
 	this.model = 0; //will store a ref id for the model that displays it
@@ -47,7 +51,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.buildableShips = []; //only used if factory planet
 	
 	//keep track of ships in production,Xixi 
-	this.draftPlan = new draftPlan();
+	//this.draftPlan = new draftPlan();
 	this.productionPlan = new productionPlan();
 	this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
 	
@@ -56,8 +60,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 
 // Check which buttons are necessary everytime the buttons get shown.
 Planet.prototype.showOptions = function(){
-	console.log("showOptions gets called");
-	this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
+	//this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
 	//if (planet.upgradeLevel < planet.upgradeLimit)
 	this.optionButtons.addButton(OptionBarX + 520, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
 	
@@ -100,14 +103,26 @@ Planet.prototype.hideOptions = function(){
 Planet.prototype.showShips = function(){
 	//populate shipButtons;
 	// !!! buttonTypes
-	if (this.myFleet.amtFrigate + this.selectedFleet.amtFrigate > 0){
-		this.shipButtons.addButton(unitsStart, OptionBarY + 10, 90, 40, '#657383', "Frigates: " + this.myFleet.amtFrigate + ", " + this.selectedFleet.amtFrigate, buttonType.Frigates);	
+	//Movable ships
+	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
+		this.shipButtons.addButton(unitsStart, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Frigates: " + this.myFleet.Frigates.length + ", " + this.selectedFleet.Frigates.length, buttonType.Frigates);	
 	}
-	if (this.myFleet.amtCruiser + this.selectedFleet.amtCruiser  > 0){
-		this.shipButtons.addButton(unitsStart, OptionBarY + 60, 90, 40, '#657383', "Cruisers: " + this.myFleet.amtCruiser + ", " + this.selectedFleet.amtCruiser, buttonType.Cruisers);	
+	if (this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length  > 0){
+		this.shipButtons.addButton(unitsStart + (OptionBarSidesWidth - 40)/3 + 10, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Cruisers: " + this.myFleet.Cruisers.length + ", " + this.selectedFleet.Cruisers.length, buttonType.Cruisers);	
 	}
-	if (this.myFleet.amtCapital + this.selectedFleet.amtCapital  > 0){
-		this.shipButtons.addButton(unitsStart + 100, OptionBarY + 10, 90, 40, '#657383', "Capitals: " + this.myFleet.amtCapital + ", " + this.selectedFleet.amtCapital, buttonType.Capitals);	
+	if (this.myFleet.Capitals.length + this.selectedFleet.Capitals.length  > 0){
+		this.shipButtons.addButton(unitsStart + 2*(OptionBarSidesWidth - 40)/3 + 20, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Capitals: " + this.myFleet.Capitals.length + ", " + this.selectedFleet.Capitals.length, buttonType.Capitals);	
+	}	
+	//These don't actually need to be buttons
+	//Non-movable ships
+	if (this.myFleet.FrigatesMoved.length + this.selectedFleet.FrigatesMoved.length > 0){
+		this.shipButtons.addButton(unitsStart                                      , OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "FrigatesMoved: " + this.myFleet.FrigatesMoved.length + ", " + this.selectedFleet.FrigatesMoved.length, buttonType.Empty);	
+	}
+	if (this.myFleet.CruisersMoved.length + this.selectedFleet.CruisersMoved.length  > 0){
+		this.shipButtons.addButton(unitsStart + (OptionBarSidesWidth - 40)/3 + 10  , OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "CruisersMoved: " + this.myFleet.CruisersMoved.length + ", " + this.selectedFleet.CruisersMoved.length, buttonType.Empty);	
+	}
+	if (this.myFleet.CapitalsMoved.length + this.selectedFleet.CapitalsMoved.length  > 0){
+		this.shipButtons.addButton(unitsStart + 2*(OptionBarSidesWidth - 40)/3 + 20, OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "CapitalsMoved: " + this.myFleet.CapitalsMoved.length + ", " + this.selectedFleet.CapitalsMoved.length, buttonType.Empty);	
 	}	
 	this.fl_showShips = true;
 }
@@ -119,9 +134,9 @@ Planet.prototype.hideShips = function(){
 
 Planet.prototype.selectFrigate = function(){
 	this.hideShips();
-	if (this.myFleet.amtFrigate > 0){
-		this.myFleet.addFrigates(-1);
-		this.selectedFleet.addFrigates(1);
+	if (this.myFleet.Frigates.length > 0){
+		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
+		//this.selectedFleet.addFrigates(1);
 	}
 	// !!! Buttons need to be refactored. I really don't want to do this this way.
 	this.showShips();
@@ -129,9 +144,9 @@ Planet.prototype.selectFrigate = function(){
 
 Planet.prototype.selectCruiser = function(){
 	this.hideShips();
-	if (this.myFleet.amtCruiser > 0){
-		this.myFleet.addCruisers(-1);
-		this.selectedFleet.addCruisers(1);
+	if (this.myFleet.Cruisers.length > 0){
+		this.selectedFleet.Cruisers.push(this.myFleet.Cruisers.pop());
+		//this.selectedFleet.addFrigates(1);
 	}
 	// !!! Buttons need to be refactored. I really don't want to do this this way.
 	this.showShips();
@@ -139,9 +154,9 @@ Planet.prototype.selectCruiser = function(){
 
 Planet.prototype.selectCapital = function(){
 	this.hideShips();
-	if (this.myFleet.amtCapital > 0){
-		this.myFleet.addCapitals(-1);
-		this.selectedFleet.addCapitals(1);
+	if (this.myFleet.Capitals.length > 0){
+		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
+		//this.selectedFleet.addFrigates(1);
 	}
 	// !!! Buttons need to be refactored. I really don't want to do this this way.
 	this.showShips();
@@ -179,6 +194,7 @@ Planet.prototype.specifyPlanetType = function()
 	}
 }
 
+//Receives the actual planet object
 Planet.prototype.linkPlanet = function(toPlanet) {
 	this.linkedPlanets.push(toPlanet);
 	//var lnk = toPlanet.split('-');
@@ -190,15 +206,11 @@ Planet.prototype.linkPlanet = function(toPlanet) {
 	mp.systems[lnk_sys].planets[lnk_planet].linkedPlanets.push(this);
 	
 }
-//this method should probably be removed eventually,
-//right now it always returns false and is only used in the
-//map builder...
+
+//Check if it's linked to another planet. toPlanet is the actual Planet object.
 Planet.prototype.linkedTo = function(toPlanet)
 {
-	var lnk_sys = toPlanet.a;
-	var lnk_planet = toPlanet.b;
-	var lnk = lnk_sys + "-" + lnk_planet;
-	if (this.linkedPlanets.indexOf(lnk) != -1)
+	if (this.linkedPlanets.indexOf(toPlanet) != -1)
 		return true;
 	return false;
 }
@@ -260,12 +272,51 @@ Planet.prototype.onTurn = function() {
 		default:
 		break;
 	}	
+	
+	this.myFleet.addFleet(this.selectedFleet);
+	this.selectedFleet.empty();
+	this.myFleet.setUnMoved();
+}
+
+Planet.prototype.tryReceiveFleet = function(newFleet){
+	console.log("A fleet tried to reach me");
+	//See if it's possible to fly here.
+	console.log("selectedPlanetIndices:" + selectedPlanetIndices);
+	if (this.linkedTo(selectedPlanet)){
+		console.log("A fleet reached me");
+		//Do this stuff
+		// !!! Button things that need refactoring again
+		selectedPlanet.hideShips();
+		
+		//If it were your players, just add the fleet.
+		if (this.player == currentPlayer){
+			selectedPlanet.selectedFleet.setMoved();
+			this.myFleet.addFleet(selectedPlanet.selectedFleet);
+			selectedPlanet.selectedFleet.empty();
+		}
+		//If it's an enemy planet, call receiveHostileFleet on it.
+		else if (targetPlanet.player != currentPlayer){
+			this.receiveHostileFleet(selectedPlanet.selectedFleet);
+			selectedPlanet.selectedFleet.empty();
+		}
+		selectedPlanet.showShips();			
+	}
+	else{
+		console.log("The fleet didn't reach me");
+		//You tried to send something to a planet that is not connected.
+		// !!! Does anything happen? Deselection?
+	}
 }
 
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	//Do battle stuff. The enemy that send it to you can be gotten from players[currentPlayer].
 	//Get a winner first.
 	//after we got winner,assign value to planet.player
+	var winner = battle(enemyFleet, this.myFleet);
+	if (winner.length > 0){
+		this.player = winner[0].owner;
+	}
+	this.myFleet = winner;
 	
 	combatResultScreen.show();
 }
