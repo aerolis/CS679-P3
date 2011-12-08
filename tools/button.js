@@ -27,18 +27,26 @@ function Button(){
 
 	//targetCanvas = either real canvas or ghostcanvas. ghostcanvas for checking if selected.
   	that.draw = function(targetCanvas){
-		targetCanvas.fillStyle = that.fill;
-  		targetCanvas.fillRect(that.x, that.y, that.w, that.h);
-  		targetCanvas.fillStyle = 'black';
-		ctx.font = that.fontStyle;
-		targetCanvas.fillText(that.title, that.x + 2, that.y + 15);
+		switch (this.type)
+		{
+			case buttonType.EndTurn:
+				targetCanvas.drawImage(img.end_turn,that.x,that.y);
+			break;
+			default:
+				targetCanvas.fillStyle = that.fill;
+				targetCanvas.fillRect(that.x, that.y, that.w, that.h);
+				targetCanvas.fillStyle = 'black';
+				ctx.font = that.fontStyle;
+				targetCanvas.fillText(that.title, that.x + 2, that.y + 15);
+			break;
+		}
 	}
 	
 	that.gotClicked = function(){
 		console.log(that.title + " got clicked.");
 		switch (that.type){
 			case buttonType.EndTurn:
-				console.log("Endturn got pressed. calling nextTurn()");
+				//console.log("Endturn got pressed. calling nextTurn()");
 				//Do ending turn stuff				
 				nextTurn();
 				break;
@@ -49,24 +57,24 @@ function Button(){
 				// selectedPlanet.sendArmy;
 				// mouseMode = MouseModes.sendArmyTo;
 				// =============
-				console.log("This planet wants to send out an army");
+				//console.log("This planet wants to send out an army");
 				break;
 				
 			case buttonType.Upgrade:
 				//Do stuff
 				selectedPlanet.tryUpgrade();
-				console.log("This planet wants to upgrade");
+				//console.log("This planet wants to upgrade");
 				break;
 				
 			case buttonType.RemoveCR:
 				//Do stuff
 				combatResultScreen.hide();			
-				console.log("This planet wants to select a frigate");
+				//console.log("This planet wants to select a frigate");
 				break;
 				
 			case buttonType.BuildFrigate:
 				//Do stuff
-				console.log("This planet wants to build a Frigate");
+				//console.log("This planet wants to build a Frigate");
 				//for now, just building frigates
 				selectedPlanet.buildShip("Frigate",1);
 				break;
@@ -76,6 +84,7 @@ function Button(){
 				//for now buttons only build one ship per click
 				console.log("This planet wants to build a Cruiser");
 				selectedPlanet.buildShip("Cruiser",1);
+
 				break;
 				
 			case buttonType.BuildCapital:
@@ -88,26 +97,26 @@ function Button(){
 			case buttonType.Frigates:
 				//Do stuff
 				selectedPlanet.selectFrigate();
-				console.log("This planet wants to select a frigate");
+				//console.log("This planet wants to select a frigate");
 				break;
 				
 			case buttonType.Cruisers:
 				//Do stuff
 				selectedPlanet.selectCruiser();				
-				console.log("This planet wants to select a cruiser");
+				//console.log("This planet wants to select a cruiser");
 				break;
 				
 			case buttonType.Capitals:
 				//Do stuff
 				selectedPlanet.selectCapital();				
-				console.log("This planet wants to select a frigate");
+				//console.log("This planet wants to select a frigate");
 				break;
 				
 			case buttonType.Empty:
 				break;
 				
 			default:
-				console.log("I do go through the switch. that.type = " + that.type);
+				//console.log("I do go through the switch. that.type = " + that.type);
 				break;
 		
 		}
