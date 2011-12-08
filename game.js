@@ -142,7 +142,7 @@ function setupLevel()
 	
 	currentPlayer = 0;
 	
-	$.get("levels/dan3.html", function(data){
+	$.get("levels/dan4.html", function(data){
 		lb_parseMap(data);
 		lb_parsePlayers(data);
 	}, 'html');
@@ -159,6 +159,18 @@ function checkGameBegin()
 function startgame()
 {
 	mp.init();
+	for (i=0;i<mp.systems.length;i++)
+	{
+		for (j=0;j<mp.systems[i].planets.length;j++)
+		{
+			var currPlanet = mp.systems[i].planets[j];
+			if (currPlanet.player >= 0 &&
+				currPlanet.player < players.length)
+			{
+				players[currPlanet.player].addPlanet(currPlanet);		
+			}
+		}
+	}
 	cam.flyToFull(players[currentPlayer].cPos,players[currentPlayer].cRot,players[currentPlayer].cDist);
 }
 

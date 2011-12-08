@@ -139,7 +139,7 @@ function getClickLocationOnPlane()
 	var rays = getRay();
 	var ray = rays.slice(0,4);
 	var ray_sp = rays.slice(4,7);
-		
+			
 	//now find all that the ray collides with
 	var nray = new v3(ray[0],ray[1],ray[2]);
 	nray = nray.normalize();
@@ -150,6 +150,7 @@ function getClickLocationOnPlane()
 	pos.x = pos.x+i*nray.x;
 	pos.y = pos.y+i*nray.y;
 	pos.z = pos.z+i*nray.z;
+	
 	
 	return pos;
 }

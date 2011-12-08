@@ -6,9 +6,9 @@ function player (i, isAI)
 	this.color = new v3(1.0,1.0,1.0);
 	
 	this.credits = 200;
-	this.plasma = 500;
-	this.steel = 500;
-	this.antimatter = 500;
+	this.plasma = 0;
+	this.steel = 0;
+	this.antimatter = 0;
 	
 	//saving their camera vars
 	this.cPos = new v3(0,0,0);
@@ -98,11 +98,13 @@ player.prototype.doTurn = function()
 	//first attempt to build ships
 	for (var i = 0; i < this.planets.length; i++) {
 		//console.log("I own planet " + this.planets[i].id);
+		console.log(this.planets[i].type);
 		if (this.planets[i].type == "factory")
 		{
 			//this.planets[i].buildShip("Frigate");
 			//TODO: attempt to build a ship
 			//Add ship to production
+			console.log("AI wants to build");
 			var status = this.planets[i].buildShip("Frigate",1);
 			if (status == "RESNOTENOUGH") {// resources not enough, show some message
 			}
@@ -134,6 +136,7 @@ player.prototype.doTurn = function()
 					//linkedPlanet.recieveHostileFleet(currPlanet.myFleet);
 					selectedPlanet = currPlanet;
 					selectedPlanet.selectedFleet = currPlanet.myFleet;
+					targetPlanet = linkedPlanet;
 					linkedPlanet.tryReceiveFleet(selectedPlanet);
 				}
 			}
@@ -161,17 +164,17 @@ player.prototype.doTurn = function()
 		var currPlanet = this.planets[i];
 		if(dangerPlanets.indexOf(currPlanet) == -1)
 		{
-			var sendToPlanet = null;
+			var sendPlanet = null;
 			for (var j = 0; j < currPlanet.linkedPlanets.length; j++)
 			{
 				var childPlanet = currPlanet.linkedPlanets[j];
 				if (dangerPlanets.indexOf(childPlanet) != -1)
 				{
-					sendToPlanet = childPlanet;
+					sendPlanet = childPlanet;
 					break;
 				}
 			}
-			if (sendToPlanet == null)
+			if (sendPlanet == null)
 			{
 				//TODO: Find nearest danger planet, send
 				//ships out on a path to it...
@@ -181,6 +184,7 @@ player.prototype.doTurn = function()
 			}
 			selectedPlanet = currPlanet;
 			selectedPlanet.selectedFleet = currPlanet.myFleet;
+			targetPlanet = sendPlanet;
 			sendPlanet.tryReceiveFleet(selectedPlanet);
 		}
 	}

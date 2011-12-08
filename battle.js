@@ -58,7 +58,7 @@ function selectTarget(i_ship,List){
 	//console.log("inside selectTarget");
 	var j=0;
 	var maxDamage = 0;
-	var targetIndex;
+	var targetIndex = 0; //set default to 0
 	for( j=0; j < List.length; j++){
 		var target = List[j];
 		var damage = i_ship.calculateBaseDamage(target);
@@ -67,6 +67,7 @@ function selectTarget(i_ship,List){
 			maxDamage = damage;
 		}
 	}
+	//console.log("targetIndex: " + targetIndex);
 	return targetIndex;
 }
 

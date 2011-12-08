@@ -212,6 +212,8 @@ function handleMouseUp(evt)
 					//deal with creating a new ss
 					var plPos = new v3(posAtMouse.x-mp.systems[currentSS].pos.x,-50+100*Math.random(),posAtMouse.z-mp.systems[currentSS].pos.z);
 					var pl = new Planet(plPos,lb_getPlanetType(placingPlanetType),1,-1,[],[],currentSS);
+					//console.log(""+lb_getPlanetType(placingPlanetType));
+					pl.specifyPlanetType();
 					currentPlanet = new c2(currentSS,mp.systems[currentSS].addPlanet(pl));
 					lb_displayPlanetOps();
 					mp.rebuildLines();
