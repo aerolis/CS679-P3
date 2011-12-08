@@ -56,11 +56,17 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.specifyPlanetType();
 }
 
-Planet.prototype.buildShip = function(type)
+Planet.prototype.buildShip = function(type,amt)
 {
 	//for now, just builds Frigates and doesn't take any resources
-	this.myFleet.addNewShip(new ship(this.player, type));
+	//this.myFleet.addNewShip(new ship(this.player, type));
+	//this.showShips();
+	
+	//add new item to production plan, need to specify amt of each order
+	console.log("planet buildship amt: " + amt);
+	var status = this.productionPlan.addOrder(this.player,type,amt);
 	this.showShips();
+	return status;
 }
 
 // Check which buttons are necessary everytime the buttons get shown.
@@ -336,4 +342,11 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	this.myFleet = makeFleetMoved(winner);
 	
 	combatResultScreen.show();
+}
+
+Planet.prototype.getNewShips = function(){ //Add new ships realeased from production and put them into fleet
+	var newShipArray = this.productionPlan.release();
+	for(var i=0; i < newShipArray.length; i++){
+		this.myFleet.addNewShip( newShipArray[i]);
+	}
 }

@@ -16,7 +16,7 @@ function battle(Fleet1, Fleet2)
 	{
 		//For some reason, the program leaves this if loop without having reached the end
 		console.log("Battle started");
-		while( k<800 )
+		while( winner.length <= 0 )
 		{	
 			console.log("In while loop");
 			var attacker = List1[0];
@@ -53,8 +53,11 @@ function battle(Fleet1, Fleet2)
 				//return remaining ships in List1
 				for(var i=0; i<List1.length; i++)
 				{
-					if(List1[i].status > 0) winner.push(List1[i]);
-					
+					if(List1[i].status > 0){
+					List1[i].currentHp = List1[i].maxHp;
+					List1[i].shield = List1[i].maxShield;
+					winner.push(List1[i]);
+					}
 				}
 				console.log("BATTLE FINISHED. k: " + k);
 				return winner;
@@ -82,6 +85,7 @@ function battle(Fleet1, Fleet2)
 					if(List2[i].status > 0) 
 					{
 						List2[i].currentHp = List2[i].maxHp;
+						List2[i].shield = List2[i].maxShield;
 						winner.push(List2[i]);
 						
 					}

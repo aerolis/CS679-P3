@@ -43,6 +43,7 @@ function ship(i_owner,i_type){
 		this.missile = 20;
 		this.armor = 10;
 		this.shield = 0;  //Frigate ship has no shield
+		this.maxShield = 0;
 		
 		this.currentHp = 100;
 		this.maxHp = 100;
@@ -60,6 +61,7 @@ function ship(i_owner,i_type){
 		this.missile = 40;
 		this.armor = 30;
 		this.shield = 50;
+		this.maxShield = 50;
 		
 		this.currentHp = 300;
 		this.maxHp = 300;		
@@ -76,6 +78,7 @@ function ship(i_owner,i_type){
 		this.missile = 100;
 		this.armor = 80;
 		this.shield = 100;
+		this.maxShield = 100;
 		
 		this.currentHp = 700;
 		this.maxHp = 700;		

@@ -21,7 +21,7 @@ draftPlan.prototype.clear = function(i_type,i_amt){
 function shipOrder(i_owner,i_type,i_amt){
 	this.owner = i_owner;
 	this.shipType = i_type;
-	this.amt = i_amt;
+	this.amt = 1;
 	//sample ship for lookup purpose
 	var sampleShip = new ship(-1,this.shipType);
 	
@@ -38,20 +38,28 @@ function productionPlan(){
 	this.plan = [];
 }
 
-productionPlan.prototype.addOrder = function(i_owner,i_type,i_num,start){ //add items into ship production plan
-	
+productionPlan.prototype.addOrder = function(i_owner,i_type,i_amt){ //add items into ship production plan
+	console.log("parameter amt: " + i_amt);
+	console.log("currentPlayer: " + players[i_owner].id);
 	var newOrder = new shipOrder(i_owner,i_type,i_amt);
-	if (players[currentPlayer].plasma < this.plasma || players[currentPlayer].steel < this.steel ||players[currentPlayer].antimatter < this.antiMatter)
+	console.log("newOrder Plasma: " + newOrder.plasma*newOrder.amt);
+	console.log("newOrder steel: " + newOrder.steel*newOrder.amt);
+	console.log("newOrder steel: " + newOrder.steel*newOrder.amt);
+	console.log("currentPlayer plasma: " + players[i_owner].plasma);
+	if (players[i_owner].plasma < newOrder.plasma*i_amt || players[i_owner].steel < newOrder.steel*i_amt ||players[i_owner].antimatter < newOrder.antiMatter*i_amt)
 	{
-		delete newOrder;
-		return "Resources not enough";
+		//delete newOrder;
+		console.log("resources not enough");
+		return "RESNOTENOUGH";
 	}
 	
 	this.plan.push(newOrder);
 	//consume resources
-	players[currentPlayer].plasma -= this.plasma;
-	players[currentPlayer].steel -= this.steel;
-	players[currentPlayer].antimatter -= this.antiMatter;
+	console.log("consume resources");
+	players[i_owner].plasma -= newOrder.plasma*newOrder.amt;
+	console.log("currentPlayer plasma: " + players[i_owner].plasma);
+	players[i_owner].steel -= newOrder.steel*i_amt;
+	players[i_owner].antimatter -= newOrder.antiMatter*i_amt;
 	
 }
 
@@ -62,8 +70,13 @@ productionPlan.prototype.release = function(){ //return an array of ships
 	for( var i=0; i<this.plan.length; i++){
 	
 		plan[i].timer -= 1;
-		if (plan[i].timer == 0) finishedOrders.push(plan.splice(i,1));
+		if (plan[i].timer == 0) 
+		{
+			var tmpOrder = plan.splice(i,1);
+			for(var j =0; j< tmpOrder.amt; j++){ finishedOrders.push(new ship(this.owner,this.type));}	
+		}
 	}
+	//return list of finished ships
 	return finishedOrders;
 }
 

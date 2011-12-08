@@ -5,10 +5,10 @@ function player (i, isAI)
 	
 	this.color = new v3(1.0,1.0,1.0);
 	
-	this.credits = 0;
-	this.plasma = 0;
-	this.steel = 0;
-	this.antimatter = 0;
+	this.credits = 200;
+	this.plasma = 500;
+	this.steel = 500;
+	this.antimatter = 500;
 	
 	//saving their camera vars
 	this.cPos = new v3(0,0,0);
@@ -100,11 +100,16 @@ player.prototype.doTurn = function()
 		//console.log("I own planet " + this.planets[i].id);
 		if (this.planets[i].type == "factory")
 		{
-			this.planets[i].buildShip("Frigate");
+			//this.planets[i].buildShip("Frigate");
 			//TODO: attempt to build a ship
-			//Xixi, update plans for this planet
-			//make a Frigate ship
-			//currPlanet.productionPlan.release(); //release finished ships and add them to fleet
+			//Add ship to production
+			var status = this.planets[i].buildShip("Frigate",1);
+			if (status == "RESNOTENOUGH") {// resources not enough, show some message
+			}
+			//receive newly built ships 
+			this.planets[i].getNewShips();
+			
+			
 		}
 	}
 	
