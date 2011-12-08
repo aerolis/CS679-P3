@@ -8,20 +8,6 @@ function fleet(){
 	this.CapitalsMoved = [];
 };
 
-/*
-//This can be a negative amount too ofcourse, so no decrease methods are needed.
-fleet.prototype.addFrigates = function(amt){
-	this.amtFrigate += amt;
-}
-
-fleet.prototype.addCruisers = function(amt){
-	this.amtCruiser += amt;
-}
-
-fleet.prototype.addCapitals = function(amt){
-	this.amtCapital += amt;
-}
-*/
 //For easily combining two fleets
 fleet.prototype.addFleet = function(toAdd){
 	this.Frigates = this.Frigates.concat(toAdd.Frigates);
@@ -55,6 +41,7 @@ fleet.prototype.getList = function(){
 	return list;
 }
 
+//Set all ships as moved. 
 fleet.prototype.setMoved = function(){
 	this.FrigatesMoved = this.Frigates.concat(this.FrigatesMoved);
 	this.CruisersMoved = this.Cruisers.concat(this.CruisersMoved);
@@ -64,6 +51,7 @@ fleet.prototype.setMoved = function(){
 	this.Capitals = [];
 }
 
+//Set all ships as not-moved (e.g. upon start of turn)
 fleet.prototype.setUnMoved = function(){
 	this.Frigates = this.Frigates.concat(this.FrigatesMoved);
 	this.Cruisers = this.Cruisers.concat(this.CruisersMoved);
@@ -73,22 +61,40 @@ fleet.prototype.setUnMoved = function(){
 	this.CapitalsMoved = [];
 }
 
+//Add a single ship that hasn't moved to the fleet (e.g. upon creation).
+fleet.prototype.addNewShip = function(newShip){
+	if (newShip.type == "Frigate"){
+			fleet.Frigates.push(newShip);
+		}
+		else if (newShip.type == "Cruiser"){
+			fleet.Cruisers.push(newShip);
+		}
+		else if (newShip.type == "Capital"){
+			fleet.Capitals.push(newShip);
+		}	
+	
+}
+
+//Add a single ship that has moved to the fleet.
+fleet.prototype.addMovedShip = function(movedShip){
+	if (movedShip.type == "Frigate"){
+		fleet.FrigatesMoved.push(movedShip);
+	}
+	else if (ship.type == "Cruiser"){
+		fleet.CruisersMoved.push(movedShip);
+	}
+	else if (ship.type == "Capital"){
+		fleet.CapitalsMoved.push(movedShip);
+	}
+}
+
 //Make a fleet out of a list of ships.
 function makeFleetMoved(list){
 	var newFleet = new fleet();
 		
 	var ship;
 	for (var i = 0; i < list.length; i++){
-		ship = list[i];
-		if (ship.type == "Frigate"){
-			fleet.FrigatesMoved.push(ship);
-		}
-		else if (ship.type == "Cruiser"){
-			fleet.CruisersMoved.push(ship);
-		}
-		else if (ship.type == "Capital"){
-			fleet.CapitalsMoved.push(ship);
-		}
+		newFleet.addMovedShip(list[i]);
 	}	
 	return newFleet;
 }

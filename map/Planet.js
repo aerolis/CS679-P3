@@ -291,7 +291,6 @@ Planet.prototype.onTurn = function() {
 Planet.prototype.tryReceiveFleet = function(newFleet){
 	console.log("A fleet tried to reach me");
 	//See if it's possible to fly here.
-	console.log("selectedPlanetIndices:" + selectedPlanetIndices);
 	if (this.linkedTo(selectedPlanet)){
 		console.log("A fleet reached me");
 		//Do this stuff
@@ -319,14 +318,20 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 }
 
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
+	console.log("I received a hostile fleet");
+	console.log("Hostile size: " + enemyFleet.getTotal() + ", my size: " + this.myFleet.getTotal());
 	//Do battle stuff. The enemy that send it to you can be gotten from players[currentPlayer].
 	//Get a winner first.
 	//after we got winner,assign value to planet.player
 	var winner = battle(enemyFleet, this.myFleet);
 	if (winner.length > 0){
+		console.log("Something is left");
 		this.player = winner[0].owner;
 	}
-	this.myFleet = winner;
+	else{
+		console.log("Everything died. This shouldn't be able to happen.");	
+	}
+	this.myFleet = makeFleetMoved(winner);
 	
 	combatResultScreen.show();
 }

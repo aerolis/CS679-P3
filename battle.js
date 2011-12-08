@@ -1,8 +1,10 @@
 function battle(Fleet1, Fleet2)
 {
+	console.log("Fleet1, Fleet2: " + Fleet1.getTotal() + ", " + Fleet2.getTotal());
 	var winner = [];
 	var List1 = Fleet1.getList();
 	var List2 = Fleet2.getList();
+	console.log("List1, List2: " + List1.length + ", " + List2.length);
 	//console.log("List1 length: "+List1.length);
 	//console.log("List2 length: "+List1.length);
 	
@@ -12,9 +14,11 @@ function battle(Fleet1, Fleet2)
 	
 	if (List1.length > 0 && List2.length > 0)
 	{
+		//For some reason, the program leaves this if loop without having reached the end
+		console.log("Battle started");
 		while( k<800 )
 		{	
-			//console.log("In while loop");
+			console.log("In while loop");
 			var attacker = List1[0];
 			var target = List2[0];
 			var tIndex = 0;
@@ -90,8 +94,11 @@ function battle(Fleet1, Fleet2)
 		}	
 
 	}
-	return winner;
-	// !!! Somehow split into a Fleet again.	
+	else{
+		console.log("Returning empty winner.");
+		return winner;	
+	}
+	console.log("I'm returning nothing and ending. This should not be possible.");
 }
 
 function selectTarget(i_ship,List){ 
