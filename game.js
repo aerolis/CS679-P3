@@ -244,6 +244,7 @@ function drawLoading()
 
 function nextTurn()
 {
+	
 	if (selectedPlanet != null){
 		selectedPlanet.deselect();		
 	}

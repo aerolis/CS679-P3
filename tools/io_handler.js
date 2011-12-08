@@ -82,8 +82,6 @@ function handleMouseUp(evt)
 		var mouseY = Math.max(0,Math.min(canvas.width,evt.clientY-10));
 			
 			
-		//moved them all back inside the same if statements because we still need to check mouseups even if it's over a menu	
-		
 		if (evt.which == 1) //left mouse button
 		{
 			//If combat results are shown, only that is active.
@@ -91,7 +89,8 @@ function handleMouseUp(evt)
 				combatResultScreen.buttons.checkClicked(mouseX, mouseY);
 			}
 			//If you're in a 'button area', do these checks to see if a button was clicked
-			else if (mouseX > OptionBarX && mouseX < (OptionBarX + OptionBarWidth) && mouseY > OptionBarY && mouseY < (OptionBarY + OptionBarHeight))
+			else if (	(mouseX > OptionBarX && mouseX < (OptionBarX + OptionBarWidth) && mouseY > OptionBarY && mouseY < (OptionBarY + OptionBarHeight)) ||
+						(mouseX > InfoBarX && mouseX < (InfoBarX + InfoBarWidth) && mouseY > InfoBarY && mouseY < (InfoBarY + InfoBarHeight)))
 			{
 				var foundTarget = false;
 				if (selectedPlanet != null){

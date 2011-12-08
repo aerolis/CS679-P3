@@ -38,6 +38,7 @@ function Button(){
 		console.log(that.title + " got clicked.");
 		switch (that.type){
 			case buttonType.EndTurn:
+				console.log("Endturn got pressed. calling nextTurn()");
 				//Do ending turn stuff				
 				nextTurn();
 				break;

@@ -44,8 +44,6 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.shipButtons = new buttonset();
 	
 	this.upgradeLevel = 1;
-	this.maxUpgradeLevel = 3; // Probably dependant on planet type.
-	this.upgradeCost = [];
 	
 	// !!! I don't think this should be stored here. I think we want a general place that stores what planet types are unlocked. (and possibly other techs).
 	this.buildableShips = []; //only used if factory planet
@@ -91,7 +89,6 @@ Planet.prototype.showOptions = function(){
 		case "warp":
 		break;
 		case "academy":
-			this.model = 0;
 		break;
 		case "default":
 		break;
@@ -176,13 +173,10 @@ Planet.prototype.specifyPlanetType = function()
 	switch (this.type)
 	{
 		case "factory":
-			this.model = 0;
-			//TODO: add buildable ship to list
-			this.upgradeCost.push(new cost("antimatter", 100));			
+			this.model = 0;		
 		break;
 		case "plasma":
 			this.model = 1;
-			this.upgradeCost.push(new cost("antimatter", 100));
 		break;
 		case "antimatter":
 			this.model = 2;
@@ -195,6 +189,9 @@ Planet.prototype.specifyPlanetType = function()
 		break;
 		case "warp":
 			this.model = 8;
+		break;
+		case "academy":
+			this.model = 0;
 		break;
 		case "default":
 			this.model = 0;
@@ -243,21 +240,19 @@ Planet.prototype.update = function() {
 }
 
 Planet.prototype.tryUpgrade = function() {
-	if (this.upgradeLevel < this.maxUpgradeLevel){
-		var gotEnough = true;
-		for (var i = 0; i < this.upgradeCost.length; i++){
-			//Check if you have it
-			var current = this.upgradeCost[i];
-			if (current.type == "credits"){
-				if (current.amount > this.player.credits){
-					gotEnough = false;
-				}
-			}
-			// !!! Do for all other types
-		}
-		if(gotEnough){
-			this.upgradeLevel++;
-			//Pay resources;
+	var upgradeStats = new upgradeData(this);		
+	if (this.upgradeLevel < upgradeStats.maxUpgradeLevel){
+		//If you own enough resources
+		if (	players[this.player].credits >= upgradeStats.credits &&
+				players[this.player].steel >= upgradeStats.steel &&
+				players[this.player].plasma >= upgradeStats.plasma &&
+				players[this.player].antimatter >= upgradeStats.antimatter){
+			//Upgrade the planet & Pay resources.
+			players[this.player].credits -= upgradeStats.credits;
+			players[this.player].steel -= upgradeStats.steel;
+			players[this.player].plasma -= upgradeStats.plasma;
+			players[this.player].antimatter -= upgradeStats.antimatter;
+			this.upgradeLevel++;	
 		}
 	}
 }
