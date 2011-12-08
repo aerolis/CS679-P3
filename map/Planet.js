@@ -190,6 +190,9 @@ Planet.prototype.linkPlanet = function(toPlanet) {
 	mp.systems[lnk_sys].planets[lnk_planet].linkedPlanets.push(this);
 	
 }
+//this method should probably be removed eventually,
+//right now it always returns false and is only used in the
+//map builder...
 Planet.prototype.linkedTo = function(toPlanet)
 {
 	var lnk_sys = toPlanet.a;
@@ -199,6 +202,7 @@ Planet.prototype.linkedTo = function(toPlanet)
 		return true;
 	return false;
 }
+
 Planet.prototype.garrisonShip = function(ship) {
 	this.ships.push(ship);
 }
