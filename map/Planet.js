@@ -352,6 +352,7 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	
 	//after we got winner,assign value to planet.player
 	if (winner.length > 0){
+		console.log("Winner is: " + winner[0].owner);
 		this.player = winner[0].owner;
 	}
 	else{
