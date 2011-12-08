@@ -68,19 +68,20 @@ function Button(){
 				//Do stuff
 				console.log("This planet wants to build a Frigate");
 				//for now, just building frigates
-				selectedPlanet.buildShip("Frigate");
+				selectedPlanet.buildShip("Frigate",1);
 				break;
 				
 			case buttonType.BuildCruiser:
 				//Do stuff
+				//for now buttons only build one ship per click
 				console.log("This planet wants to build a Cruiser");
-				selectedPlanet.buildShip("Cruiser");
+				selectedPlanet.buildShip("Cruiser",1);
 				break;
 				
 			case buttonType.BuildCapital:
 				//Do stuff
 				console.log("This planet wants to build a Capital");
-				selectedPlanet.buildShip("Capital");
+				selectedPlanet.buildShip("Capital",1);
 				break;
 				
 			//Selecting units buttons

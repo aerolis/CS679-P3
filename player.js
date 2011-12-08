@@ -104,10 +104,7 @@ player.prototype.doTurn = function()
 			//TODO: attempt to build a ship
 			//Add ship to production
 			var status = this.planets[i].buildShip("Frigate",1);
-			if (status == "RESNOTENOUGH") {// resources not enough, show some message
-			}
-			//receive newly built ships 
-			this.planets[i].getNewShips();
+	
 			
 			
 		}
