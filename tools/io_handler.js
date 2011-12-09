@@ -2,11 +2,40 @@ var shiftPressed = false;
 var justRightClicked = false;
 
 function handleMouseMove(evt)
-{
-	if (playState == 1) //handle during normal play
+{	
+	mousex = Math.max(0,Math.min(canvas.width,evt.clientX-10));
+	mousez = Math.max(0,Math.min(canvas.height,evt.clientY-10));
+	
+	if (playState == 0)
 	{
-		mousex = Math.max(0,Math.min(canvas.width,evt.clientX-10));
-		mousez = Math.max(0,Math.min(canvas.height,evt.clientY-10));
+		if (!drawTutorial)
+		{
+			//check for the start button
+			if (mousex > 800 && mousex < 1000 && mousez > 660 && mousez < 720)
+			{
+				//hovering over button, change mouse pointer
+				document.body.style.cursor = "pointer";
+			}
+			else
+			{
+				document.body.style.cursor = "default";
+			}
+		}
+		else
+		{
+			//check for the start button
+			if (mousex > 500 && mousex < 700 && mousez > 100 && mousez < 160)
+			{
+				document.body.style.cursor = "pointer";
+			}
+			else
+			{
+				document.body.style.cursor = "default";
+			}
+		}
+	}
+	else if (playState == 1) //handle during normal play
+	{
 		drawHover = -1;
 		
 		if (evt.clientX-10>canvas.width || evt.clientY-10>canvas.height)
@@ -58,12 +87,27 @@ function handleMouseMove(evt)
 					var foundTarget = null;
 					if (selectedPlanet != null){
 						//See if you hovered over an optionButton belonging to the selected planet.
-						foundTarget = null;//selectedPlanet.optionButtons.checkHover(mousex, mousez);		
+						foundTarget = selectedPlanet.optionButtons.checkHover(mousex, mousez);
 						if (foundTarget != null)
 						{
 							//ignored for now because they aren't working correctly
-							//drawHover = 0;
-							//shipHover = foundTarget.shipType;
+							
+							switch (foundTarget.type){
+								case buttonType.BuildFrigate:
+									shipHover = "Frigates";
+									drawHover = 0;
+									break;
+								case buttonType.BuildCruiser:
+									shipHover = "Cruisers";
+									drawHover = 0;
+									break;
+								case buttonType.BuildCapital:
+									shipHover = "Capitals";
+									drawHover = 0;
+									break;
+								default:
+									break;
+							}
 						}
 						else
 						{
@@ -118,7 +162,30 @@ function handleMouseDown(evt)
 }
 function handleMouseUp(evt)
 {
-	if (playState == 1) //handle during normal play
+	if (playState == 0)
+	{
+		if (!drawTutorial)
+		{
+			//check for the start button
+			if (mousex > 800 && mousex < 1000 && mousez > 660 && mousez < 720)
+			{
+				//clicked on button
+				drawTutorial = true;
+				//playState = 1;
+			}
+		}
+		else
+		{
+			//check for the start button
+			if (mousex > 500 && mousex < 700 && mousez > 100 && mousez < 160)
+			{
+				//clicked on button
+				//drawTutorial = true;
+				playState = 1;
+			}
+		}
+	}
+	else if (playState == 1) //handle during normal play
 	{
 		var mouseX = Math.max(0,Math.min(canvas.width,evt.clientX-10));
 		var mouseY = Math.max(0,Math.min(canvas.width,evt.clientY-10));

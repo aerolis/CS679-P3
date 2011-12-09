@@ -98,6 +98,7 @@ function unitButtonSet(){
 		clear(gctx);
 		return false;
 	}
+	
 	that.checkHover = function(mouseX, mouseY){
 		clear(gctx);
 		var mySel = null;

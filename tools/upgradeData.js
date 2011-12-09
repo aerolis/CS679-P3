@@ -15,7 +15,7 @@ function upgradeData(planet){
 	switch (planet.type)
 	{
 		case "factory":
-			this.maxUpgradeLevel = 3;
+			this.maxUpgradeLevel = 1;
 			break;
 		case "credit":
 			this.maxUpgradeLevel = 3;
@@ -30,13 +30,13 @@ function upgradeData(planet){
 			this.maxUpgradeLevel = 3;
 			break;		
 		case "warp":
-			this.maxUpgradeLevel = 3;
+			this.maxUpgradeLevel = 1;
 			break;
 		case "academy":
-			this.maxUpgradeLevel = 3;
+			this.maxUpgradeLevel = 1;
 			break;
 		case "default":
-			this.maxUpgradeLevel = 3;
+			this.maxUpgradeLevel = 1;
 			break;
 	}
 	

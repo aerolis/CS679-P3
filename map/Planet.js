@@ -309,7 +309,8 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 		else if (targetPlanet.player != currentPlayer){
 			this.receiveHostileFleet(selectedPlanet.selectedFleet);
 			selectedPlanet.selectedFleet.empty();
-		}		
+		}	
+		selectedPlanet.populateShipButtons();						
 	}
 	else{
 		console.log("The fleet didn't reach me");

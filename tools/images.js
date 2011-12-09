@@ -13,6 +13,7 @@ function images()
 	this.hover_background = new Image();
 	this.hover_background_220 = new Image();
 	this.combat_background = new Image();
+	this.tutorial_background = new Image();
 	
 	this.planets_64 = new Array();
 	this.ship_buttons = new Array();
@@ -31,6 +32,7 @@ function images()
 	this.hover_background.src = "images/hover_background.png";
 	this.hover_background_220.src = "images/hover_background_220.png";
 	this.combat_background.src = "images/combat_background.png";
+	this.tutorial_background.src = "images/tutorial_screen.png";
 	
 	//load planet images
 	var i;
@@ -101,8 +103,7 @@ images.prototype.drawPlanetImage = function(type,x,y)
 		default:
 			ctx.drawImage(img.planets_64[pln_images.factory],x,y);
 		break;
-	}
-	
+	}	
 }
 images.prototype.drawShipImage = function(type,x,y)
 {
@@ -158,20 +159,33 @@ images.prototype.drawBuildShipButton = function(type,x,y, queuesize, c)
 {
 	c.font = "12pt Calibri";
 	c.fillStyle = 'white';
+	var sh;
 	
 	switch (type)
 	{
 		case "frigate":
 			c.drawImage(img.ship_buttons[ship_images.frigate],x,y);
-			c.drawImage(img.filters[0],x,y);
+			sh = new ship(-1,"frigate");
+			if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
+				c.drawImage(img.filters[0],x,y);
+			else
+				c.drawImage(img.filters[1],x,y);
 		break;
 		case "cruiser":
 			c.drawImage(img.ship_buttons[ship_images.cruiser],x,y);
-			c.drawImage(img.filters[0],x,y);
+			sh = new ship(-1,"cruiser");
+			if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
+				c.drawImage(img.filters[0],x,y);
+			else
+				c.drawImage(img.filters[1],x,y);
 		break;
 		case "capital":
 			c.drawImage(img.ship_buttons[ship_images.capital],x,y);
-			c.drawImage(img.filters[0],x,y);
+			sh = new ship(-1,"capital");
+			if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
+				c.drawImage(img.filters[0],x,y);
+			else
+				c.drawImage(img.filters[1],x,y);
 		break;
 	}
 	

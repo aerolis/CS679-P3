@@ -58,8 +58,8 @@ var totalInits = 3;
 //set up a few images we need immediately and some we don't need until later
 var splash = new Image();
 splash.src = "images/splash_screen.png";
-//var new_game_button = new Image();
-//splash.src = "images/splash_screen.png";
+var new_game_button = new Image();
+new_game_button.src = "images/new_game_button.png";
 var img = new images();
 
 //mouse position vars stored
@@ -210,7 +210,6 @@ function gameLoop() //switches between game states and performs correct loop ope
 			else if (checkMapComplete)
 			{
 				allReady = true;
-				playState = 1;
 			}
 			/*
 			else if (buttonpress && allReady)

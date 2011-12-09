@@ -29,7 +29,7 @@ function Button(){
 
 	//targetCanvas = either real canvas or ghostcanvas. ghostcanvas for checking if selected.
   	that.draw = function(targetCanvas){
-		switch (this.type)
+		switch (that.type)
 		{
 			//Some button types only get drawn in certain cases.
 			case buttonType.EndTurn:
