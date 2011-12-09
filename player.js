@@ -97,26 +97,31 @@ player.prototype.doTurn = function()
 	
 	//first attempt to build ships
 	for (var i = 0; i < this.planets.length; i++) {
-		//console.log("I own planet " + this.planets[i].id);
-		console.log(this.planets[i].type);
 		if (this.planets[i].type == "factory")
 		{
-			//this.planets[i].buildShip("Frigate");
-			//TODO: attempt to build a ship
+			//TODO: better logic in ship production
 			//Add ship to production
-			console.log("AI wants to build");
-			var status = this.planets[i].buildShip("Frigate",1);
-			if (status == "RESNOTENOUGH") {// resources not enough, show some message
+			console.log("AI wants to build a frigate");
+			console.log("AI Credits: " + this.credits);
+			console.log("currently has " + this.planets[i].myFleet.Frigates.length+  " frigates");
+			selectedPlanet = this.planets[i];
+			var status = true;
+			var counter = -1;
+			while(status)
+			{
+				status = this.planets[i].buildShip("Frigate",1);
+				counter++;
 			}
-			//receive newly built ships 
-			this.planets[i].getNewShips();			
+		
+			console.log("AI built " + counter + " frigates!");
+			console.log(this.planets[i].productionPlan)
 		}
 	}
 	
 	//now do any attacking that we can
 	for (var i = 0; i < this.planets.length; i++) {
 		var currPlanet = this.planets[i];
-		console.log(currPlanet.ships);
+		//console.log(currPlanet.ships);
 		for (var j = 0; j < currPlanet.linkedPlanets.length; j++)
 		{
 			var linkedPlanet = currPlanet.linkedPlanets[j];
@@ -135,9 +140,21 @@ player.prototype.doTurn = function()
 				{
 					//linkedPlanet.recieveHostileFleet(currPlanet.myFleet);
 					selectedPlanet = currPlanet;
-					selectedPlanet.selectedFleet = currPlanet.myFleet;
+					//selectedPlanet.selectedFleet = currPlanet.myFleet;
+					while(selectedPlanet.myFleet.Frigates.length > 0)
+					{
+						selectedPlanet.selectFrigate();
+					}
+					while(selectedPlanet.myFleet.Cruisers.length > 0)
+					{
+						selectedPlanet.selectCruiser();
+					}
+					while(selectedPlanet.myFleet.Capitals.length > 0)
+					{
+						selectedPlanet.selectCapital();
+					}
 					targetPlanet = linkedPlanet;
-					linkedPlanet.tryReceiveFleet(selectedPlanet);
+					targetPlanet.tryReceiveFleet(selectedPlanet);
 				}
 			}
 		}
@@ -183,9 +200,20 @@ player.prototype.doTurn = function()
 				sendPlanet = currPlanet.linkedPlanets[rand];
 			}
 			selectedPlanet = currPlanet;
-			selectedPlanet.selectedFleet = currPlanet.myFleet;
+			while(selectedPlanet.myFleet.Frigates.length > 0)
+			{
+				selectedPlanet.selectFrigate();
+			}
+			while(selectedPlanet.myFleet.Cruisers.length > 0)
+			{
+				selectedPlanet.selectCruiser();
+			}
+			while(selectedPlanet.myFleet.Capitals.length > 0)
+			{
+				selectedPlanet.selectCapital();
+			}
 			targetPlanet = sendPlanet;
-			sendPlanet.tryReceiveFleet(selectedPlanet);
+			targetPlanet.tryReceiveFleet(selectedPlanet);
 		}
 	}
 }
