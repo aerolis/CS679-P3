@@ -153,6 +153,31 @@ images.prototype.drawShipButton = function(type,x,y,lhs,rhs,col_ref,c)
 	}
 }
 
+// !!! Add information on how many are in queue.
+images.prototype.drawBuildShipButton = function(type,x,y,c)
+{
+	c.font = "12pt Calibri";
+	c.fillStyle = 'white';
+	
+	switch (type)
+	{
+		case "frigate":
+			c.drawImage(img.ship_buttons[ship_images.frigate],x,y);
+			c.drawImage(img.filters[0],x,y);
+		break;
+		case "cruiser":
+			c.drawImage(img.ship_buttons[ship_images.cruiser],x,y);
+			c.drawImage(img.filters[0],x,y);
+			c.font = "12pt Calibri";
+		break;
+		case "capital":
+			c.drawImage(img.ship_buttons[ship_images.capital],x,y);
+			c.drawImage(img.filters[0],x,y);
+			c.font = "12pt Calibri";
+		break;
+	}
+}
+
 var pln_images = { 	"factory": 0,
 					"credit": 1,
 					"steel": 2,

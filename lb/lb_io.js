@@ -138,6 +138,7 @@ function handleMouseUp(evt)
 			//make sure it is on the screen
 			//moved them all back inside the same if statements because we still need to check mouseups even if it's over a menu	
 			if (selectedPlanet != null){
+				// !!! This doesn't exist, what is this?
 				selectedPlanet.showOptions = false;
 			}
 			if (evt.which == 1) //left mouse button

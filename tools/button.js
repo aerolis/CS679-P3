@@ -25,29 +25,51 @@ function Button(){
 	that.fontStyle = "12pt Calibri";
   	that.fill = '#444444';
   	that.title = "";
-	that.type = buttonType.Send;
+	that.type = buttonType.Empty;
 
 	//targetCanvas = either real canvas or ghostcanvas. ghostcanvas for checking if selected.
   	that.draw = function(targetCanvas){
 		switch (this.type)
 		{
+			//Some button types only get drawn in certain cases.
 			case buttonType.EndTurn:
 				targetCanvas.drawImage(img.end_turn,that.x,that.y);
 			break;
 			case buttonType.Upgrade:
-				targetCanvas.drawImage(img.upgrade_planet,that.x+20,that.y);
+				if(selectedPlanet.upgradeStats.maxUpgradeLevel > selectedPlanet.upgradeLevel){
+					targetCanvas.drawImage(img.upgrade_planet,that.x+20,that.y);
+				}
 			break;
 			case buttonType.RemoveCR:
 				targetCanvas.drawImage(img.ok_button,that.x,that.y);
 			break;
+			case buttonType.BuildFrigate:
+				// !!! if this buttontype is unlocked
+				img.drawBuildShipButton("frigate",that.x,that.y,targetCanvas);
+			break;
+			case buttonType.BuildCruiser:
+				// !!! if this buttontype is unlocked				
+				img.drawBuildShipButton("cruiser",that.x,that.y,targetCanvas);
+			break;
+			case buttonType.BuildCapital:
+				// !!! if this buttontype is unlocked				
+				img.drawBuildShipButton("capital",that.x,that.y,targetCanvas);
+			break;
 			default:
-				targetCanvas.fillStyle = that.fill;
-				targetCanvas.fillRect(that.x, that.y, that.w, that.h);
-				targetCanvas.fillStyle = 'black';
-				ctx.font = that.fontStyle;
-				targetCanvas.fillText(that.title, that.x + 2, that.y + 15);
+				that.drawThis(targetCanvas);
 			break;
 		}
+	}
+	
+	that.drawThis = function(targetCanvas){
+		if (this.type = buttonType.BuildFrigate){
+			console.log("that.drawThis is drawing a .BuildFrigate");
+		}
+		targetCanvas.fillStyle = that.fill;
+		targetCanvas.fillRect(that.x, that.y, that.w, that.h);
+		targetCanvas.fillStyle = 'black';
+		ctx.font = that.fontStyle;
+		targetCanvas.fillText(that.title, that.x + 2, that.y + 15);	
 	}
 	
 	that.gotClicked = function(){

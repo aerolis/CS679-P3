@@ -33,9 +33,9 @@ function buttonset(){
 	//Function to add buttons.
 	// x, y, w, h  = location + dimenseions
 	// fill = color
-	// itemName = text on button
-	// theGoal = what should happen when pressed
-	// theType = type of button: navigational or weapon
+	// title = text on button
+	// type = what function the button has
+	// owner = the planet that owns it.
 	that.addButton = function(x, y, w, h, fill, title, type){
 		var item = new Button();
   		item.x = x;

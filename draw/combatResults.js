@@ -54,7 +54,7 @@ combatResults.prototype.draw = function(){
 	ctx.fillText("Player " + this.defender + " losses:", this.x + 220, this.y + 140);
 	if (this.defender == this.winner){
 		//calc losses.
-		var lines = createStringsFromTwoFleets(this.startFleetA, this.winFleet);
+		var lines = createStringsFromTwoFleets(this.startFleetD, this.winFleet);
 		var xLoc = this.x + 220;
 		var yLoc = this.y + 170;
 		for (var i = 0; i < lines.length; i++){
