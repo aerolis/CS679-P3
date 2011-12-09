@@ -98,6 +98,20 @@ player.prototype.removePlanet = function(planet)
 	}
 }
 
+player.prototype.hasResources = function(c,s,p,a)
+{
+	var check = true;
+	if (this.credits < c)
+		check = false;
+	if (this.steel < s)
+		check = false;
+	if (this.plasma < p)
+		check = false;
+	if (this.antimatter < a)
+		check = false;
+	return check;
+}
+
 //SHOULD ONLY BE CALLED IF PLAYER IS AN AI
 player.prototype.doTurn = function()
 {
