@@ -63,7 +63,7 @@ fleet.prototype.setUnMoved = function(){
 
 //Add a single ship that hasn't moved to the fleet (e.g. upon creation).
 fleet.prototype.addNewShip = function(newShip){
-	if (newShip.type == "Frigate"){
+		if (newShip.type == "Frigate"){
 			this.Frigates.push(newShip);
 		}
 		else if (newShip.type == "Cruiser"){
