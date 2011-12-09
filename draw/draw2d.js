@@ -290,3 +290,42 @@ function onHover(x,y,type,obj)
 		}
 	}
 }
+
+function draw2DLoading()
+{ 
+	if (canvas_b == null)
+		return null;
+	if (ctx == null)
+		return null;
+	if (!drawTutorial)
+	{
+		ctx.clearRect ( 0 , 0 , canvas.width , canvas.height );
+		ctx.drawImage(splash,0,0);
+		
+		//draw loading
+		//length of loading bar
+		var part_a = modelsChecked/totalModels;
+		var part_b = modelsBound/totalModels;
+		var part_c = initsComplete/totalInits;	
+		var part_d;
+		if (checkMapComplete)
+			part_d = 10;
+		else
+			part_d = 0;
+	
+		var length = 190*(part_a+part_b+part_c)/3+part_d;
+		ctx.fillStyle = "rgba(0,0,0,0.6)";
+		ctx.fillRect(796,596,208,48);
+		if (length < 200)
+			ctx.fillStyle = "rgba(150,15,30,0.6)";
+		else
+			ctx.fillStyle = "rgba(15,120,20,0.6)";
+		ctx.fillRect(800,600,length,40);
+		
+		//draw next button
+		if (allReady)
+		{
+			
+		}
+	}
+}

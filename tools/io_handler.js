@@ -58,7 +58,7 @@ function handleMouseMove(evt)
 					var foundTarget = null;
 					if (selectedPlanet != null){
 						//See if you hovered over an optionButton belonging to the selected planet.
-						foundTarget = selectedPlanet.optionButtons.checkHover(mousex, mousez);		
+						foundTarget = null;//selectedPlanet.optionButtons.checkHover(mousex, mousez);		
 						if (foundTarget != null)
 						{
 							//ignored for now because they aren't working correctly

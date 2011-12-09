@@ -212,7 +212,7 @@ function initObjects() //for binding meshes to GPU in webgl, leave as is
 {	
 	if (totalModels > 0)
 		var t = setTimeout("models[0].bindModel(0)",1/20*1000);
-	drawLoading();
+	//drawLoading();
 }
 
 function drawLoading()

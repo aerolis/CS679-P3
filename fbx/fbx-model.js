@@ -20,7 +20,7 @@ fbx_model.prototype.bindModel = function(index)
 	//console.log("to material binding");
 	this.initMaterials(index);
 	modelsBound++;
-	drawLoading();
+	//drawLoading();
 	if (index<totalModels-1)
 	{	
 		var i = index+1;

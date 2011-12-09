@@ -655,7 +655,7 @@ function createProgram(fragmentShaderID, vertexShaderID) {
 	shaderProgram = program;
 	initLights();
 	initsComplete++;
-	drawLoading();
+	//drawLoading();
 	pausecomp(50);
 	return program;
 }
@@ -665,7 +665,7 @@ function initShaders() {
 	shaderProgram_flash = createProgram("shader-fs-flash", "shader-vs-flash");
 	shaderProgram_post = createProgram("shader-fs-post", "shader-vs-post");
 	initsComplete += 2;
-	drawLoading();
+	//drawLoading();
 }
 function initLights()
 {
@@ -677,7 +677,7 @@ function initLights()
 	gl.uniform3fv(shaderProgram.lightingDirectionUniform, adjustedLD);
 	gl.uniform3f(shaderProgram.directionalColorUniform,0.0,0.0,0.0);
 	gl.uniform1f(shaderProgram.lightingPower,lightingPower);
-	drawLoading();
+	//drawLoading();
 }
 
 function setMatrixUniforms() {

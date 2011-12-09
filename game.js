@@ -55,6 +55,11 @@ var doOnceLoad = false;
 var startedBinding = false;
 var initsComplete = 0;
 var totalInits = 3;
+//set up a few images we need immediately and some we don't need until later
+var splash = new Image();
+splash.src = "images/splash_screen.png";
+//var new_game_button = new Image();
+//splash.src = "images/splash_screen.png";
 var img = new images();
 
 //mouse position vars stored
@@ -74,6 +79,10 @@ var planetHover = null;
 var timecheck = new Date().getTime();
 var fps;
 var drawFPS = false;
+var drawTutorial = false;
+var mapLoaded = false;
+var checkMapComplete = false;
+var allReady = false;
 
 //draw vars
 var zNear = 0.1;
@@ -93,8 +102,8 @@ function initGame() //begin the "official" game initialization
 		getMeshes(data);
 	}, 'html');
 	canvas = document.getElementById("3D_canvas");
-	canvas_b = document.getElementById("2D_canvas");
 	gl = canvas.getContext("experimental-webgl");
+	canvas_b = document.getElementById("2D_canvas");
 	ctx = canvas_b.getContext('2d');
 	gl.viewportWidth = canvas.width;
     gl.viewportHeight = canvas.height;
@@ -143,7 +152,6 @@ function nextLevel()
 }
 function setupLevel()
 {
-	
 	currentPlayer = 0;
 	
 	$.get("levels/dan4.html", function(data){
@@ -155,8 +163,10 @@ function setupLevel()
 }
 function checkGameBegin()
 {
-	if (map != null && players != null)
+	if (mapLoaded && players != null)
+	{
 		startgame();
+	}
 	else	
 		var t = setTimeout("checkGameBegin();",1/30*1000);
 }
@@ -175,6 +185,7 @@ function startgame()
 			}
 		}
 	}
+	checkMapComplete = true;
 	cam.flyToFull(players[currentPlayer].cPos,players[currentPlayer].cRot,players[currentPlayer].cDist);
 }
 
@@ -195,9 +206,19 @@ function gameLoop() //switches between game states and performs correct loop ope
 			{
 				setupLevel();
 				doOnceLoad = true;
+			}
+			else if (checkMapComplete)
+			{
+				allReady = true;
 				playState = 1;
 			}
-			drawLoading();
+			/*
+			else if (buttonpress && allReady)
+			{
+				playState = 1;
+			}
+			*/
+			draw2DLoading();
 			break;
 		case 1: // play loop
 			update();
@@ -248,7 +269,7 @@ function initObjects() //for binding meshes to GPU in webgl, leave as is
 {	
 	if (totalModels > 0)
 		var t = setTimeout("models[0].bindModel(0)",1/20*1000);
-	drawLoading();
+	//drawLoading();
 }
 
 function drawLoading()
@@ -264,8 +285,8 @@ function drawLoading()
 	
 	//var tmp = 100*modelsChecked/totalModels+100*doneSetup;
 	//will want to draw the loading bar here. 0<tmp<200
-	document.getElementById('loading').innerHTML = Math.round(10000*(part_a+part_b+part_c)/3)/100+"% loaded";
-	pausecomp(50);
+	//document.getElementById('loading').innerHTML = Math.round(10000*(part_a+part_b+part_c)/3)/100+"% loaded";
+	//pausecomp(50);
 }
 
 function nextTurn()
