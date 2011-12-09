@@ -119,20 +119,18 @@ map.prototype.bindLines = function()
 map.prototype.bindColors = function()
 {
 	var i,j,k;	
+	this.lineColBuffer = null;
 	var colors = new Array();
 	var connections = new Array();
 	var num = 0;
 	var a = 0.8;
-	
+	console.log("rebound colors");
 	for (i=0;i<this.systems.length;i++)
 	{
 		for (j=0;j<this.systems[i].planets.length;j++)
 		{
 			for (k=0;k<this.systems[i].planets[j].linkedPlanets.length;k++)
 			{
-				//var lnk = this.systems[i].planets[j].linkedPlanets[k].split('-');
-				//var lnk_sys = lnk[0];
-				//var lnk_planet = lnk[1];
 				var lnk_planet = this.systems[i].planets[j].linkedPlanets[k].id;
 				var lnk_sys = this.systems[i].planets[j].linkedPlanets[k].mySystem;
 				
@@ -200,6 +198,7 @@ map.prototype.bindColors = function()
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 	this.lineColBuffer.itemSize = 4;
     this.lineColBuffer.numItems = num*18;
+	console.log("finished rebind");
 }
 
 map.prototype.bindHalo = function()

@@ -35,7 +35,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.fl_showOptions = false;
 	this.optionButtons = new buttonset();
 	this.fl_showShips = false;
-	this.shipButtons = new buttonset();
+	this.shipButtons = new unitButtonSet();
 	
 	this.upgradeLevel = 1;	
 	this.amtResourcesToAdd = 0;
@@ -107,31 +107,76 @@ Planet.prototype.hideOptions = function(){
 	this.optionButtons.clear();
 	this.fl_showOptions = false;
 }
+/*
+Planet.prototype.showShips = function(){
+	//For each shiptype, make a button at location so and so much.	
+	// !!! if (you're on page 1.)
+	var amt = shipButtons.buttons.length;
+	//Add buttons for ships that haven't moved.
+	if ( amt < 9 &&(this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0)){
+		//Find location
+		var amt = shipButtons.buttons.length;
+		var xOrder = amt%4;
+		var yOrder = Math.floor(amt/4); 
+		this.shipButtons.addUnitButton(OptionBarX + 10 + ShipButtonWidth * xOrder, OptionBarY + 10 + ShipButtonHeight * yOrder, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
+	}
+	
+	if ( amt < 9 &&(this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length > 0)){
+		//Find location
+		var amt = shipButtons.buttons.length;
+		var xOrder = amt%4;
+		var yOrder = Math.floor(amt/4); 
+		this.shipButtons.addUnitButton(OptionBarX + 10 + ShipButtonWidth * xOrder, OptionBarY + 10 + ShipButtonHeight * yOrder, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Cruisers: ", buttonType.Cruisers, "Cruisers");	
+	}
+	
+	if ( amt < 9 &&(this.myFleet.Capitals.length + this.selectedFleet.Capitals.length > 0)){
+		//Find location
+		var amt = shipButtons.buttons.length;
+		var xOrder = amt%4;
+		var yOrder = Math.floor(amt/4); 
+		this.shipButtons.addUnitButton(OptionBarX + 10 + ShipButtonWidth * xOrder, OptionBarY + 10 + ShipButtonHeight * yOrder, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Capitals: ", buttonType.Capitals, "Capitals");	
+	}
+	
+	//Add buttons for ships that have moved.
+	
+	
+	//Get amount of buttons.
+	
+	//Keep track of how many buttons.
+	//Keep track of the page
+	//If so, show arrows. (probably an option button?)
+}
+*/
 
 Planet.prototype.showShips = function(){
-	//populate shipButtons;
-	// !!! buttonTypes
+	this.shipButtons.page = 0;
+	
 	//Movable ships
 	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
-		this.shipButtons.addButton(unitsStart, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Frigates: " + this.myFleet.Frigates.length + ", " + this.selectedFleet.Frigates.length, buttonType.Frigates);	
+		this.shipButtons.addUnitButton('#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
 	}
 	if (this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length  > 0){
-		this.shipButtons.addButton(unitsStart + (OptionBarSidesWidth - 40)/3 + 10, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Cruisers: " + this.myFleet.Cruisers.length + ", " + this.selectedFleet.Cruisers.length, buttonType.Cruisers);	
+		this.shipButtons.addUnitButton('#4C7D7E', "Cruisers: " , buttonType.Cruisers, "Cruisers");	
 	}
 	if (this.myFleet.Capitals.length + this.selectedFleet.Capitals.length  > 0){
-		this.shipButtons.addButton(unitsStart + 2*(OptionBarSidesWidth - 40)/3 + 20, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Capitals: " + this.myFleet.Capitals.length + ", " + this.selectedFleet.Capitals.length, buttonType.Capitals);	
+		this.shipButtons.addUnitButton('#4C7D7E', "Capitals: ", buttonType.Capitals, "Capitals");	
 	}	
-	//These don't actually need to be buttons
+	
 	//Non-movable ships
 	if (this.myFleet.FrigatesMoved.length + this.selectedFleet.FrigatesMoved.length > 0){
-		this.shipButtons.addButton(unitsStart                                      , OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "FrigatesMoved: " + this.myFleet.FrigatesMoved.length + ", " + this.selectedFleet.FrigatesMoved.length, buttonType.Empty);	
+		this.shipButtons.addUnitButton('#806D7E', "FrigatesMoved: ", buttonType.Empty, "FrigatesMoved");	
 	}
 	if (this.myFleet.CruisersMoved.length + this.selectedFleet.CruisersMoved.length  > 0){
-		this.shipButtons.addButton(unitsStart + (OptionBarSidesWidth - 40)/3 + 10  , OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "CruisersMoved: " + this.myFleet.CruisersMoved.length + ", " + this.selectedFleet.CruisersMoved.length, buttonType.Empty);	
+		this.shipButtons.addUnitButton('#806D7E', "CruisersMoved: ", buttonType.Empty, "CruisersMoved");	
 	}
 	if (this.myFleet.CapitalsMoved.length + this.selectedFleet.CapitalsMoved.length  > 0){
-		this.shipButtons.addButton(unitsStart + 2*(OptionBarSidesWidth - 40)/3 + 20, OptionBarY + (OptionBarHeight - 30)/2 + 20, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#806D7E', "CapitalsMoved: " + this.myFleet.CapitalsMoved.length + ", " + this.selectedFleet.CapitalsMoved.length, buttonType.Empty);	
+		this.shipButtons.addUnitButton( '#806D7E', "CapitalsMoved: ", buttonType.Empty,"CapitalsMoved");	
 	}	
+	
+	//Give them all a location
+	this.shipButtons.layOutButtons();
+	
+	// !!! if more than so many, add arrows.
 	this.fl_showShips = true;
 }
 
@@ -350,7 +395,7 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
     //Get a winner first.
     var winner = battle(enemyFleet, this.myFleet);
-    
+	
     //after we got winner,assign value to planet.player
     if (winner.length > 0){
 		//If you lost
@@ -370,6 +415,7 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
         console.log("Everything died. This shouldn't be able to happen.");    
     }
     console.log("So now I am: " + this.player);
+    mp.bindColors();
     combatResultScreen.show();
 }
 

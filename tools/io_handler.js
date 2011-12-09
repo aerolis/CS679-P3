@@ -45,7 +45,21 @@ function handleMouseMove(evt)
 			cam.translate(dz/100,-dx/100);
 		}
 		
-		posAtMouse = getClickLocationOnPlane();
+		//check hovering over buttons
+		if (mousez > canvas.height - 250)
+		{
+			//now check which button set it might be over
+			//check left
+				//detemine which button is hovered
+			//check right	
+				//determine which button is hovered
+		}
+		//posAtMouse = getClickLocationOnPlane();
+		var planetHover = -1;//pickObject();
+		if (planetHover != -1)
+		{
+			onHover(mousex,mousez,2,planetHover);
+		}
 	}
 }
 function handleMouseDown(evt)
@@ -143,7 +157,7 @@ function handleMouseUp(evt)
 			mPressed = false;
 		else if (evt.which == 3) //right mouse button
 		{
-			console.log("Right clicked");
+			//console.log("Right clicked");
 			if (justRightClicked)
 			{
 				//this is a double click

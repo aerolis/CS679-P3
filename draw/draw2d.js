@@ -9,6 +9,8 @@ var OptionBarHeight;
 var OptionBarSidesWidth;
 var OptionBarMiddleDif;
 
+var ShipButtonWidth;
+var ShipButtonHeight;
 
 var InfoBarX;
 var InfoBarY;
@@ -31,7 +33,10 @@ function initDraw2d(){
 	OptionBarMiddleDif = 50;
 	OptionBarX = 0;
 	OptionBarY = canvas.height - OptionBarHeight;	
-	
+		
+	ShipButtonWidth = (OptionBarSidesWidth - 20)/4     //=107.5
+	ShipButtonHeight = (OptionBarHeight - 20)/3        //=73.3
+		
 	InfoBarX = 0;
 	InfoBarY = 0;
 	InfoBarWidth = canvas.width;
@@ -132,3 +137,26 @@ function draw2d()
 	}		
 }
 
+function onHover(x,y,type,obj)
+{
+	//x: x pos
+	//y: y pos
+	//type: ship/research/planet
+	//obj: the ref being hovered over
+	var width = 250;
+	var height = 300;
+	var x_offset = 0;
+	if (type == 0) //ship
+	{
+		//first draw background rectangle
+		if (y > canvas.width)
+			x_offset = -width;
+		//draw at x+x_offset,y
+		
+		//draw the rest on this
+	}
+	else if (type == 2)
+	{
+		ctx.drawImage(img.hover_background,x,y);
+	}
+}
