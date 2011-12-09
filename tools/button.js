@@ -40,9 +40,19 @@ function Button(){
 			case buttonType.RemoveCR:
 				targetCanvas.drawImage(img.ok_button,that.x,that.y);
 			break;
+			case buttonType.BrowseShipsLeft:
+				targetCanvas.fillStyle = 'black';
+				targetCanvas.fillRect(that.x, that.y+20, that.w, that.h-20);
+				targetCanvas.drawImage(img.left_arrow,that.x,that.y+20);
+			break;
+			case buttonType.BrowseShipsRight:
+				targetCanvas.fillStyle = 'black';
+				targetCanvas.fillRect(that.x, that.y+20, that.w, that.h-20);
+				targetCanvas.drawImage(img.right_arrow,that.x,that.y+20);
+			break;
 			default:
 				targetCanvas.fillStyle = that.fill;
-				targetCanvas.fillRect(that.x, that.y, that.w, that.h);
+				targetCanvas.fillRect(that.x, that.y, that.w, that.h-20);
 				targetCanvas.fillStyle = 'black';
 				ctx.font = that.fontStyle;
 				targetCanvas.fillText(that.title, that.x + 2, that.y + 15);
