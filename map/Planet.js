@@ -351,7 +351,7 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
     //Get a winner first.
     var winner = battle(enemyFleet, this.myFleet);
-    
+	
     //after we got winner,assign value to planet.player
     if (winner.length > 0){
 		//If you lost
@@ -371,6 +371,7 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
         console.log("Everything died. This shouldn't be able to happen.");    
     }
     console.log("So now I am: " + this.player);
+    mp.bindColors();
     combatResultScreen.show();
 }
 

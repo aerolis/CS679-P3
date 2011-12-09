@@ -132,3 +132,26 @@ function draw2d()
 	}		
 }
 
+function onHover(x,y,type,obj)
+{
+	//x: x pos
+	//y: y pos
+	//type: ship/research/planet
+	//obj: the ref being hovered over
+	var width = 250;
+	var height = 300;
+	var x_offset = 0;
+	if (type == 0) //ship
+	{
+		//first draw background rectangle
+		if (y > canvas.width)
+			x_offset = -width;
+		//draw at x+x_offset,y
+		
+		//draw the rest on this
+	}
+	else if (type == 2)
+	{
+		ctx.drawImage(img.hover_background,x,y);
+	}
+}

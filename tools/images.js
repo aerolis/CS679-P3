@@ -9,6 +9,7 @@ function images()
 	this.planet_cost = new Image();
 	this.left_arrow = new Image();
 	this.right_arrow = new Image();
+	this.hover_background = new Image();
 	
 	this.planets_64 = new Array();
 	this.ship_buttons = new Array();
@@ -22,6 +23,7 @@ function images()
 	this.planet_cost.src = "images/planet_cost.png";
 	this.left_arrow.src = "images/left_arrow.png";
 	this.right_arrow.src = "images/right_arrow.png";
+	this.hover_background.src = "images/hover_background.png";
 	
 	//load planet images
 	var i;
