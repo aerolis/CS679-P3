@@ -89,6 +89,15 @@ fleet.prototype.addMovedShip = function(movedShip){
 	}
 }
 
+fleet.prototype.clone = function(){
+	var newFleet = new fleet();
+	var thisList = this.getList();
+	for (var i = 0; i < thisList.length; i++){
+		newFleet.addNewShip(new ship(thisList[i].player, thisList[i].type));	
+	}
+	return newFleet;
+}
+
 //Make a fleet out of a list of ships.
 function makeFleetMoved(list){
 	var newFleet = new fleet();
