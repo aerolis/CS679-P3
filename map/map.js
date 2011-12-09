@@ -124,7 +124,6 @@ map.prototype.bindColors = function()
 	var connections = new Array();
 	var num = 0;
 	var a = 0.8;
-	console.log("rebound colors");
 	for (i=0;i<this.systems.length;i++)
 	{
 		for (j=0;j<this.systems[i].planets.length;j++)
@@ -198,7 +197,6 @@ map.prototype.bindColors = function()
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
 	this.lineColBuffer.itemSize = 4;
     this.lineColBuffer.numItems = num*18;
-	console.log("finished rebind");
 }
 
 map.prototype.bindHalo = function()

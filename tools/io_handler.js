@@ -45,6 +45,8 @@ function handleMouseMove(evt)
 			cam.translate(dz/100,-dx/100);
 		}
 		
+		//hovering code
+		drawHover = -1;
 		//check hovering over buttons
 		if (mousez > canvas.height - 250)
 		{
@@ -54,12 +56,16 @@ function handleMouseMove(evt)
 			//check right	
 				//determine which button is hovered
 		}
-		//posAtMouse = getClickLocationOnPlane();
-		var planetHover = -1;//pickObject();
-		if (planetHover != -1)
-		{
-			onHover(mousex,mousez,2,planetHover);
+		else
+		{ //planet hovers
+			planetHover = pickObject();
+			if (planetHover != -1)
+			{sa
+				drawHover = 2;
+			}
 		}
+		//posAtMouse = getClickLocationOnPlane();
+
 	}
 }
 function handleMouseDown(evt)

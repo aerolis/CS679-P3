@@ -24,7 +24,11 @@ var planetWidth;
 var permaStart;	
 
 var permaButtons;
-var combatResultScreen;		
+var combatResultScreen;
+
+var drawHover;
+var planetHover;
+var shipHover;	
 
 function initDraw2d(){
 	OptionBarSidesWidth = 450;
@@ -122,6 +126,15 @@ function draw2d()
 				}
 			}
 				
+			//drawing the hover menu
+			if (drawHover == 0)
+				onHover(mousex,mousez,0,shipHover);
+			else if (drawHover == 1)
+				var tmp = 1; // !!
+			else if (drawHover == 2)
+				var tmp = 1; // !!
+				//onHover(mousex,mousez,2,planetHover);	
+			
 			permaButtons.draw();
 			
 			if(combatResultScreen.active){
@@ -139,24 +152,29 @@ function draw2d()
 
 function onHover(x,y,type,obj)
 {
-	//x: x pos
-	//y: y pos
 	//type: ship/research/planet
-	//obj: the ref being hovered over
+	//obj: the ref being hovered overaa
 	var width = 250;
 	var height = 300;
 	var x_offset = 0;
+	var y_offset = 0;
 	if (type == 0) //ship
 	{
 		//first draw background rectangle
-		if (y > canvas.width)
+		if (x > canvas.width-width)
 			x_offset = -width;
-		//draw at x+x_offset,y
+		if (y > canvas.height-height)
+			y_offset = -height;
+		ctx.drawImage(img.hover_background,x+x_offset,y+y_offset);
 		
 		//draw the rest on this
 	}
 	else if (type == 2)
 	{
-		ctx.drawImage(img.hover_background,x,y);
+		if (x > canvas.width-width)
+			x_offset = -width;
+		if (y > canvas.height-height)
+			y_offset = -height;
+		ctx.drawImage(img.hover_background,x+x_offset,y+y_offset);
 	}
 }

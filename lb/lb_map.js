@@ -148,6 +148,33 @@ function lb_parseMap(data)
 				break;
 				case "<owner>":
 					tmp.player = parseInt(tokens[1]);
+					if (tmp.player == -1)
+					{
+						tmp.myFleet = new fleet();					
+						var j;
+						for (j=0;j<5;j++)
+						{
+							tmp.myFleet.Frigates.push(new ship(tmp.player, "Frigate"));	
+						}
+						for (j=0;j<5;j++)
+						{
+							tmp.myFleet.Cruisers.push(new ship(tmp.player, "Cruiser"));
+						}
+					}
+					else
+					{
+						tmp.myFleet = new fleet();					
+						var j;					
+						for (j=0;j<10;j++)
+						{
+							tmp.myFleet.Frigates.push(new ship(tmp.player, "Frigate"));	
+						}
+						for (j=0;j<3;j++)
+						{
+							tmp.myFleet.Cruisers.push(new ship(tmp.player, "Cruiser"));
+						}
+						tmp.myFleet.Capitals.push(new ship(tmp.player, "Capital"));
+					}
 				break;
 				case "<pos>":
 					tmp.pos = new v3(parseFloat(tokens[1]),parseFloat(tokens[2]),parseFloat(tokens[3]));

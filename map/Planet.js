@@ -252,15 +252,7 @@ Planet.prototype.specifyPlanetType = function()
 	//Apparently, after this the planet type is properly set...
 	// !!! Could probably use a better location.
 	this.upgradeStats = new upgradeData(this);	
-	
-	// !!! ==== For testing only, should be removed! ===========
-	this.myFleet.Frigates.push(new ship(this.player, "Frigate"));	
-	this.myFleet.Cruisers.push(new ship(this.player, "Cruiser"));
-	this.myFleet.Capitals.push(new ship(this.player, "Capital"));
-
-	// !!! ==== End of testing purposes :) =====================
-	
-	
+		
 }
  
 
