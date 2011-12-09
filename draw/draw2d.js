@@ -9,6 +9,8 @@ var OptionBarHeight;
 var OptionBarSidesWidth;
 var OptionBarMiddleDif;
 
+var ShipButtonWidth;
+var ShipButtonHeight;
 
 var InfoBarX;
 var InfoBarY;
@@ -31,7 +33,10 @@ function initDraw2d(){
 	OptionBarMiddleDif = 50;
 	OptionBarX = 0;
 	OptionBarY = canvas.height - OptionBarHeight;	
-	
+		
+	ShipButtonWidth = (OptionBarSidesWidth - 20)/4     //=107.5
+	ShipButtonHeight = (OptionBarHeight - 20)/3        //=73.3
+		
 	InfoBarX = 0;
 	InfoBarY = 0;
 	InfoBarWidth = canvas.width;

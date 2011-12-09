@@ -27,6 +27,7 @@ function shipOrder(i_owner,i_type,i_amt){
 	
 	this.timer = sampleShip.period;
 	//resources consumption
+	this.credits = sampleShip.credits;
 	this.steel = sampleShip.steel;
 	this.plasma = sampleShip.plasma;
 	this.antiMatter = sampleShip.antiMatter;
@@ -41,7 +42,10 @@ function productionPlan(){
 productionPlan.prototype.addOrder = function(i_owner,i_type,i_amt){ //add items into ship production plan
 
 	var newOrder = new shipOrder(i_owner,i_type,i_amt);
-	if (players[i_owner].plasma < newOrder.plasma*i_amt || players[i_owner].steel < newOrder.steel*i_amt ||players[i_owner].antimatter < newOrder.antiMatter*i_amt)
+	if (players[i_owner].credits < newOrder.credits*i_amt ||
+		players[i_owner].plasma < newOrder.plasma*i_amt || 
+		players[i_owner].steel < newOrder.steel*i_amt ||
+		players[i_owner].antimatter < newOrder.antiMatter*i_amt)
 	{
 		//delete newOrder;
 		console.log("resources not enough");
@@ -50,6 +54,7 @@ productionPlan.prototype.addOrder = function(i_owner,i_type,i_amt){ //add items 
 	
 	this.plan.push(newOrder);
 	//consume resources
+	players[i_owner].credits -= newOrder.credits*newOrder.amt;
 	players[i_owner].plasma -= newOrder.plasma*newOrder.amt;
 	players[i_owner].steel -= newOrder.steel*newOrder.amt;
 	players[i_owner].antimatter -= newOrder.antiMatter*newOrder.amt;
