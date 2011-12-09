@@ -46,15 +46,15 @@ function Button(){
 			break;
 			case buttonType.BuildFrigate:
 				// !!! if this buttontype is unlocked
-				img.drawBuildShipButton("frigate",that.x,that.y,targetCanvas);
+				img.drawBuildShipButton("frigate",that.x,that.y, selectedPlanet.productionPlan.noFrigates, targetCanvas);
 			break;
 			case buttonType.BuildCruiser:
 				// !!! if this buttontype is unlocked				
-				img.drawBuildShipButton("cruiser",that.x,that.y,targetCanvas);
+				img.drawBuildShipButton("cruiser",that.x,that.y, selectedPlanet.productionPlan.noCruisers, targetCanvas);
 			break;
 			case buttonType.BuildCapital:
 				// !!! if this buttontype is unlocked				
-				img.drawBuildShipButton("capital",that.x,that.y,targetCanvas);
+				img.drawBuildShipButton("capital",that.x,that.y, selectedPlanet.productionPlan.noCapitals, targetCanvas);
 			break;
 			
 			case buttonType.BrowseShipsLeft:
@@ -73,9 +73,6 @@ function Button(){
 	}
 	
 	that.drawThis = function(targetCanvas){
-		if (this.type = buttonType.BuildFrigate){
-			console.log("that.drawThis is drawing a .BuildFrigate");
-		}
 		targetCanvas.fillStyle = that.fill;
 		targetCanvas.fillRect(that.x, that.y, that.w, that.h);
 		targetCanvas.fillStyle = 'black';
@@ -84,7 +81,7 @@ function Button(){
 	}
 	
 	that.gotClicked = function(){
-		console.log(that.title + " got clicked.");
+		//console.log(that.title + " got clicked.");
 		switch (that.type){
 				//General buttons
 			case buttonType.EndTurn:
@@ -111,34 +108,34 @@ function Button(){
 				
 				//Build buttons.				
 			case buttonType.BuildFrigate:
-				console.log("This planet wants to build a Frigate");
+				//console.log("This planet wants to build a Frigate");
 				selectedPlanet.buildShip("frigate",1);
 				break;
 				
 			case buttonType.BuildCruiser:
-				console.log("This planet wants to build a Cruiser");
+				//console.log("This planet wants to build a Cruiser");
 				selectedPlanet.buildShip("cruiser",1);
 
 				break;
 				
 			case buttonType.BuildCapital:
-				console.log("This planet wants to build a Capital");
+				//console.log("This planet wants to build a Capital");
 				selectedPlanet.buildShip("capital",1);
 				break;
 				
 			//Selecting units buttons
 			case buttonType.Frigates:
-				console.log("This planet wants to select a Frigate");
+				//console.log("This planet wants to select a Frigate");
 				selectedPlanet.selectFrigate();
 				break;
 				
 			case buttonType.Cruisers:
-				console.log("This planet wants to select a Cruisers");
+				//console.log("This planet wants to select a Cruisers");
 				selectedPlanet.selectCruiser();				
 				break;
 				
 			case buttonType.Capitals:
-				console.log("This planet wants to select a Capitals");
+				//console.log("This planet wants to select a Capitals");
 				selectedPlanet.selectCapital();				
 				break;
 				

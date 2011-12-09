@@ -218,6 +218,7 @@ function lb_parseMap(data)
 		}
 	}	
 	createdViaMap = false;
+	mapLoaded = true;
 }
 
 function lb_parsePlayers(data)
@@ -297,7 +298,7 @@ function lb_loadMap()
 }
 function lb_checkLoaded()
 {
-	if (map != null && players != null)
+	if (mp != null && players != null)
 		lb_startBuilder();
 	else	
 		var t = setTimeout("lb_checkLoaded();",1/30*1000);

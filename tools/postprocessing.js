@@ -105,5 +105,5 @@ function initScreen()
 	
 	//incr up loading vars
 	initsComplete += 2;
-	drawLoading();
+	//drawLoading();
 }
