@@ -45,7 +45,7 @@ function buttonset(){
   		item.fill = fill;
   		item.title = title;	
 		item.type = type;
-  		that.buttons.push(item);
+  		that.buttons.push(item);		
 	} ;
 
 	that.draw = function(){
@@ -86,10 +86,11 @@ function buttonset(){
 		clear(gctx);
 		return false;
 	}
+	
 	that.checkHover = function(mouseX,mouseY) {
 		clear(gctx);
-		var l = that.buttons.length;
 		var mySel = null;
+		var l = that.buttons.length;
 		for (var i = l-1; i >= 0; i--) {
 			// draw shape onto ghost context
 			that.buttons[i].draw(gctx);
@@ -101,6 +102,7 @@ function buttonset(){
 			// if the mouse pixel exists, select and break
 			if (imageData.data[3] > 0) {
 				mySel = that.buttons[i];
+				clear(gctx);
 			}
 		}
 		// havent returned means we have selected nothing
