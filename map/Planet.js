@@ -62,7 +62,6 @@ Planet.prototype.buildShip = function(type,amt)
 	
 	//add new item to production plan, need to specify amt of each order
 	var status = this.productionPlan.addOrder(this.player,type,amt);
-	this.showShips();
 	return status;
 }
 
@@ -107,50 +106,8 @@ Planet.prototype.hideOptions = function(){
 	this.optionButtons.clear();
 	this.fl_showOptions = false;
 }
-/*
-Planet.prototype.showShips = function(){
-	//For each shiptype, make a button at location so and so much.	
-	// !!! if (you're on page 1.)
-	var amt = shipButtons.buttons.length;
-	//Add buttons for ships that haven't moved.
-	if ( amt < 9 &&(this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0)){
-		//Find location
-		var amt = shipButtons.buttons.length;
-		var xOrder = amt%4;
-		var yOrder = Math.floor(amt/4); 
-		this.shipButtons.addUnitButton(OptionBarX + 10 + ShipButtonWidth * xOrder, OptionBarY + 10 + ShipButtonHeight * yOrder, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
-	}
-	
-	if ( amt < 9 &&(this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length > 0)){
-		//Find location
-		var amt = shipButtons.buttons.length;
-		var xOrder = amt%4;
-		var yOrder = Math.floor(amt/4); 
-		this.shipButtons.addUnitButton(OptionBarX + 10 + ShipButtonWidth * xOrder, OptionBarY + 10 + ShipButtonHeight * yOrder, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Cruisers: ", buttonType.Cruisers, "Cruisers");	
-	}
-	
-	if ( amt < 9 &&(this.myFleet.Capitals.length + this.selectedFleet.Capitals.length > 0)){
-		//Find location
-		var amt = shipButtons.buttons.length;
-		var xOrder = amt%4;
-		var yOrder = Math.floor(amt/4); 
-		this.shipButtons.addUnitButton(OptionBarX + 10 + ShipButtonWidth * xOrder, OptionBarY + 10 + ShipButtonHeight * yOrder, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Capitals: ", buttonType.Capitals, "Capitals");	
-	}
-	
-	//Add buttons for ships that have moved.
-	
-	
-	//Get amount of buttons.
-	
-	//Keep track of how many buttons.
-	//Keep track of the page
-	//If so, show arrows. (probably an option button?)
-}
-*/
 
 Planet.prototype.showShips = function(){
-	this.shipButtons.page = 0;
-	
 	//Movable ships
 	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
 		this.shipButtons.addUnitButton('#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
@@ -173,6 +130,20 @@ Planet.prototype.showShips = function(){
 		this.shipButtons.addUnitButton( '#806D7E', "CapitalsMoved: ", buttonType.Empty,"CapitalsMoved");	
 	}	
 	
+	// !!! For testing, add some extra buttons. ====================================
+	// !!! leaving them for a second to show off that it works :P.
+	//Non-movable ships
+	if (this.myFleet.FrigatesMoved.length + this.selectedFleet.FrigatesMoved.length > 0){
+		this.shipButtons.addUnitButton('#806D7E', "FrigatesMoved: ", buttonType.Empty, "FrigatesMoved");	
+	}
+	if (this.myFleet.CruisersMoved.length + this.selectedFleet.CruisersMoved.length  > 0){
+		this.shipButtons.addUnitButton('#806D7E', "CruisersMoved: ", buttonType.Empty, "CruisersMoved");	
+	}
+	if (this.myFleet.CapitalsMoved.length + this.selectedFleet.CapitalsMoved.length  > 0){
+		this.shipButtons.addUnitButton( '#806D7E', "CapitalsMoved: ", buttonType.Empty,"CapitalsMoved");	
+	}	
+	// !!! ====================================== end test ===========================
+		
 	//Give them all a location
 	this.shipButtons.layOutButtons();
 	
@@ -186,33 +157,24 @@ Planet.prototype.hideShips = function(){
 }
 
 Planet.prototype.selectFrigate = function(){
-	this.hideShips();
+	console.log("Planet tries to select a frigate. myFleet: " + this.myFleet.Frigates.length + ", selected: " + this.selectedFleet.Frigates.length);
 	if (this.myFleet.Frigates.length > 0){
 		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
-		//this.selectedFleet.addFrigates(1);
 	}
-	// !!! Buttons need to be refactored. I really don't want to do this this way.
-	this.showShips();
+	console.log("Planet just tried to select a frigate. myFleet: " + this.myFleet.Frigates.length + ", selected: " + this.selectedFleet.Frigates.length);
+	
 }
 
 Planet.prototype.selectCruiser = function(){
-	this.hideShips();
 	if (this.myFleet.Cruisers.length > 0){
 		this.selectedFleet.Cruisers.push(this.myFleet.Cruisers.pop());
-		//this.selectedFleet.addFrigates(1);
 	}
-	// !!! Buttons need to be refactored. I really don't want to do this this way.
-	this.showShips();
 }
 
 Planet.prototype.selectCapital = function(){
-	this.hideShips();
 	if (this.myFleet.Capitals.length > 0){
 		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
-		//this.selectedFleet.addFrigates(1);
 	}
-	// !!! Buttons need to be refactored. I really don't want to do this this way.
-	this.showShips();
 }
 
 
@@ -361,10 +323,8 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 	//See if it's possible to fly here.
 	if (this.linkedTo(selectedPlanet)){
 		//Do this stuff
-		// !!! Button things that need refactoring again
-		selectedPlanet.hideShips();
 		
-		//If it were your players, just add the fleet.
+		//If it were your ships, just add the fleet.
 		if (this.player == currentPlayer){
 			selectedPlanet.selectedFleet.setMoved();
 			this.myFleet.addFleet(selectedPlanet.selectedFleet);
@@ -374,8 +334,7 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 		else if (targetPlanet.player != currentPlayer){
 			this.receiveHostileFleet(selectedPlanet.selectedFleet);
 			selectedPlanet.selectedFleet.empty();
-		}
-		selectedPlanet.showShips();			
+		}		
 	}
 	else{
 		console.log("The fleet didn't reach me");
@@ -406,18 +365,18 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
     else{
         console.log("Everything died. This shouldn't be able to happen.");    
     }
-    console.log("So now I am: " + this.player);
     mp.bindColors();
     combatResultScreen.show();
 }
 
-Planet.prototype.getNewShips = function(){ //Add new ships realeased from production and put them into fleet
+Planet.prototype.getNewShips = function(){ //Add new ships released from production and put them into fleet
 	var newShipArray = [];
 	newShipArray = newShipArray.concat(this.productionPlan.release());
 	for(var i=0; i < newShipArray.length; i++){
 		this.myFleet.addNewShip(newShipArray[i]);
 	}
 }
+
 Planet.prototype.initFleetOwner = function()
 {
 	var i;
@@ -434,6 +393,7 @@ Planet.prototype.initFleetOwner = function()
 		this.myFleet.Capitals[i].owner = this.player;
 	}
 }
+
 Planet.prototype.getPlanetXY = function()
 {
 	var x,y;

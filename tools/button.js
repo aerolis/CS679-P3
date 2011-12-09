@@ -53,80 +53,67 @@ function Button(){
 	that.gotClicked = function(){
 		console.log(that.title + " got clicked.");
 		switch (that.type){
+				//General buttons
 			case buttonType.EndTurn:
-				//console.log("Endturn got pressed. calling nextTurn()");
-				//Do ending turn stuff				
 				nextTurn();
-				break;
-			
-			case buttonType.Send:
-				//Do stuff
-				// ==========
-				// selectedPlanet.sendArmy;
-				// mouseMode = MouseModes.sendArmyTo;
-				// =============
-				//console.log("This planet wants to send out an army");
 				break;
 				
 			case buttonType.Upgrade:
-				//Do stuff
 				selectedPlanet.tryUpgrade();
-				//console.log("This planet wants to upgrade");
 				break;
 				
 			case buttonType.RemoveCR:
-				//Do stuff
 				combatResultScreen.hide();			
-				//console.log("This planet wants to select a frigate");
 				break;
 				
+			case buttonType.BrowseShipsLeft:
+				selectedPlanet.shipButtons.page--;
+				selectedPlanet.shipButtons.layOutButtons();
+				break;
+				
+			case buttonType.BrowseShipsRight:
+				selectedPlanet.shipButtons.page++;
+				selectedPlanet.shipButtons.layOutButtons();
+				break;
+				
+				//Build buttons.				
 			case buttonType.BuildFrigate:
-				//Do stuff
 				console.log("This planet wants to build a Frigate");
-				//for now, just building frigates
 				selectedPlanet.buildShip("frigate",1);
 				break;
 				
 			case buttonType.BuildCruiser:
-				//Do stuff
-				//for now buttons only build one ship per click
 				console.log("This planet wants to build a Cruiser");
 				selectedPlanet.buildShip("cruiser",1);
 
 				break;
 				
 			case buttonType.BuildCapital:
-				//Do stuff
 				console.log("This planet wants to build a Capital");
 				selectedPlanet.buildShip("capital",1);
 				break;
 				
-
-				
 			//Selecting units buttons
 			case buttonType.Frigates:
-				//Do stuff
+				console.log("This planet wants to select a Frigate");
 				selectedPlanet.selectFrigate();
-				//console.log("This planet wants to select a frigate");
 				break;
 				
 			case buttonType.Cruisers:
-				//Do stuff
+				console.log("This planet wants to select a Cruisers");
 				selectedPlanet.selectCruiser();				
-				//console.log("This planet wants to select a cruiser");
 				break;
 				
 			case buttonType.Capitals:
-				//Do stuff
+				console.log("This planet wants to select a Capitals");
 				selectedPlanet.selectCapital();				
-				//console.log("This planet wants to select a frigate");
 				break;
 				
 			case buttonType.Empty:
+				//For the moved ships buttons; they don't actually do anything.
 				break;
 				
 			default:
-				//console.log("I do go through the switch. that.type = " + that.type);
 				break;
 		
 		}

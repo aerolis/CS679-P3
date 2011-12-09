@@ -79,7 +79,7 @@ function draw2d()
 			//Draw infobar background
 			ctx.drawImage(img.info_bar,InfoBarX,InfoBarY);
 		
-			//Print inventoryw
+			//Print inventory
 			ctx.fillStyle = 'white';
 			ctx.font = "15pt Calibri";		
 			ctx.fillText(players[0].credits,InfoBarX+110,InfoBarY+30);
@@ -182,6 +182,10 @@ function onHover(x,y,type,obj)
 			break;
 			case "Capitals":
 				sh = new ship(-1,"capital");
+			break;
+			//TODO fix that this case doesn't happen
+			default:
+				sh = new ship(-1, "frigate");
 			break;
 		}
 		
