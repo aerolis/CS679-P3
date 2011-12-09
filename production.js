@@ -59,6 +59,8 @@ productionPlan.prototype.addOrder = function(i_owner,i_type,i_amt){ //add items 
 	players[i_owner].steel -= newOrder.steel*newOrder.amt;
 	players[i_owner].antimatter -= newOrder.antiMatter*newOrder.amt;
 	
+	return true;
+	
 }
 
 
