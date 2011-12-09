@@ -223,10 +223,10 @@ function onHover(x,y,type,obj)
 		ctx.drawImage(img.planet_cost, x+x_offset+5,y+y_offset+125);
 		//now draw upgrade costs
 		ctx.font = "12pt Calibri";
-		ctx.fillText(selectedPlanet.upgradeStats.credits, x+x_offset+35, y+y_offset + 136);
-		ctx.fillText(selectedPlanet.upgradeStats.steel, x+x_offset+35, y+y_offset + 136+16);
-		ctx.fillText(selectedPlanet.upgradeStats.plasma, x+x_offset+35, y+y_offset + 136+32);
-		ctx.fillText(selectedPlanet.upgradeStats.antimatter, x+x_offset+35, y+y_offset + 136+48);
+		ctx.fillText(sh.credits, x+x_offset+35, y+y_offset + 136);
+		ctx.fillText(sh.steel, x+x_offset+35, y+y_offset + 136+16);
+		ctx.fillText(sh.plasma, x+x_offset+35, y+y_offset + 136+32);
+		ctx.fillText(sh.antiMatter, x+x_offset+35, y+y_offset + 136+48);
 
 	}
 	else if (type == 2)

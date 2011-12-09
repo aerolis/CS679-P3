@@ -73,7 +73,7 @@ var maxDiff = 300;
 var planetHover = null;
 var timecheck = new Date().getTime();
 var fps;
-var drawFPS = true;
+var drawFPS = false;
 
 //draw vars
 var zNear = 0.1;

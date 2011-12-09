@@ -7,6 +7,7 @@ function handleMouseMove(evt)
 	{
 		mousex = Math.max(0,Math.min(canvas.width,evt.clientX-10));
 		mousez = Math.max(0,Math.min(canvas.height,evt.clientY-10));
+		drawHover = -1;
 		
 		if (evt.clientX-10>canvas.width || evt.clientY-10>canvas.height)
 		{
@@ -45,10 +46,9 @@ function handleMouseMove(evt)
 			cam.translate(dz/100,-dx/100);
 		}
 		
-		if (!lPressed && !rPressed && !mPressed)
+		if (!lPressed && !rPressed && !mPressed && !anyButtonsPressed())
 		{
 			//hovering code
-			drawHover = -1;
 			//check hovering over buttons
 			if (mousez > canvas.height - OptionBarHeight)
 			{
@@ -80,7 +80,7 @@ function handleMouseMove(evt)
 			}
 			else
 			{ //planet hovers
-				planetHover = pickObject();
+				planetHover = pickObjectSimple();
 				if (planetHover != -1)
 				{
 					//planetXY = mp.systems[planetHover.a].planets[planetHover.b].getPlanetXY();
@@ -332,4 +332,10 @@ function rightDoubleClick()
 {
 	var loc = getClickLocationOnPlane();
 	cam.flyTo(loc);
+}
+function anyButtonsPressed()
+{
+	if (cam.fwd || cam.bck || cam.left || cam.right || shiftPressed)
+		return true;
+	return false;
 }

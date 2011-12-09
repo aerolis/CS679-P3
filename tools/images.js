@@ -5,12 +5,14 @@ function images()
 	this.info_bar = new Image();
 	this.end_turn = new Image();
 	this.upgrade_planet = new Image();
+	this.ok_button = new Image();
 	this.options_bar = new Image();
 	this.planet_cost = new Image();
 	this.left_arrow = new Image();
 	this.right_arrow = new Image();
 	this.hover_background = new Image();
 	this.hover_background_220 = new Image();
+	this.combat_background = new Image();
 	
 	this.planets_64 = new Array();
 	this.ship_buttons = new Array();
@@ -21,12 +23,14 @@ function images()
 	this.info_bar.src = "images/info_bar.png";
 	this.end_turn.src = "images/end_turn_button.png";
 	this.upgrade_planet.src = "images/upgrade_planet_button.png";
+	this.ok_button.src = "images/ok_button.png";
 	this.options_bar.src = "images/options_bar.png";
 	this.planet_cost.src = "images/planet_cost.png";
 	this.left_arrow.src = "images/left_arrow.png";
 	this.right_arrow.src = "images/right_arrow.png";
 	this.hover_background.src = "images/hover_background.png";
 	this.hover_background_220.src = "images/hover_background_220.png";
+	this.combat_background.src = "images/combat_background.png";
 	
 	//load planet images
 	var i;

@@ -6,6 +6,14 @@ function pickObject()
 	var pl = findObject(ray_sp,ray);
 	return pl;
 }
+function pickObjectSimple()
+{
+	var rays = getRay();
+	var ray = rays.slice(0,4);
+	var ray_sp = rays.slice(4,7);
+	var pl = findObjectSimple(ray_sp,ray);
+	return pl;
+}
 function pickSun()
 {
 	var rays = getRay();
@@ -154,7 +162,46 @@ function getClickLocationOnPlane()
 	
 	return pos;
 }
-
+function findObjectSimple(sp,r)
+{
+	//normalize ray
+	var ray = new v3(r[0],r[1],r[2]);
+	ray = ray.normalize();
+	//create list of possible planets
+	var collisions = new Array();
+	var planetCollisions = new Array();
+	var i,j;
+	var pos = new v3(sp[0],sp[1],sp[2]);
+	
+	
+	var i = -pos.y/ray.y;
+	
+	pos.x = pos.x+i*ray.x;
+	pos.y = pos.y+i*ray.y;
+	pos.z = pos.z+i*ray.z;
+	
+	var pos_2 = new v2(pos.x,pos.z);
+	//now if it's near a planet
+	var pl = null;
+	
+	for (i=0;i<mp.systems.length;i++)
+	{
+		for (j=0;j<mp.systems[i].planets.length;j++)
+		{
+			var xz = new v2(mp.systems[i].planets[j].pos.x+mp.systems[i].pos.x,mp.systems[i].planets[j].pos.z+mp.systems[i].pos.z);
+			var dist = pos_2.distance(xz);
+			if (dist < 70)
+			{
+				pl = new c2(i,j);
+			}
+		}
+	}
+	
+	if (pl != null)
+		return pl;
+	else
+		return -1;
+}
 function checkNear(test,val,amt)
 {
 	if (test < val+amt && test > val-amt)

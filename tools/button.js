@@ -37,6 +37,9 @@ function Button(){
 			case buttonType.Upgrade:
 				targetCanvas.drawImage(img.upgrade_planet,that.x+20,that.y);
 			break;
+			case buttonType.RemoveCR:
+				targetCanvas.drawImage(img.ok_button,that.x,that.y);
+			break;
 			default:
 				targetCanvas.fillStyle = that.fill;
 				targetCanvas.fillRect(that.x, that.y, that.w, that.h);

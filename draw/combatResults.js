@@ -8,16 +8,21 @@ function combatResults(){
 }
 
 combatResults.prototype.draw = function(){
-	ctx.fillStyle = '#34282C';
-	ctx.fillRect(this.x, this.y, 400, 350);
-	//ctx.fillStyle = 'red';
-	//ctx.fillRect(0,0,700,700);
+	ctx.drawImage(img.combat_background,this.x,this.y);
+	
+	//draw title
+	ctx.fillStyle = 'white';
+	ctx.font = "16pt Calibri";	
+	ctx.fillText("Combat Results",this.x+135,this.y+40);	
+	
+	//fill in other combat results here
+	
 	
 	this.buttons.draw();
 }
 
 combatResults.prototype.show = function(){
-	this.buttons.addButton(this.x + 100, this.y + 250, 200, 50, '#657383', "OK", buttonType.RemoveCR);	
+	this.buttons.addButton(this.x + 100, this.y + 300, 200, 50, '#657383', "OK", buttonType.RemoveCR);	
 	this.active = true;	
 }
 

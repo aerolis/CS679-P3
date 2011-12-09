@@ -49,6 +49,14 @@ v2.prototype.magnitude = function()
 {
 	return Math.sqrt(this.x*this.x+this.y*this.y);
 }
+v2.prototype.distance = function(v)
+{
+	var val = 0;
+	var dx = v.x-this.x;
+	var dy = v.y-this.y;
+	val = Math.sqrt(dx*dx+dy*dy);
+	return val;
+}
 
 function v3(x,y,z)
 {
