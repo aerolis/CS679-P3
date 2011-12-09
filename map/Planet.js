@@ -133,14 +133,14 @@ Planet.prototype.showShips = function(){
 	// !!! For testing, add some extra buttons. ====================================
 	// !!! leaving them for a second to show off that it works :P.
 	//Non-movable ships
-	if (this.myFleet.FrigatesMoved.length + this.selectedFleet.FrigatesMoved.length > 0){
-		this.shipButtons.addUnitButton('#806D7E', "FrigatesMoved: ", buttonType.Empty, "FrigatesMoved");	
+	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
+		this.shipButtons.addUnitButton('#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
 	}
-	if (this.myFleet.CruisersMoved.length + this.selectedFleet.CruisersMoved.length  > 0){
-		this.shipButtons.addUnitButton('#806D7E', "CruisersMoved: ", buttonType.Empty, "CruisersMoved");	
+	if (this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length  > 0){
+		this.shipButtons.addUnitButton('#4C7D7E', "Cruisers: " , buttonType.Cruisers, "Cruisers");	
 	}
-	if (this.myFleet.CapitalsMoved.length + this.selectedFleet.CapitalsMoved.length  > 0){
-		this.shipButtons.addUnitButton( '#806D7E', "CapitalsMoved: ", buttonType.Empty,"CapitalsMoved");	
+	if (this.myFleet.Capitals.length + this.selectedFleet.Capitals.length  > 0){
+		this.shipButtons.addUnitButton('#4C7D7E', "Capitals: ", buttonType.Capitals, "Capitals");	
 	}	
 	// !!! ====================================== end test ===========================
 		
@@ -344,7 +344,13 @@ Planet.prototype.tryReceiveFleet = function(newFleet){
 }
 
 Planet.prototype.receiveHostileFleet = function(enemyFleet){
-    //Get a winner first.
+	//Needed to show combat results
+   	var attacker = selectedPlanet.player;
+	var defender = this.player; //Don't know if this will work?
+	var startFleetA = enemyFleet.clone();
+	var startFleetD = this.myFleet.clone();
+	
+	 //Get a winner first.
     var winner = battle(enemyFleet, this.myFleet);
 	
     //after we got winner,assign value to planet.player
@@ -366,7 +372,10 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
         console.log("Everything died. This shouldn't be able to happen.");    
     }
     mp.bindColors();
-    combatResultScreen.show();
+	
+	var winner = this.player; 
+	//attacker, defender, winner, startFleetA, startFleetB, winFleet
+    combatResultScreen.show(attacker, defender, winner, startFleetA, startFleetD, this.myFleet.clone());
 }
 
 Planet.prototype.getNewShips = function(){ //Add new ships released from production and put them into fleet
