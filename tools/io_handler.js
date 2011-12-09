@@ -2,11 +2,40 @@ var shiftPressed = false;
 var justRightClicked = false;
 
 function handleMouseMove(evt)
-{
-	if (playState == 1) //handle during normal play
+{	
+	mousex = Math.max(0,Math.min(canvas.width,evt.clientX-10));
+	mousez = Math.max(0,Math.min(canvas.height,evt.clientY-10));
+	
+	if (playState == 0)
 	{
-		mousex = Math.max(0,Math.min(canvas.width,evt.clientX-10));
-		mousez = Math.max(0,Math.min(canvas.height,evt.clientY-10));
+		if (!drawTutorial)
+		{
+			//check for the start button
+			if (mousex > 800 && mousex < 1000 && mousez > 660 && mousez < 720)
+			{
+				//hovering over button, change mouse pointer
+				document.body.style.cursor = "pointer";
+			}
+			else
+			{
+				document.body.style.cursor = "default";
+			}
+		}
+		else
+		{
+			//check for the start button
+			if (mousex > 500 && mousex < 700 && mousez > 100 && mousez < 160)
+			{
+				document.body.style.cursor = "pointer";
+			}
+			else
+			{
+				document.body.style.cursor = "default";
+			}
+		}
+	}
+	else if (playState == 1) //handle during normal play
+	{
 		drawHover = -1;
 		
 		if (evt.clientX-10>canvas.width || evt.clientY-10>canvas.height)
@@ -118,7 +147,30 @@ function handleMouseDown(evt)
 }
 function handleMouseUp(evt)
 {
-	if (playState == 1) //handle during normal play
+	if (playState == 0)
+	{
+		if (!drawTutorial)
+		{
+			//check for the start button
+			if (mousex > 800 && mousex < 1000 && mousez > 660 && mousez < 720)
+			{
+				//clicked on button
+				drawTutorial = true;
+				//playState = 1;
+			}
+		}
+		else
+		{
+			//check for the start button
+			if (mousex > 500 && mousex < 700 && mousez > 100 && mousez < 160)
+			{
+				//clicked on button
+				//drawTutorial = true;
+				playState = 1;
+			}
+		}
+	}
+	else if (playState == 1) //handle during normal play
 	{
 		var mouseX = Math.max(0,Math.min(canvas.width,evt.clientX-10));
 		var mouseY = Math.max(0,Math.min(canvas.width,evt.clientY-10));

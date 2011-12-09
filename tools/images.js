@@ -13,6 +13,7 @@ function images()
 	this.hover_background = new Image();
 	this.hover_background_220 = new Image();
 	this.combat_background = new Image();
+	this.tutorial_background = new Image();
 	
 	this.planets_64 = new Array();
 	this.ship_buttons = new Array();
@@ -31,6 +32,7 @@ function images()
 	this.hover_background.src = "images/hover_background.png";
 	this.hover_background_220.src = "images/hover_background_220.png";
 	this.combat_background.src = "images/combat_background.png";
+	this.tutorial_background.src = "images/tutorial_screen.png";
 	
 	//load planet images
 	var i;
