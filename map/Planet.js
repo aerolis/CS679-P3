@@ -169,15 +169,15 @@ Planet.prototype.specifyPlanetType = function()
 		break;
 		case "steel":
 			this.model = 3;
-			this.amtResourcesToAdd = 10;
+			this.amtResourcesToAdd = 12;
 		break;
 		case "plasma":
 			this.model = 1;
-			this.amtResourcesToAdd = 8;
+			this.amtResourcesToAdd = 10;
 		break;
 		case "antimatter":
 			this.model = 2;			
-			this.amtResourcesToAdd = 5;
+			this.amtResourcesToAdd = 8;
 		break;
 		case "warp":
 			this.model = 8;
