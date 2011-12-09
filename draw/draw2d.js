@@ -331,7 +331,18 @@ function draw2DLoading()
 		//draw next button
 		if (allReady)
 		{
-			
+			ctx.drawImage(new_game_button,800,660);
+		}
+	}
+	else
+	{
+		ctx.clearRect ( 0 , 0 , canvas.width , canvas.height );
+		ctx.drawImage(img.tutorial_background,0,0);
+		
+		//draw next button
+		if (allReady)
+		{
+			ctx.drawImage(new_game_button,500,100);
 		}
 	}
 }

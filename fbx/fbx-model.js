@@ -112,7 +112,7 @@ fbx_mesh.prototype.addUVIndex = function(pid,uvid,n)
 fbx_mesh.prototype.bindMesh = function()
 {
 	//console.log("binding mesh");
-	pausecomp(200);
+	//pausecomp(200);
 	
 	var i;	
 	var verts = [];
