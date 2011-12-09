@@ -29,7 +29,6 @@ function unitButtonSet(){
 	}
 	
 	that.layOutButtons = function(){
-		console.log("laying out buttons");
 		that.shownButtons = [];
 		var atButton = 8 * that.page;
 		var yLoc = 0;
@@ -143,7 +142,6 @@ function unitButton(){
 				selected = selectedPlanet.selectedFleet.Frigates.length;
 				type = "frigate";
 				col_ref = 3;
-				console.log("Drawing a frigate, remaining & selected: " + remaining + ", " + selected);		
 				break;
 			case "FrigatesMoved":
 				remaining = selectedPlanet.myFleet.FrigatesMoved.length;
@@ -182,6 +180,7 @@ function unitButton(){
 		//draws box behind - if I don't the button clicks don't work
 		targetCanvas.fillStyle = 'black';
 		targetCanvas.fillRect(that.x+2, that.y+2, that.w-4, that.h-4);
+		
 		//draws button w/ numbers
 		img.drawShipButton(type,that.x,that.y,remaining,selected,col_ref,targetCanvas);
 		

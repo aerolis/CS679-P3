@@ -152,8 +152,9 @@ function handleMouseUp(evt)
 			else{
 				//Only need to stop showing selection if there's a chance of deselection.
 				if (selectedPlanet != null){
-					selectedPlanet.hideOptions();
-					selectedPlanet.hideShips();
+					//selectedPlanet.hideOptions();
+					selectedPlanet.emptySelection();
+					//selectedPlanet.hideShips();
 				}
 		
 				var planet = pickObject();
@@ -161,10 +162,10 @@ function handleMouseUp(evt)
 				{
 					selectedPlanetIndices = planet;
 					selectedPlanet = mp.systems[planet.a].planets[planet.b];
-					selectedPlanet.showShips();
-					if (selectedPlanet.player == currentPlayer){
-						selectedPlanet.showOptions();
-					}
+					selectedPlanet.populateShipButtons();
+					//if (selectedPlanet.player == currentPlayer){
+					//	selectedPlanet.fl_showOptions = true;
+					//}
 					//console.log("A planet was selected");
 				}
 				else
@@ -197,6 +198,7 @@ function handleMouseUp(evt)
 			justRightClicked = true;
 			var t = setTimeout("clearRightClick();",(1/4)*1000);
 			
+			//If a planet is selected and it had some ships selected
 			if (selectedPlanet != null && selectedPlanet.selectedFleet.getTotal() > 0){
 				//See if you're sending out units. 
 				var planet = pickObject();
@@ -211,16 +213,9 @@ function handleMouseUp(evt)
 					selectedPlanet.myFleet.addFleet(selectedPlanet.selectedFleet);
 					selectedPlanet.selectedFleet.empty();
 				}				
-			
 			}
-			
-			// !!! If (there's a planet selected and there are units selected)
-			//Check if you just hit a planet
-			//If so, keep the old planet selected, but send units there. 
-			//Call handle send units method.
 		}
 	}
-
 }
 function handleMouseWheel(evt)
 {

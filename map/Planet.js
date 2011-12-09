@@ -32,9 +32,9 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.selected = false;
 	
 	
-	this.fl_showOptions = false;
+	//this.fl_showOptions = false;
 	this.optionButtons = new buttonset();
-	this.fl_showShips = false;
+	//this.fl_showShips = false;
 	this.shipButtons = new unitButtonSet();
 	
 	this.upgradeLevel = 1;	
@@ -65,20 +65,15 @@ Planet.prototype.buildShip = function(type,amt)
 	return status;
 }
 
-// Check which buttons are necessary everytime the buttons get shown.
-Planet.prototype.showOptions = function(){
-	//this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
-	//if (planet.upgradeLevel < planet.upgradeLimit)
-	this.optionButtons.addButton(OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarHeight - 50, (OptionBarWidth - 2 * OptionBarSidesWidth - 60), 40, '#657383', "", buttonType.Upgrade);
+Planet.prototype.populateOptionButtons = function(){
+	this.optionButtons.addButton(OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarHeight - 50, (OptionBarWidth - 2 * OptionBarSidesWidth - 60), 40, '#657383', "Upgrade", buttonType.Upgrade);
 	
-	//This gets called regularly. DO NOT move it to specifyPlanetType.
 	switch (this.type)
 	{
 		case "factory":
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10                                     , OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Build Frigate", buttonType.BuildFrigate);	
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + (OptionBarSidesWidth - 40)/3 + 20      , OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Build Cruiser", buttonType.BuildCruiser);
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 2 * ((OptionBarSidesWidth - 40)/3) + 30, OptionBarY + 10, (OptionBarSidesWidth - 40)/3, (OptionBarHeight - 30)/2, '#4C7D7E', "Build Capital", buttonType.BuildCapital);	
-			//TODO: add buildable ship to list				
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Frigate", buttonType.BuildFrigate);	
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + ShipButtonWidth + 10,     OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Cruiser", buttonType.BuildCruiser);
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 2 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Capital", buttonType.BuildCapital);				
 		break;
 		case "plasma":
 		break;
@@ -94,20 +89,20 @@ Planet.prototype.showOptions = function(){
 		break;
 		case "default":
 		break;
-	}
-	
-	this.fl_showOptions = true;
+	}	
 }
 
 
-Planet.prototype.hideOptions = function(){
+Planet.prototype.emptySelection = function(){
 	this.myFleet.addFleet(this.selectedFleet);
 	this.selectedFleet.empty();
-	this.optionButtons.clear();
-	this.fl_showOptions = false;
+	//this.optionButtons.clear();
+	//this.fl_showOptions = false;
 }
 
-Planet.prototype.showShips = function(){
+Planet.prototype.populateShipButtons = function(){
+	
+	this.shipButtons.clear();
 	//Movable ships
 	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
 		this.shipButtons.addUnitButton('#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
@@ -130,39 +125,24 @@ Planet.prototype.showShips = function(){
 		this.shipButtons.addUnitButton( '#806D7E', "CapitalsMoved: ", buttonType.Empty,"CapitalsMoved");	
 	}	
 	
-	// !!! For testing, add some extra buttons. ====================================
-	// !!! leaving them for a second to show off that it works :P.
-	//Non-movable ships
-	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
-		this.shipButtons.addUnitButton('#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
-	}
-	if (this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length  > 0){
-		this.shipButtons.addUnitButton('#4C7D7E', "Cruisers: " , buttonType.Cruisers, "Cruisers");	
-	}
-	if (this.myFleet.Capitals.length + this.selectedFleet.Capitals.length  > 0){
-		this.shipButtons.addUnitButton('#4C7D7E', "Capitals: ", buttonType.Capitals, "Capitals");	
-	}	
-	// !!! ====================================== end test ===========================
-		
+	
 	//Give them all a location
 	this.shipButtons.layOutButtons();
 	
 	// !!! if more than so many, add arrows.
-	this.fl_showShips = true;
+	//this.fl_showShips = true;
 }
-
+/*
 Planet.prototype.hideShips = function(){
+	//this.fl_showShips = false;
+	
 	this.shipButtons.clear();
-	this.fl_showShips = false;
 }
-
+*/
 Planet.prototype.selectFrigate = function(){
-	console.log("Planet tries to select a frigate. myFleet: " + this.myFleet.Frigates.length + ", selected: " + this.selectedFleet.Frigates.length);
 	if (this.myFleet.Frigates.length > 0){
 		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
 	}
-	console.log("Planet just tried to select a frigate. myFleet: " + this.myFleet.Frigates.length + ", selected: " + this.selectedFleet.Frigates.length);
-	
 }
 
 Planet.prototype.selectCruiser = function(){
@@ -176,8 +156,6 @@ Planet.prototype.selectCapital = function(){
 		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
 	}
 }
-
-
 Planet.prototype.specifyPlanetType = function()
 {
 	switch (this.type)
@@ -283,12 +261,9 @@ Planet.prototype.tryUpgrade = function() {
 }
 
 Planet.prototype.deselect = function() {
-	// !!! Is this even in use still?
 	this.selected = false;	
 	selectedPlanet = null;
 	selectedPlanetIndices = null;
-	this.hideOptions();
-	this.hideShips();
 }
 
 Planet.prototype.onTurn = function() {

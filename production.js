@@ -37,6 +37,10 @@ function shipOrder(i_owner,i_type,i_amt){
 
 function productionPlan(){
 	this.plan = [];
+	//These numbers are to show on the build buttons.
+	this.noFrigates = 0;
+	this.noCruisers = 0;
+	this.noCapitals = 0;
 }
 
 productionPlan.prototype.addOrder = function(i_owner,i_type,i_amt){ //add items into ship production plan
@@ -59,8 +63,16 @@ productionPlan.prototype.addOrder = function(i_owner,i_type,i_amt){ //add items 
 	players[i_owner].steel -= newOrder.steel*newOrder.amt;
 	players[i_owner].antimatter -= newOrder.antiMatter*newOrder.amt;
 	
-	return true;
-	
+	if (newOrder.shipType == "frigate"){
+		this.noFrigates++;	
+	}
+	else if (newOrder.shipType == "cruiser"){
+		this.noCruisers++;	
+	}
+	else if (newOrder.shipType == "capital"){
+		this.noCapitals++;	
+	}	
+	return true;	
 }
 
 
@@ -73,8 +85,22 @@ productionPlan.prototype.release = function(){ //return an array of ships
 		{
 			var tmpOrder = this.plan.splice(i,1);
 			//console.log("tmporder amt: " + tmpOrder.amt);
-			for(var j =0; j< tmpOrder[0].amt; j++){ finishedOrders.push(new ship(tmpOrder[0].owner,tmpOrder[0].shipType));}
+			for(var j =0; j< tmpOrder[0].amt; j++){ 
+				finishedOrders.push(new ship(tmpOrder[0].owner,tmpOrder[0].shipType));
+				console.log("A ship was created. type: " + tmpOrder[0].shipType);
+				//These counters are to show it on the buttons.
+				if (tmpOrder[0].shipType == "frigate"){
+					this.noFrigates--;	
+				}
+				else if (tmpOrder[0].shipType == "cruiser"){
+					this.noCruisers--;	
+				}
+				else if (tmpOrder[0].shipType == "capital"){
+					this.noCapitals--;	
+				}
+			}
 			i = i-1; //index go back a unit
+			
 		}
 	}
 	//return list of finished ships
@@ -88,6 +114,7 @@ productionPlan.prototype.clear = function(){ //if planet is occupied by enemy, c
 		delete order;
 	}
 }
+
 /*
 productionPlan.prototype.logDraft = function(i_draftPlan){ //put draft to production
 	for(var i=0; i< i_draftPlan.length; i++){

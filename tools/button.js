@@ -25,21 +25,38 @@ function Button(){
 	that.fontStyle = "12pt Calibri";
   	that.fill = '#444444';
   	that.title = "";
-	that.type = buttonType.Send;
+	that.type = buttonType.Empty;
 
 	//targetCanvas = either real canvas or ghostcanvas. ghostcanvas for checking if selected.
   	that.draw = function(targetCanvas){
 		switch (this.type)
 		{
+			//Some button types only get drawn in certain cases.
 			case buttonType.EndTurn:
 				targetCanvas.drawImage(img.end_turn,that.x,that.y);
 			break;
 			case buttonType.Upgrade:
-				targetCanvas.drawImage(img.upgrade_planet,that.x+20,that.y);
+				//Only draw upgrade buttons if the planet is still upgradable.
+				if(selectedPlanet.upgradeStats.maxUpgradeLevel > selectedPlanet.upgradeLevel){
+					targetCanvas.drawImage(img.upgrade_planet,that.x+20,that.y);
+				}
 			break;
 			case buttonType.RemoveCR:
 				targetCanvas.drawImage(img.ok_button,that.x,that.y);
 			break;
+			case buttonType.BuildFrigate:
+				// !!! if this buttontype is unlocked
+				img.drawBuildShipButton("frigate",that.x,that.y, selectedPlanet.productionPlan.noFrigates, targetCanvas);
+			break;
+			case buttonType.BuildCruiser:
+				// !!! if this buttontype is unlocked				
+				img.drawBuildShipButton("cruiser",that.x,that.y, selectedPlanet.productionPlan.noCruisers, targetCanvas);
+			break;
+			case buttonType.BuildCapital:
+				// !!! if this buttontype is unlocked				
+				img.drawBuildShipButton("capital",that.x,that.y, selectedPlanet.productionPlan.noCapitals, targetCanvas);
+			break;
+			
 			case buttonType.BrowseShipsLeft:
 				targetCanvas.fillStyle = 'black';
 				targetCanvas.fillRect(that.x, that.y+20, that.w, that.h-20);
@@ -51,17 +68,20 @@ function Button(){
 				targetCanvas.drawImage(img.right_arrow,that.x,that.y+20);
 			break;
 			default:
-				targetCanvas.fillStyle = that.fill;
-				targetCanvas.fillRect(that.x, that.y, that.w, that.h-20);
-				targetCanvas.fillStyle = 'black';
-				ctx.font = that.fontStyle;
-				targetCanvas.fillText(that.title, that.x + 2, that.y + 15);
-			break;
+				that.drawThis(targetCanvas);
 		}
 	}
 	
+	that.drawThis = function(targetCanvas){
+		targetCanvas.fillStyle = that.fill;
+		targetCanvas.fillRect(that.x, that.y, that.w, that.h);
+		targetCanvas.fillStyle = 'black';
+		ctx.font = that.fontStyle;
+		targetCanvas.fillText(that.title, that.x + 2, that.y + 15);	
+	}
+	
 	that.gotClicked = function(){
-		console.log(that.title + " got clicked.");
+		//console.log(that.title + " got clicked.");
 		switch (that.type){
 				//General buttons
 			case buttonType.EndTurn:
@@ -88,34 +108,34 @@ function Button(){
 				
 				//Build buttons.				
 			case buttonType.BuildFrigate:
-				console.log("This planet wants to build a Frigate");
+				//console.log("This planet wants to build a Frigate");
 				selectedPlanet.buildShip("frigate",1);
 				break;
 				
 			case buttonType.BuildCruiser:
-				console.log("This planet wants to build a Cruiser");
+				//console.log("This planet wants to build a Cruiser");
 				selectedPlanet.buildShip("cruiser",1);
 
 				break;
 				
 			case buttonType.BuildCapital:
-				console.log("This planet wants to build a Capital");
+				//console.log("This planet wants to build a Capital");
 				selectedPlanet.buildShip("capital",1);
 				break;
 				
 			//Selecting units buttons
 			case buttonType.Frigates:
-				console.log("This planet wants to select a Frigate");
+				//console.log("This planet wants to select a Frigate");
 				selectedPlanet.selectFrigate();
 				break;
 				
 			case buttonType.Cruisers:
-				console.log("This planet wants to select a Cruisers");
+				//console.log("This planet wants to select a Cruisers");
 				selectedPlanet.selectCruiser();				
 				break;
 				
 			case buttonType.Capitals:
-				console.log("This planet wants to select a Capitals");
+				//console.log("This planet wants to select a Capitals");
 				selectedPlanet.selectCapital();				
 				break;
 				

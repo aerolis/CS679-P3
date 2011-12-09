@@ -90,10 +90,10 @@ function draw2d()
 			
 			//Draw background for HUD
 			ctx.drawImage(img.options_bar,OptionBarX,OptionBarY-10);
-			
-						
+									
 			//Draw everything related to selected planet 
 			if (selectedPlanet != null){
+				/*
 				//Draw options
 				if (selectedPlanet.fl_showOptions == true){
 					selectedPlanet.optionButtons.draw();
@@ -102,6 +102,13 @@ function draw2d()
 				if (selectedPlanet.fl_showShips == true){
 					selectedPlanet.shipButtons.draw();
 				}
+				*/
+				
+				if (selectedPlanet.player == currentPlayer){
+					selectedPlanet.optionButtons.draw();	
+				}
+				selectedPlanet.shipButtons.draw();
+				
 				//Draw info
 				ctx.fillStyle = 'white';
 				ctx.font = "15pt Calibri";
@@ -110,8 +117,7 @@ function draw2d()
 				
 				ctx.font = "12pt Calibri";
 				ctx.fillText("level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 115);
-				
-				
+								
 				
 				if (selectedPlanet.upgradeLevel < selectedPlanet.upgradeStats.maxUpgradeLevel && selectedPlanet.player == currentPlayer){
 					ctx.font = "13pt Calibri";
