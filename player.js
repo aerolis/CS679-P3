@@ -18,6 +18,7 @@ function player (i, isAI)
 	this.catalog = new shipCatalog(this.id);
 	
 	this.planets = [];
+	this.factories = [];
 }
 
 player.prototype.restart = function()
@@ -75,7 +76,12 @@ player.prototype.initializeCameraPos = function()
 player.prototype.addPlanet = function(planet)
 {
 	if (this.planets.indexOf(planet) == -1)
+	{
 		this.planets.push(planet);
+		if (planet.type == "factory") {
+			this.factories.push(planet);
+		}
+	}
 }
 
 //Remove a planet from the list of planets this player owns
@@ -85,6 +91,10 @@ player.prototype.removePlanet = function(planet)
 	if (index != -1)
 	{
 		this.planets.splice(index,1);
+		if (planet.type == "factory") {
+			var factIndex = this.factories.indexOf(planet);
+			this.factories.splice(factIndex, 1);
+		}
 	}
 }
 
@@ -96,28 +106,24 @@ player.prototype.doTurn = function()
 	console.log("Doing AI turn");
 	
 	//first attempt to build ships
-	for (var i = 0; i < this.planets.length; i++) {
-		if (this.planets[i].type == "factory")
-		{
+	//TODO: Find closest Factory to enemies and build there...
+	var status = true;
+	while(status) {
+		for(var i = 0; i < this.factories.length; i++) {
 			//TODO: better logic in ship production
 			//Add ship to production
-			console.log("AI wants to build a frigate");
-			console.log("AI Credits: " + this.credits);
-			console.log("currently has " + this.planets[i].myFleet.Frigates.length+  " frigates");
+			//console.log("AI wants to build a frigate");
+			//console.log("AI Credits: " + this.credits);
+			//console.log("currently has " + this.planets[i].myFleet.Frigates.length+  " frigates");
 			selectedPlanet = this.planets[i];
-			var status = true;
-			var counter = -1;
-			while(status)
-			{
-				status = this.planets[i].buildShip("frigate",1);
-				counter++;
-			}
-		
-			console.log("AI built " + counter + " frigates!");
-			console.log(this.planets[i].productionPlan)
+			status = this.planets[i].buildShip("frigate", 1);
+			if (!status) break;
+			//console.log("AI built " + counter + " frigates!");
+			//console.log(this.planets[i].productionPlan)
 		}
 	}
-	
+
+
 	//now do any attacking that we can
 	for (var i = 0; i < this.planets.length; i++) {
 		var currPlanet = this.planets[i];
@@ -130,14 +136,15 @@ player.prototype.doTurn = function()
 				//TODO: add better checks here besides just do we
 			    //have more ships than them...
 			    var ourShips = currPlanet.myFleet.Frigates.length +
-			    			   currPlanet.myFleet.Capitals.length +
-			    			   currPlanet.myFleet.Cruisers.length;
+			    			   currPlanet.myFleet.Capitals.length*2 +
+			    			   currPlanet.myFleet.Cruisers.length*4;
 			    
 			    var enemyShips = linkedPlanet.myFleet.Frigates.length +
-			    			   linkedPlanet.myFleet.Capitals.length +
-			    			   linkedPlanet.myFleet.Cruisers.length;
+			    			   linkedPlanet.myFleet.Capitals.length*2 +
+			    			   linkedPlanet.myFleet.Cruisers.length*4;
 				if(ourShips >= enemyShips)
 				{
+					//console.log("AI wants to attack!");
 					//linkedPlanet.recieveHostileFleet(currPlanet.myFleet);
 					selectedPlanet = currPlanet;
 					//selectedPlanet.selectedFleet = currPlanet.myFleet;

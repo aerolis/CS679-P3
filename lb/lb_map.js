@@ -152,11 +152,13 @@ function lb_parseMap(data)
 					{
 						tmp.myFleet = new fleet();					
 						var j;
-						for (j=0;j<5;j++)
+						var numFrigates = Math.floor(Math.random()*3)+1;
+						for (j=0;j<numFrigates;j++)
 						{
 							tmp.myFleet.Frigates.push(new ship(tmp.player, "frigate"));	
 						}
-						for (j=0;j<5;j++)
+						var numCruisers = Math.floor(Math.random()*3);
+						for (j=0;j<numCruisers;j++)
 						{
 							tmp.myFleet.Cruisers.push(new ship(tmp.player, "cruiser"));
 						}
@@ -165,7 +167,7 @@ function lb_parseMap(data)
 					{
 						tmp.myFleet = new fleet();					
 						var j;					
-						for (j=0;j<10;j++)
+						for (j=0;j<5;j++)
 						{
 							tmp.myFleet.Frigates.push(new ship(tmp.player, "frigate"));	
 						}
@@ -173,7 +175,7 @@ function lb_parseMap(data)
 						{
 							tmp.myFleet.Cruisers.push(new ship(tmp.player, "cruiser"));
 						}
-						tmp.myFleet.Capitals.push(new ship(tmp.player, "capital"));
+						//tmp.myFleet.Capitals.push(new ship(tmp.player, "capital"));
 					}
 				break;
 				case "<pos>":

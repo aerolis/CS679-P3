@@ -40,8 +40,8 @@ function ship(i_owner,i_type){
 	{
 		//Damage and defense value of this ship
 		this.laser = 10;
-		this.missile = 20;
-		this.armor = 10;
+		this.missile = 0;
+		this.armor = 0;
 		this.shield = 0;  //Frigate ship has no shield
 		this.maxShield = 0;
 		
@@ -57,14 +57,14 @@ function ship(i_owner,i_type){
 		this.period = 1; 
 	}
 	else if(this.type == "cruiser" ){	
-		this.laser = 30;
-		this.missile = 40;
-		this.armor = 30;
-		this.shield = 50;
-		this.maxShield = 50;
+		this.laser = 10;
+		this.missile = 10;
+		this.armor = 0;
+		this.shield = 0;
+		this.maxShield = 0;
 		
-		this.currentHp = 300;
-		this.maxHp = 300;		
+		this.currentHp = 200;
+		this.maxHp = 200;		
 		
 		this.credits = 100;
 		this.steel = 40;
@@ -74,16 +74,16 @@ function ship(i_owner,i_type){
 		this.period = 2; 
 	}
 	else if(this.type == "capital" ){
-		this.laser = 80;
-		this.missile = 100;
-		this.armor = 80;
-		this.shield = 100;
-		this.maxShield = 100;
+		this.laser = 10;
+		this.missile = 10;
+		this.armor = 0;
+		this.shield = 10;
+		this.maxShield = 0;
 		
-		this.currentHp = 700;
-		this.maxHp = 700;		
+		this.currentHp = 400;
+		this.maxHp = 400;		
 		
-		this.credits = 250;
+		this.credits = 200;
 		this.steel = 80;
 		this.plasma = 80;
 		this.antiMatter = 80;

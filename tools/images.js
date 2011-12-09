@@ -103,8 +103,7 @@ images.prototype.drawPlanetImage = function(type,x,y)
 		default:
 			ctx.drawImage(img.planets_64[pln_images.factory],x,y);
 		break;
-	}
-	
+	}	
 }
 images.prototype.drawShipImage = function(type,x,y)
 {

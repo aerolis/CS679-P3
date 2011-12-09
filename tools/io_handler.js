@@ -87,12 +87,27 @@ function handleMouseMove(evt)
 					var foundTarget = null;
 					if (selectedPlanet != null){
 						//See if you hovered over an optionButton belonging to the selected planet.
-						foundTarget = null;//selectedPlanet.optionButtons.checkHover(mousex, mousez);		
+						foundTarget = selectedPlanet.optionButtons.checkHover(mousex, mousez);
 						if (foundTarget != null)
 						{
 							//ignored for now because they aren't working correctly
-							//drawHover = 0;
-							//shipHover = foundTarget.shipType;
+							
+							switch (foundTarget.type){
+								case buttonType.BuildFrigate:
+									shipHover = "Frigates";
+									drawHover = 0;
+									break;
+								case buttonType.BuildCruiser:
+									shipHover = "Cruisers";
+									drawHover = 0;
+									break;
+								case buttonType.BuildCapital:
+									shipHover = "Capitals";
+									drawHover = 0;
+									break;
+								default:
+									break;
+							}
 						}
 						else
 						{
