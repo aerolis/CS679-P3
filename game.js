@@ -225,11 +225,11 @@ function gameLoop() //switches between game states and performs correct loop ope
 			draw3d();
 			draw2d();
 			break;
-		case 2: // indicates that an AI is taking a turn
+		case 2: // ??
 			break;
 		case 3: // ??
 			break;
-		case 4: // ??
+		case 4: // Game Over
 			break;
 	}
 	ui.update();
@@ -332,9 +332,17 @@ function nextTurn()
 		nextTurn();
 	}
 	
-}
-
-function gameOver() { 
-	//is this method still relevant?
-	playState = 4;
+	//check for game over
+	var gameOver = false;
+	for(i = 0; i < players.length; i++) {
+		if (players[i].planets.length == 0) {
+			gameOver = true;
+			break;
+		}
+	}
+	
+	if (gameOver){
+		Console.log("Game Over");
+		//playState = 4;
+	}
 }
