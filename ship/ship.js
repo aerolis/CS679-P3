@@ -68,8 +68,8 @@ function ship(i_owner,i_type){
 		
 		this.credits = 100;
 		this.steel = 40;
-		this.plasma = 40;
-		this.antiMatter = 40;
+		this.plasma = 10;
+		this.antiMatter = 0;
 		//turns it takes to build this ship
 		this.period = 2; 
 	}
@@ -85,8 +85,8 @@ function ship(i_owner,i_type){
 		
 		this.credits = 200;
 		this.steel = 80;
-		this.plasma = 80;
-		this.antiMatter = 80;
+		this.plasma = 40;
+		this.antiMatter = 20;
 		//turns it takes to build this ship
 		this.period = 3; 
 	}
