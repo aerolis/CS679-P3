@@ -87,6 +87,28 @@ function buttonset(){
 		return false;
 	}
 
+	that.checkHover = function(mouseX,mouseY) {
+		clear(gctx);
+		var l = that.buttons.length;
+		var mySel = null;
+		for (var i = l-1; i >= 0; i--) {
+			// draw shape onto ghost context
+			that.buttons[i].draw(gctx);
+		
+			// get image data at the mouse x,y pixel
+			var imageData = gctx.getImageData(mouseX, mouseY, 1, 1);
+			var index = (mouseX + mouseY * imageData.width) * 4;
+
+			// if the mouse pixel exists, select and break
+			if (imageData.data[3] > 0) {
+				mySel = that.buttons[i];
+			}
+		}
+		// havent returned means we have selected nothing
+		// clear the ghost canvas for next time
+		clear(gctx);
+		return mySel;
+	}
 	return that;
 }
 

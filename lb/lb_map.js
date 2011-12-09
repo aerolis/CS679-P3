@@ -154,11 +154,11 @@ function lb_parseMap(data)
 						var j;
 						for (j=0;j<5;j++)
 						{
-							tmp.myFleet.Frigates.push(new ship(tmp.player, "Frigate"));	
+							tmp.myFleet.Frigates.push(new ship(tmp.player, "frigate"));	
 						}
 						for (j=0;j<5;j++)
 						{
-							tmp.myFleet.Cruisers.push(new ship(tmp.player, "Cruiser"));
+							tmp.myFleet.Cruisers.push(new ship(tmp.player, "cruiser"));
 						}
 					}
 					else
@@ -167,13 +167,13 @@ function lb_parseMap(data)
 						var j;					
 						for (j=0;j<10;j++)
 						{
-							tmp.myFleet.Frigates.push(new ship(tmp.player, "Frigate"));	
+							tmp.myFleet.Frigates.push(new ship(tmp.player, "frigate"));	
 						}
 						for (j=0;j<3;j++)
 						{
-							tmp.myFleet.Cruisers.push(new ship(tmp.player, "Cruiser"));
+							tmp.myFleet.Cruisers.push(new ship(tmp.player, "cruiser"));
 						}
-						tmp.myFleet.Capitals.push(new ship(tmp.player, "Capital"));
+						tmp.myFleet.Capitals.push(new ship(tmp.player, "capital"));
 					}
 				break;
 				case "<pos>":

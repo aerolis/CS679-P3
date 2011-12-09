@@ -28,7 +28,8 @@ var combatResultScreen;
 
 var drawHover;
 var planetHover;
-var shipHover;	
+var shipHover;
+var planetXY;
 
 function initDraw2d(){
 	OptionBarSidesWidth = 450;
@@ -132,8 +133,7 @@ function draw2d()
 			else if (drawHover == 1)
 				var tmp = 1; // !!
 			else if (drawHover == 2)
-				var tmp = 1; // !!
-				//onHover(mousex,mousez,2,planetHover);	
+				onHover(mousex,mousez,2,planetHover);	
 			
 			permaButtons.draw();
 			
@@ -141,6 +141,11 @@ function draw2d()
 				combatResultScreen.draw();
 			}
 			
+			if (drawFPS)
+			{
+				ctx.font = "12pt Calibri";
+				ctx.fillText("FPS:"+fps,20,70);
+			}
 			break;
 			
 		case 2: // ??
@@ -153,9 +158,9 @@ function draw2d()
 function onHover(x,y,type,obj)
 {
 	//type: ship/research/planet
-	//obj: the ref being hovered overaa
+	//obj: the ref being hovered over
 	var width = 250;
-	var height = 300;
+	var height = 220;
 	var x_offset = 0;
 	var y_offset = 0;
 	if (type == 0) //ship
@@ -163,18 +168,121 @@ function onHover(x,y,type,obj)
 		//first draw background rectangle
 		if (x > canvas.width-width)
 			x_offset = -width;
-		if (y > canvas.height-height)
-			y_offset = -height;
-		ctx.drawImage(img.hover_background,x+x_offset,y+y_offset);
+		y_offset = -height;
+		ctx.drawImage(img.hover_background_220,x+x_offset,y+y_offset);
+		// next calc ship_type
+		var sh;
+		switch (obj)
+		{
+			case "Frigates":
+				sh = new ship(-1,"frigate");
+			break;
+			case "Cruisers":
+				sh = new ship(-1,"cruiser");
+			break;
+			case "Capitals":
+				sh = new ship(-1,"capital");
+			break;
+		}
 		
-		//draw the rest on this
+		//draw the rest on thisctx.font = "15pt Calibri";
+		img.drawShipImage(sh.type, x + 15 + x_offset, y + 10 + y_offset );
+		ctx.font = "14pt Calibri";
+		ctx.fillText("" + sh.type, x + 25 + x_offset, y + 85 + y_offset);
+				
+		ctx.fillStyle = 'white';
+		ctx.font = "13pt Calibri";
+		var off = 10;
+		var left = 110;
+		var stat_off = 80;
+		ctx.fillText("stats", x + left + x_offset, y + 40 + y_offset);
+		ctx.font = "12pt Calibri";
+		off += 16;
+		ctx.fillText("lasers: ", x + (left+10) + x_offset, y + 40 + y_offset + off);
+		ctx.fillText("" + sh.laser, x + (left+10) + x_offset + stat_off, y + 40 + y_offset + off);
+		off += 16;
+		ctx.fillText("missiles: ", x + (left+10) + x_offset, y + 40 + y_offset + off);
+		ctx.fillText("" + sh.missile, x + (left+10) + x_offset + stat_off, y + 40 + y_offset + off);
+		off += 32;
+		ctx.fillText("armor: ", x + (left+10) + x_offset, y + 40 + y_offset + off);
+		ctx.fillText("" + sh.armor, x + (left+10) + x_offset + stat_off, y + 40 + y_offset + off);
+		off += 16;
+		ctx.fillText("shields: ", x + (left+10) + x_offset, y + 40 + y_offset + off);
+		ctx.fillText("" + sh.shield, x + (left+10) + x_offset + stat_off, y + 40 + y_offset + off);
+		off += 16;
+		ctx.fillText("health: ", x + (left+10) + x_offset, y + 40 + y_offset + off);
+		ctx.fillText("" + sh.maxHp, x + (left+10) + x_offset + stat_off, y + 40 + y_offset + off);
+		off += 16;
+		ctx.fillText("build turns: ", x + (left+10) + x_offset, y + 40 + y_offset + off);
+		ctx.fillText("" + sh.period, x + (left+10) + x_offset + stat_off, y + 40 + y_offset + off);
+		
+		//now draw cost
+		ctx.font = "13pt Calibri";
+		ctx.fillText("cost:", x+x_offset+20,y+y_offset+115);
+		//draw cost img
+		ctx.drawImage(img.planet_cost, x+x_offset+5,y+y_offset+125);
+		//now draw upgrade costs
+		ctx.font = "12pt Calibri";
+		ctx.fillText(selectedPlanet.upgradeStats.credits, x+x_offset+35, y+y_offset + 136);
+		ctx.fillText(selectedPlanet.upgradeStats.steel, x+x_offset+35, y+y_offset + 136+16);
+		ctx.fillText(selectedPlanet.upgradeStats.plasma, x+x_offset+35, y+y_offset + 136+32);
+		ctx.fillText(selectedPlanet.upgradeStats.antimatter, x+x_offset+35, y+y_offset + 136+48);
+
 	}
 	else if (type == 2)
 	{
+		var pl = mp.systems[obj.a].planets[obj.b];
 		if (x > canvas.width-width)
 			x_offset = -width;
 		if (y > canvas.height-height)
 			y_offset = -height;
 		ctx.drawImage(img.hover_background,x+x_offset,y+y_offset);
+		//now draw data
+		ctx.font = "15pt Calibri";
+		img.drawPlanetImage(pl.type, x + 15 + x_offset, y + 10 + y_offset );
+		ctx.fillText("" + pl.type, x + 25 + x_offset, y + 85 + y_offset);
+		
+		ctx.font = "12pt Calibri";
+		ctx.fillText("level: " + pl.upgradeLevel, x + 25 + x_offset, y + 100 + y_offset);
+		
+		//now draw ship types
+		ctx.font = "13pt Calibri";
+		ctx.fillText("ships", x + 110 + x_offset, y + 40);
+		var drawAny = false;
+		var plusAmt = 0;
+		if (pl.myFleet.Frigates.length > 0 || pl.myFleet.FrigatesMoved.length > 0)
+		{
+			drawAny = true;
+			var amt = pl.myFleet.Frigates.length + pl.myFleet.FrigatesMoved.length;
+			if (amt > 1)
+				ctx.fillText(amt + " frigates", x + 120 + x_offset, y + 60 + y_offset);
+			else
+				ctx.fillText(amt + " frigate", x + 120 + x_offset, y + 60 + y_offset);
+			plusAmt += 18;
+		}
+		if (pl.myFleet.Cruisers.length > 0 || pl.myFleet.CruisersMoved.length > 0)
+		{
+			drawAny = true;
+			var amt = pl.myFleet.Cruisers.length + pl.myFleet.CruisersMoved.length;
+			if (amt > 1)
+				ctx.fillText(amt + " cruisers", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
+			else
+				ctx.fillText(amt + " cruiser", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
+			plusAmt += 18;
+		}
+		if (pl.myFleet.Capitals.length > 0 || pl.myFleet.CapitalsMoved.length > 0)
+		{
+			drawAny = true;
+			var amt = pl.myFleet.Capitals.length + pl.myFleet.CapitalsMoved.length;
+			if (amt > 1)
+				ctx.fillText(amt + " capital ships", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
+			else
+				ctx.fillText(amt + " capital ship", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
+			plusAmt += 18;			
+		}
+		if (!drawAny)
+		{
+			ctx.fillText("none orbiting", x + 120 + x_offset, y + 60 + y_offset);
+		}
 	}
 }

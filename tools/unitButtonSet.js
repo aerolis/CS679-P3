@@ -57,48 +57,57 @@ function unitButton(){
 	that.draw = function(targetCanvas){
 		var remaining = 0;
 		var selected = 0;
-	
+		var type = 0;
+		var col_ref = 0;
 		//Find the right numbers.
 		switch(that.shipType){
 			//Good numbers
 			case "Frigates":
 				remaining = selectedPlanet.myFleet.Frigates.length;
 				selected = selectedPlanet.selectedFleet.Frigates.length;
-				//Also draw the corresponding image right here. (For each shipType)
+				type = "frigate";
+				col_ref = 3;
 				break;
 			case "FrigatesMoved":
 				remaining = selectedPlanet.myFleet.FrigatesMoved.length;
 				selected = selectedPlanet.selectedFleet.FrigatesMoved.length;
+				type = "frigate";
+				col_ref = 2;
 				break;
 			case "Cruisers":
 				remaining = selectedPlanet.myFleet.Cruisers.length;
 				selected = selectedPlanet.selectedFleet.Cruisers.length;
+				type = "cruiser";
+				col_ref = 3;
 				break;
 			case "CruisersMoved":
 				remaining = selectedPlanet.myFleet.CruisersMoved.length;
 				selected = selectedPlanet.selectedFleet.CruisersMoved.length;
+				type = "cruiser";
+				col_ref = 2;
 				break;
 			case "Capitals":
 				remaining = selectedPlanet.myFleet.Capitals.length;
 				selected = selectedPlanet.selectedFleet.Capitals.length;
+				type = "capital";
+				col_ref = 3;
 				break;
 			case "CapitalsMoved":
 				remaining = selectedPlanet.myFleet.CapitalsMoved.length;
 				selected = selectedPlanet.selectedFleet.CapitalsMoved.length;
+				type = "capital";
+				col_ref = 2;
 				break;	
 			case "Default":
 				break;		
 		}		
-		
-		//Draw the good numbers.
-		targetCanvas.fillStyle = that.fill;
-		targetCanvas.fillRect(that.x, that.y, that.w, that.h);
+
+		//draws box behind - if I don't the button clicks don't work
 		targetCanvas.fillStyle = 'black';
-		targetCanvas.font = that.fontStyle;
-		targetCanvas.fillText(remaining, that.x + 2, that.y + 15);
-		targetCanvas.fillText(selected, that.x + that.w - 15, that.y + 15);
-		// !!! This gets to go once there are images.
-		targetCanvas.fillText(that.title, that.x + 2, that.y + 30);
+		targetCanvas.fillRect(that.x+2, that.y+2, that.w-4, that.h-4);
+		
+		//draws button w/ numbers
+		img.drawShipButton(type,that.x,that.y,remaining,selected,col_ref,targetCanvas);
 		
 	}	
 	return that;

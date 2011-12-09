@@ -34,6 +34,9 @@ function Button(){
 			case buttonType.EndTurn:
 				targetCanvas.drawImage(img.end_turn,that.x,that.y);
 			break;
+			case buttonType.Upgrade:
+				targetCanvas.drawImage(img.upgrade_planet,that.x+20,that.y);
+			break;
 			default:
 				targetCanvas.fillStyle = that.fill;
 				targetCanvas.fillRect(that.x, that.y, that.w, that.h);
@@ -78,21 +81,21 @@ function Button(){
 				//Do stuff
 				console.log("This planet wants to build a Frigate");
 				//for now, just building frigates
-				selectedPlanet.buildShip("Frigate",1);
+				selectedPlanet.buildShip("frigate",1);
 				break;
 				
 			case buttonType.BuildCruiser:
 				//Do stuff
 				//for now buttons only build one ship per click
 				console.log("This planet wants to build a Cruiser");
-				selectedPlanet.buildShip("Cruiser",1);
+				selectedPlanet.buildShip("cruiser",1);
 
 				break;
 				
 			case buttonType.BuildCapital:
 				//Do stuff
 				console.log("This planet wants to build a Capital");
-				selectedPlanet.buildShip("Capital",1);
+				selectedPlanet.buildShip("capital",1);
 				break;
 				
 

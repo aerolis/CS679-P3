@@ -63,13 +63,13 @@ fleet.prototype.setUnMoved = function(){
 
 //Add a single ship that hasn't moved to the fleet (e.g. upon creation).
 fleet.prototype.addNewShip = function(newShip){
-		if (newShip.type == "Frigate"){
+		if (newShip.type == "frigate"){
 			this.Frigates.push(newShip);
 		}
-		else if (newShip.type == "Cruiser"){
+		else if (newShip.type == "cruiser"){
 			this.Cruisers.push(newShip);
 		}
-		else if (newShip.type == "Capital"){
+		else if (newShip.type == "capital"){
 			this.Capitals.push(newShip);
 		}	
 	
@@ -78,13 +78,13 @@ fleet.prototype.addNewShip = function(newShip){
 //Add a single ship that has moved to the fleet.
 fleet.prototype.addMovedShip = function(movedShip){
 	
-	if (movedShip.type == "Frigate"){
+	if (movedShip.type == "frigate"){
 		this.FrigatesMoved.push(movedShip);
 	}
-	else if (movedShip.type == "Cruiser"){
+	else if (movedShip.type == "cruiser"){
 		this.CruisersMoved.push(movedShip);
 	}
-	else if (movedShip.type == "Capital"){
+	else if (movedShip.type == "capital"){
 		this.CapitalsMoved.push(movedShip);
 	}
 }

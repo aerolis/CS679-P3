@@ -8,6 +8,7 @@ var blendLayer = false;
 
 function draw3d()
 {	
+	var ms = new Date().getTime();
 	//to draw when the file is run from a local directory
 	//must set about:config security.fileuri.strict_origin_policy=false
 	//in firefox, else it has an out of context error
@@ -73,6 +74,8 @@ function draw3d()
 			break;
 	}
 	
+	var diff = (new Date().getTime())-ms;
+	//console.log(diff);
 }
 function setupMV()
 {

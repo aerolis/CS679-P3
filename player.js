@@ -109,7 +109,7 @@ player.prototype.doTurn = function()
 			var counter = -1;
 			while(status)
 			{
-				status = this.planets[i].buildShip("Frigate",1);
+				status = this.planets[i].buildShip("frigate",1);
 				counter++;
 			}
 		

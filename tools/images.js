@@ -10,10 +10,12 @@ function images()
 	this.left_arrow = new Image();
 	this.right_arrow = new Image();
 	this.hover_background = new Image();
+	this.hover_background_220 = new Image();
 	
 	this.planets_64 = new Array();
 	this.ship_buttons = new Array();
 	this.filters = new Array();
+	this.ship_64 = new Array();
 	
 	//now load their files
 	this.info_bar.src = "images/info_bar.png";
@@ -24,6 +26,7 @@ function images()
 	this.left_arrow.src = "images/left_arrow.png";
 	this.right_arrow.src = "images/right_arrow.png";
 	this.hover_background.src = "images/hover_background.png";
+	this.hover_background_220.src = "images/hover_background_220.png";
 	
 	//load planet images
 	var i;
@@ -31,12 +34,22 @@ function images()
 	{
 		this.planets_64[i] = new Image();
 	}
-	this.planets_64[0].src = "images/credit_64.png"; //factory
+	this.planets_64[0].src = "images/factory_64.png"; //factory
 	this.planets_64[1].src = "images/credit_64.png"; //credit
 	this.planets_64[2].src = "images/steel_64.png"; //steel
 	this.planets_64[3].src = "images/plasma_64.png"; //plasma
 	this.planets_64[4].src = "images/antimatter_64.png"; //antimatter
 	this.planets_64[5].src = "images/warp_64.png"; //warp
+	
+	//load ship images
+	var i;
+	for (i=0;i<6;i++)
+	{
+		this.ship_64[i] = new Image();
+	}
+	this.ship_64[0].src = "images/f_1_64.png"; //factory
+	this.ship_64[1].src = "images/f_1_64.png"; //credit
+	this.ship_64[2].src = "images/c_1_64.png"; //steel
 	
 	//load button filters
 	this.filters[0] = new Image();
@@ -54,9 +67,9 @@ function images()
 	{
 		this.ship_buttons[i] = new Image();
 	}
-	this.ship_buttons[0].src = "images/ship_1.png";
+	this.ship_buttons[0].src = "images/ship_f_1.png";
 	this.ship_buttons[1].src = "images/ship_1.png";
-	this.ship_buttons[2].src = "images/ship_1.png";
+	this.ship_buttons[2].src = "images/ship_c_1.png";
 }
 
 images.prototype.drawPlanetImage = function(type,x,y)
@@ -87,31 +100,51 @@ images.prototype.drawPlanetImage = function(type,x,y)
 	}
 	
 }
-
-images.prototype.drawShipButton = function(type,x,y,lhs,rhs,col_ref)
+images.prototype.drawShipImage = function(type,x,y)
 {
 	switch (type)
 	{
 		case "frigate":
-			ctx.drawImage(img.ship_buttons[ship_images.frigate],x,y);
-			ctx.drawImage(img.filters[col_ref],x,y);
-			ctx.font = "12pt Calibri";
-			ctx.fillText(lhs,x+2,y+2);
-			ctx.fillText(rhs,x+72,y+2);
+			ctx.drawImage(img.ship_64[ship_images.frigate],x,y);
 		break;
 		case "cruiser":
-			ctx.drawImage(img.ship_buttons[ship_images.cruiser],x,y);
-			ctx.drawImage(img.filters[col_ref],x,y);
-			ctx.font = "12pt Calibri";
-			ctx.fillText(lhs,x+2,y+2);
-			ctx.fillText(rhs,x+72,y+2);
+			ctx.drawImage(img.ship_64[ship_images.cruiser],x,y);
 		break;
 		case "capital":
-			ctx.drawImage(img.ship_buttons[ship_images.capital],x,y);
-			ctx.drawImage(img.filters[col_ref],x,y);
-			ctx.font = "12pt Calibri";
-			ctx.fillText(lhs,x+2,y+2);
-			ctx.fillText(rhs,x+72,y+2);
+			ctx.drawImage(img.ship_64[ship_images.capital],x,y);
+		break;
+		default:
+			ctx.drawImage(img.planets_64[ship_images.frigate],x,y);
+		break;
+	}
+}
+
+images.prototype.drawShipButton = function(type,x,y,lhs,rhs,col_ref,c)
+{
+	c.font = "12pt Calibri";
+	c.fillStyle = 'white';
+	
+	switch (type)
+	{
+		case "frigate":
+			c.drawImage(img.ship_buttons[ship_images.frigate],x,y);
+			c.drawImage(img.filters[col_ref],x,y);
+			c.fillText(lhs,x+14,y+16);
+			c.fillText(rhs,x+80,y+16);
+		break;
+		case "cruiser":
+			c.drawImage(img.ship_buttons[ship_images.cruiser],x,y);
+			c.drawImage(img.filters[col_ref],x,y);
+			c.font = "12pt Calibri";
+			c.fillText(lhs,x+14,y+16);
+			c.fillText(rhs,x+80,y+16);
+		break;
+		case "capital":
+			c.drawImage(img.ship_buttons[ship_images.capital],x,y);
+			c.drawImage(img.filters[col_ref],x,y);
+			c.font = "12pt Calibri";
+			c.fillText(lhs,x+14,y+16);
+			c.fillText(rhs,x+80,y+16);
 		break;
 	}
 }

@@ -85,16 +85,6 @@ camera.prototype.update = function()
 			
 		var val = 1;	
 		
-		//rotation with keyboard? relevant?
-		if (this.rup)
-			this.pitch -= val;
-		if (this.rdown)
-			this.pitch += val;
-		if (this.rright)
-			this.yaw += val;
-		if (this.rleft)
-			this.yaw -= val;
-			
 		//slow down scrolling here
 		if (this.scrollTimer > 0)
 			this.scrollTimer--;

@@ -11,6 +11,7 @@ var shaderProgram_main;
 var shaderProgram_flash;
 var shaderProgram_post;
 var mvMatrix = mat4.create();
+var mvtmpMatrix = mat4.create();
 var cMatrix = mat4.create();
 var pMatrix = mat4.create();  
 var mvMatrixStack = [];
@@ -70,6 +71,9 @@ var maxRot = 60;
 var rotAmt = 15;
 var maxDiff = 300;
 var planetHover = null;
+var timecheck = new Date().getTime();
+var fps;
+var drawFPS = true;
 
 //draw vars
 var zNear = 0.1;
@@ -177,6 +181,7 @@ function startgame()
 //game play loop
 function gameLoop() //switches between game states and performs correct loop operations
 {
+	var ms = new Date().getTime();
 	//play states will likely represent different things, so this is free to change (expect case 0 which should stay the similar for loading purposes)
 	switch (playState)
 	{
@@ -207,7 +212,15 @@ function gameLoop() //switches between game states and performs correct loop ope
 			break;
 	}
 	ui.update();
-	T = setTimeout("gameLoop()", 1/30 * 1000);
+	
+	var diff = (new Date().getTime())-timecheck;
+	fps = Math.round(100*(1/(diff/1000)))/100;
+	var diff2 = (new Date().getTime())-ms;
+	timecheck = new Date().getTime();
+	if (fps > 30)
+		T = setTimeout("gameLoop()", (1/30)*1000-diff2);
+	else
+		T = setTimeout("gameLoop()", (1/240)*1000);
 }
 
 

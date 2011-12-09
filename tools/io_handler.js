@@ -45,27 +45,49 @@ function handleMouseMove(evt)
 			cam.translate(dz/100,-dx/100);
 		}
 		
-		//hovering code
-		drawHover = -1;
-		//check hovering over buttons
-		if (mousez > canvas.height - 250)
+		if (!lPressed && !rPressed && !mPressed)
 		{
-			//now check which button set it might be over
-			//check left
-				//detemine which button is hovered
-			//check right	
-				//determine which button is hovered
-		}
-		else
-		{ //planet hovers
-			planetHover = pickObject();
-			if (planetHover != -1)
-			{sa
-				drawHover = 2;
+			//hovering code
+			drawHover = -1;
+			//check hovering over buttons
+			if (mousez > canvas.height - OptionBarHeight)
+			{
+				//now check which button set it might be over
+				if (mousex > OptionBarX && mousex < (OptionBarX + OptionBarWidth) && mousez > OptionBarY && mousez < (OptionBarY + OptionBarHeight))
+				{
+					var foundTarget = null;
+					if (selectedPlanet != null){
+						//See if you hovered over an optionButton belonging to the selected planet.
+						foundTarget = selectedPlanet.optionButtons.checkHover(mousex, mousez);		
+						if (foundTarget != null)
+						{
+							//ignored for now because they aren't working correctly
+							//drawHover = 0;
+							//shipHover = foundTarget.shipType;
+						}
+						else
+						{
+							//See if you hovered over a unit available on the selected planet.
+							foundTarget = selectedPlanet.shipButtons.checkHover(mousex, mousez);
+							if (foundTarget != null)
+							{
+								drawHover = 0;
+								shipHover = foundTarget.shipType;
+							}
+						}
+					}
+				}
+			}
+			else
+			{ //planet hovers
+				planetHover = pickObject();
+				if (planetHover != -1)
+				{
+					//planetXY = mp.systems[planetHover.a].planets[planetHover.b].getPlanetXY();
+					drawHover = 2;
+				}
 			}
 		}
-		//posAtMouse = getClickLocationOnPlane();
-
 	}
 }
 function handleMouseDown(evt)

@@ -1,16 +1,16 @@
 //Enum to store shiptypes
 // !!! Not in use currently, but this is the better practice way to do this...
-var shipTypes = { 	"Frigate": 0,
-					"Cruiser": 1,
-					"Capital": 2,
+var shipTypes = { 	"frigate": 0,
+					"cruiser": 1,
+					"capital": 2,
 					};
 
 function shipCatalog(i_owner){ //add testing catalog items for now
 	this.owner = i_owner;
 	this.catalog = [];
-	this.catalog.push(new ship(i_owner, "Frigate")); 
-	this.catalog.push(new ship(i_owner, "Cruiser"));
-	this.catalog.push(new ship(i_owner, "Capital"));
+	this.catalog.push(new ship(i_owner, "frigate")); 
+	this.catalog.push(new ship(i_owner, "cruiser"));
+	this.catalog.push(new ship(i_owner, "capital"));
 }
 //Basic ship class
 function ship(i_owner,i_type){
@@ -36,7 +36,7 @@ function ship(i_owner,i_type){
 	//this.pos = i_pos;
 	//hardcode 3 kinds of ships, dont need shiptype.js anymore
 	
-	if(this.type == "Frigate" )
+	if(this.type == "frigate" )
 	{
 		//Damage and defense value of this ship
 		this.laser = 10;
@@ -56,7 +56,7 @@ function ship(i_owner,i_type){
 		//turns it takes to build this ship
 		this.period = 1; 
 	}
-	else if(this.type == "Cruiser" ){	
+	else if(this.type == "cruiser" ){	
 		this.laser = 30;
 		this.missile = 40;
 		this.armor = 30;
@@ -73,7 +73,7 @@ function ship(i_owner,i_type){
 		//turns it takes to build this ship
 		this.period = 2; 
 	}
-	else if(this.type == "Capital" ){
+	else if(this.type == "capital" ){
 		this.laser = 80;
 		this.missile = 100;
 		this.armor = 80;

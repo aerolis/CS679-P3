@@ -70,7 +70,7 @@ Planet.prototype.buildShip = function(type,amt)
 Planet.prototype.showOptions = function(){
 	//this.optionButtons.addButton(OptionBarX + 420, OptionBarY + 20, 90, OptionBarHeight - 40, '#657383', "Send out army", buttonType.Send);
 	//if (planet.upgradeLevel < planet.upgradeLimit)
-	this.optionButtons.addButton(OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarHeight - 50, (OptionBarWidth - 2 * OptionBarSidesWidth - 60), 40, '#657383', "Upgrade Planet", buttonType.Upgrade);
+	this.optionButtons.addButton(OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarHeight - 50, (OptionBarWidth - 2 * OptionBarSidesWidth - 60), 40, '#657383', "", buttonType.Upgrade);
 	
 	//This gets called regularly. DO NOT move it to specifyPlanetType.
 	switch (this.type)
@@ -433,4 +433,19 @@ Planet.prototype.initFleetOwner = function()
 	{
 		this.myFleet.Capitals[i].owner = this.player;
 	}
+}
+Planet.prototype.getPlanetXY = function()
+{
+	var x,y;
+	var v = vec3.create([0,0,0]);
+	var ax = this.pos.x+mp.systems[this.mySystem].pos.x;
+	var ay = this.pos.y+mp.systems[this.mySystem].pos.y;
+	var az = this.pos.z+mp.systems[this.mySystem].pos.z;
+	mat4.identity(mvtmpMatrix);
+	mat4.translate(mvtmpMatrix,[ax,ay,az]);
+	mat4.multiply(mvtmpMatrix,cMatrix);
+	mat4.multiplyVec3(mvtmpMatrix, v, v);
+	x = v[0];
+	y = v[1];
+	return new v2(x,y);
 }
