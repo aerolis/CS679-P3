@@ -6,26 +6,13 @@ function battle(Fleet1, Fleet2)
 	
 	var k=0;
 	
+	
 	if (List1.length > 0 && List2.length > 0)
 	{
-		//console.log("List1 owner: "+ List1[0].owner);
-		//console.log("List2 owner: "+ List2[0].owner);
-	
-		//For some reason, the program leaves this if loop without having reached the end
-		//console.log("Battle started");
 		//As you return from within this loop, this just goes on until done.
 		var battleGoing = true;
 		while(battleGoing)
-		//while( winner.length <= 0 )
 		{	
-			//console.log("In while loop");
-			//var attacker = List1[0];
-			//var target = List2[0];
-			//var attacker;
-			//var target;
-			//var tIndex = 0;
-			//var damage = 0;
-			//var survivors = 0;
 			
 			//List1 gets to attack first.
 			attackList(List1, List2);
@@ -47,10 +34,8 @@ function battle(Fleet1, Fleet2)
 
 	}
 	else{
-		//console.log("Returning empty winner. This is an error.");
-		//return winner;	
+		return List1;
 	}
-	//console.log("I'm returning nothing and ending. This should not be possible.");
 }
 
 // !!! This is not a nice way to do this. But let's see how it works for now.

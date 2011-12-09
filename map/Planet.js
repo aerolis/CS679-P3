@@ -153,12 +153,9 @@ Planet.prototype.hideShips = function(){
 }
 */
 Planet.prototype.selectFrigate = function(){
-	console.log("Planet tries to select a frigate. myFleet: " + this.myFleet.Frigates.length + ", selected: " + this.selectedFleet.Frigates.length);
 	if (this.myFleet.Frigates.length > 0){
 		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
 	}
-	console.log("Planet just tried to select a frigate. myFleet: " + this.myFleet.Frigates.length + ", selected: " + this.selectedFleet.Frigates.length);
-	
 }
 
 Planet.prototype.selectCruiser = function(){
@@ -172,8 +169,6 @@ Planet.prototype.selectCapital = function(){
 		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
 	}
 }
-
-
 Planet.prototype.specifyPlanetType = function()
 {
 	switch (this.type)

@@ -86,7 +86,6 @@ function buttonset(){
 		clear(gctx);
 		return false;
 	}
-
 	that.checkHover = function(mouseX,mouseY) {
 		clear(gctx);
 		var l = that.buttons.length;
@@ -109,6 +108,7 @@ function buttonset(){
 		clear(gctx);
 		return mySel;
 	}
+
 	return that;
 }
 

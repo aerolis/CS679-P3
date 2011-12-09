@@ -12,6 +12,7 @@ body {
 	left: 1300px;
 }
 #optionsBar {
+	display: none;
 	position: absolute;
 	z-index: -5;
 	top: 50px;

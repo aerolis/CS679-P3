@@ -36,6 +36,7 @@ function Button(){
 				targetCanvas.drawImage(img.end_turn,that.x,that.y);
 			break;
 			case buttonType.Upgrade:
+				//Only draw upgrade buttons if the planet is still upgradable.
 				if(selectedPlanet.upgradeStats.maxUpgradeLevel > selectedPlanet.upgradeLevel){
 					targetCanvas.drawImage(img.upgrade_planet,that.x+20,that.y);
 				}
@@ -55,9 +56,19 @@ function Button(){
 				// !!! if this buttontype is unlocked				
 				img.drawBuildShipButton("capital",that.x,that.y,targetCanvas);
 			break;
+			
+			case buttonType.BrowseShipsLeft:
+				targetCanvas.fillStyle = 'black';
+				targetCanvas.fillRect(that.x, that.y+20, that.w, that.h-20);
+				targetCanvas.drawImage(img.left_arrow,that.x,that.y+20);
+			break;
+			case buttonType.BrowseShipsRight:
+				targetCanvas.fillStyle = 'black';
+				targetCanvas.fillRect(that.x, that.y+20, that.w, that.h-20);
+				targetCanvas.drawImage(img.right_arrow,that.x,that.y+20);
+			break;
 			default:
 				that.drawThis(targetCanvas);
-			break;
 		}
 	}
 	

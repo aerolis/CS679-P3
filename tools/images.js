@@ -52,7 +52,7 @@ function images()
 		this.ship_64[i] = new Image();
 	}
 	this.ship_64[0].src = "images/f_1_64.png"; //factory
-	this.ship_64[1].src = "images/f_1_64.png"; //credit
+	this.ship_64[1].src = "images/cr_1_64.png"; //credit
 	this.ship_64[2].src = "images/c_1_64.png"; //steel
 	
 	//load button filters
@@ -72,7 +72,7 @@ function images()
 		this.ship_buttons[i] = new Image();
 	}
 	this.ship_buttons[0].src = "images/ship_f_1.png";
-	this.ship_buttons[1].src = "images/ship_1.png";
+	this.ship_buttons[1].src = "images/ship_cr_1.png";
 	this.ship_buttons[2].src = "images/ship_c_1.png";
 }
 
