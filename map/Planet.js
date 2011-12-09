@@ -125,20 +125,7 @@ Planet.prototype.populateShipButtons = function(){
 		this.shipButtons.addUnitButton( '#806D7E', "CapitalsMoved: ", buttonType.Empty,"CapitalsMoved");	
 	}	
 	
-	// !!! For testing, add some extra buttons. ====================================
-	// !!! leaving them for a second to show off that it works :P.
-	//Non-movable ships
-	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
-		this.shipButtons.addUnitButton('#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
-	}
-	if (this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length  > 0){
-		this.shipButtons.addUnitButton('#4C7D7E', "Cruisers: " , buttonType.Cruisers, "Cruisers");	
-	}
-	if (this.myFleet.Capitals.length + this.selectedFleet.Capitals.length  > 0){
-		this.shipButtons.addUnitButton('#4C7D7E', "Capitals: ", buttonType.Capitals, "Capitals");	
-	}	
-	// !!! ====================================== end test ===========================
-		
+	
 	//Give them all a location
 	this.shipButtons.layOutButtons();
 	
