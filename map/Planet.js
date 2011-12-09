@@ -315,7 +315,6 @@ Planet.prototype.onTurn = function() {
 		default:
 		break;
 	}	
-	
 	this.myFleet.addFleet(this.selectedFleet);
 	this.selectedFleet.empty();
 	this.myFleet.setUnMoved();
@@ -355,7 +354,7 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
     //after we got winner,assign value to planet.player
     if (winner.length > 0){
 		//If you lost
-		console.log("I am: " + this.player + ", winner is " + winner[0].owner);
+		//console.log("I am: " + this.player + ", winner is " + winner[0].owner);
         if (this.player == winner[0].owner){
 			//Defender won.
 			this.myFleet = makeFleetNotMoved(winner);    
@@ -378,7 +377,7 @@ Planet.prototype.getNewShips = function(){ //Add new ships realeased from produc
 	var newShipArray = [];
 	newShipArray = newShipArray.concat(this.productionPlan.release());
 	for(var i=0; i < newShipArray.length; i++){
-		this.myFleet.addNewShip( newShipArray[i]);
+		this.myFleet.addNewShip(newShipArray[i]);
 	}
 }
 Planet.prototype.initFleetOwner = function()
