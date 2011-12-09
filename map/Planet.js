@@ -351,9 +351,15 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 		}
 		//If you won
 		else{
-			//Attacker own.
+			//Attacker won.
 			this.myFleet = makeFleetMoved(winner);
-			this.player = winner[0].owner;		
+			var oldPlayer = this.player;
+			this.player = winner[0].owner;	
+			players[this.player].addPlanet(this);
+			if (oldPlayer >= 0 && oldPlayer < players.length)
+			{
+				players[oldPlayer].removePlanet(this);
+			}	
 		}
     }
     else{
