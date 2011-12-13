@@ -90,7 +90,6 @@ function handleMouseMove(evt)
 						foundTarget = selectedPlanet.optionButtons.checkHover(mousex, mousez);
 						if (foundTarget != null)
 						{
-							//ignored for now because they aren't working correctly
 							
 							switch (foundTarget.type){
 								case buttonType.BuildFrigate:

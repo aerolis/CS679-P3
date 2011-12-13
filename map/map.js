@@ -1,6 +1,7 @@
 function map()
 {
 	this.systems = new Array();
+	this.size = 7500;
 	
 	//stuff for drawing map structure
 	this.linePosBuffer;

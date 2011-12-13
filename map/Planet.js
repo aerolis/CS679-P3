@@ -177,13 +177,13 @@ Planet.prototype.specifyPlanetType = function()
 		break;
 		case "antimatter":
 			this.model = 2;			
-			this.amtResourcesToAdd = 8;
+			this.amtResourcesToAdd = 6;
 		break;
 		case "warp":
 			this.model = 8;
 		break;
 		case "academy":
-			this.model = 0;
+			this.model = 12;
 		break;
 		case "default":
 			this.model = 0;

@@ -261,6 +261,9 @@ function getMeshes(data)
 				case "fighter_ship":
 					models[11] = tmpModel;
 					break;
+				case "earth":
+					models[12] = tmpModel;
+					break;
 			}
 			modelsChecked++;
 			drawLoading();

@@ -82,7 +82,14 @@ camera.prototype.update = function()
 			this.lookat.z += (this.distance/(750*this.scrollScale))*this.scrollamt*Math.sin(degToRad(this.yaw));
 			this.lookat.x -= (this.distance/(750*this.scrollScale))*this.scrollamt*Math.cos(degToRad(this.yaw));
 		}
-			
+		//console.log("before: x:"+this.lookat.x+" z:"+this.lookat.z);
+		var mapDistance = Math.sqrt(this.lookat.x*this.lookat.x + this.lookat.z*this.lookat.z);
+		if (mapDistance > mp.size)
+		{
+			this.lookat.z = mp.size*(this.lookat.z/mapDistance);	
+			this.lookat.x = mp.size*(this.lookat.x/mapDistance);	
+			//console.log("after: x:"+this.lookat.x+" z:"+this.lookat.z);
+		}
 		var val = 1;	
 		
 		//slow down scrolling here
@@ -212,6 +219,16 @@ camera.prototype.translate = function(vert,horz)
 	//horizontal scrolling
 	this.lookat.z -= scaleFactor*this.scrollamt*Math.sin(degToRad(this.yaw))*horz;
 	this.lookat.x += scaleFactor*this.scrollamt*Math.cos(degToRad(this.yaw))*horz;
+	
+	//check to make sure they are in bounds
+	//console.log("before: x:"+this.lookat.x+" z:"+this.lookat.z);
+	var mapDistance = Math.sqrt(this.lookat.x*this.lookat.x + this.lookat.z*this.lookat.z);
+	if (mapDistance > mp.size)
+	{
+		this.lookat.z = mp.size*(this.lookat.z/mapDistance);	
+		this.lookat.x = mp.size*(this.lookat.x/mapDistance);	
+		//console.log("after: x:"+this.lookat.x+" z:"+this.lookat.z);
+	}
 	
 	this.updatePos();
 }
