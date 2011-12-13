@@ -189,6 +189,15 @@ function onHover(x,y,type,obj)
 			case "Capitals":
 				sh = new ship(-1,"capital");
 			break;
+			case "Scouts":
+				sh = new ship(-1,"frigate");
+			break;
+			case "Fighters":
+				sh = new ship(-1,"cruiser");
+			break;
+			case "Dreadnaughts":
+				sh = new ship(-1,"capital");
+			break;
 			//TODO fix that this case doesn't happen
 			default:
 				sh = new ship(-1, "frigate");
@@ -238,6 +247,33 @@ function onHover(x,y,type,obj)
 		ctx.fillText(sh.plasma, x+x_offset+35, y+y_offset + 136+32);
 		ctx.fillText(sh.antiMatter, x+x_offset+35, y+y_offset + 136+48);
 
+	}
+	else if (type == 1)
+	{
+		// TODO: THIS FUNCTION NEEDS FILLING IN
+		
+		if (x > canvas.width-width)
+			x_offset = -width;
+		y_offset = -height;
+		ctx.drawImage(img.hover_background_220,x+x_offset,y+y_offset);
+		// next calc ship_type
+		var research;
+		switch (obj)
+		{
+			case "Lasers":
+				//research = new research(-1,"laser");
+			break;
+			case "Shields":
+				//research = new research(-1,"shields");
+			break;
+			case "Adv_Missiles":
+				//research = new research(-1,"adv_missiles");
+			break;
+			case "Reactors":
+				//research = new research(-1,"reactor");
+			break;
+		}
+		//img.drawResearchImage(research.type, x + 15 + x_offset, y + 10 + y_offset );
 	}
 	else if (type == 2)
 	{
