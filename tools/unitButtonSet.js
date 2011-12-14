@@ -72,7 +72,7 @@ function unitButtonSet(){
 		}
 	}
 	
-	that.checkClicked = function(mouseX, mouseY){
+	that.checkClicked = function(mouseX, mouseY, button){
 		clear(gctx);
 		//Check normal buttons
 		var l = that.shownButtons.length;
@@ -87,7 +87,7 @@ function unitButtonSet(){
 			// if the mouse pixel exists, select and break
 			if (imageData.data[3] > 0) {
 				var mySel = that.shownButtons[i];
-				mySel.gotClicked();
+				mySel.gotClicked(button);
 				clear(gctx);
 				return true;
 			}
@@ -178,6 +178,10 @@ function unitButton(){
 				break;		
 		}		
 
+		if(selectedPlanet.player != currentPlayer){
+			//If they're not your ships, make them grey.
+			col_ref = 1;	
+		}
 		//draws box behind - if I don't the button clicks don't work
 		targetCanvas.fillStyle = 'black';
 		targetCanvas.fillRect(that.x+2, that.y+2, that.w-4, that.h-4);

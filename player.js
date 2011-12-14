@@ -175,7 +175,7 @@ player.prototype.doTurn = function()
 						selectedPlanet.selectCapital();
 					}
 					targetPlanet = linkedPlanet;
-					targetPlanet.tryReceiveFleet(selectedPlanet);
+					targetPlanet.tryReceiveFleet();
 				}
 			}
 		}
@@ -234,7 +234,7 @@ player.prototype.doTurn = function()
 				selectedPlanet.selectCapital();
 			}
 			targetPlanet = sendPlanet;
-			targetPlanet.tryReceiveFleet(selectedPlanet);
+			targetPlanet.tryReceiveFleet();
 		}
 	}
 }

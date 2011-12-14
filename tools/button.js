@@ -80,8 +80,11 @@ function Button(){
 		targetCanvas.fillText(that.title, that.x + 2, that.y + 15);	
 	}
 	
-	that.gotClicked = function(){
+	that.gotClicked = function(button){
+		//if button = 0; it was a leftClick
+		//if button = 1; it was a rightClick.
 		//console.log(that.title + " got clicked.");
+		
 		switch (that.type){
 				//General buttons
 			case buttonType.EndTurn:
@@ -125,18 +128,33 @@ function Button(){
 				
 			//Selecting units buttons
 			case buttonType.Frigates:
-				//console.log("This planet wants to select a Frigate");
-				selectedPlanet.selectFrigate();
+				if (button == 0){
+					//console.log("This planet wants to select a Frigate");
+					selectedPlanet.selectAllFrigates();
+				}
+				else{
+					selectedPlanet.deselectFrigate();
+				}
 				break;
 				
 			case buttonType.Cruisers:
-				//console.log("This planet wants to select a Cruisers");
-				selectedPlanet.selectCruiser();				
+				if (button == 0){
+					//console.log("This planet wants to select a Cruisers");
+					selectedPlanet.selectAllCruisers();	
+				}
+				else{
+					selectedPlanet.deselectCruiser();	
+				}
 				break;
 				
 			case buttonType.Capitals:
-				//console.log("This planet wants to select a Capitals");
-				selectedPlanet.selectCapital();				
+				if (button == 0){
+					//console.log("This planet wants to select a Capitals");
+					selectedPlanet.selectAllCapitals();		
+				}
+				else{
+					selectedPlanet.deselectCapital();	
+				}
 				break;
 				
 			case buttonType.Empty:
@@ -147,6 +165,8 @@ function Button(){
 				break;
 		
 		}
+		
+		//If it was a right click.		
 	}
 
 	return that;

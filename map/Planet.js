@@ -139,6 +139,9 @@ Planet.prototype.hideShips = function(){
 	this.shipButtons.clear();
 }
 */
+
+//These are outdated but still used by AI
+
 Planet.prototype.selectFrigate = function(){
 	if (this.myFleet.Frigates.length > 0){
 		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
@@ -156,6 +159,47 @@ Planet.prototype.selectCapital = function(){
 		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
 	}
 }
+
+
+// Deselect one ship
+Planet.prototype.deselectFrigate = function(){
+	if (this.selectedFleet.Frigates.length > 0){
+		this.myFleet.Frigates.push(this.selectedFleet.Frigates.pop());
+	}
+}
+
+Planet.prototype.deselectCruiser = function(){
+	if (this.selectedFleet.Cruisers.length > 0){
+		this.myFleet.Cruisers.push(this.selectedFleet.Cruisers.pop());
+	}
+}
+
+Planet.prototype.deselectCapital = function(){
+	if (this.selectedFleet.Capitals.length > 0){
+		this.myFleet.Capitals.push(this.selectedFleet.Capitals.pop());
+	}
+}
+
+//Select all ships of one kind
+Planet.prototype.selectAllFrigates = function(){
+	while (this.myFleet.Frigates.length > 0){
+		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
+	}
+}
+
+Planet.prototype.selectAllCruisers = function(){
+	while (this.myFleet.Cruisers.length > 0){
+		this.selectedFleet.Cruisers.push(this.myFleet.Cruisers.pop());
+	}
+}
+
+Planet.prototype.selectAllCapitals = function(){
+	while (this.myFleet.Capitals.length > 0){
+		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
+	}
+}
+
+
 Planet.prototype.specifyPlanetType = function()
 {
 	switch (this.type)
@@ -294,28 +338,34 @@ Planet.prototype.onTurn = function() {
 	this.myFleet.setUnMoved();
 }
 
-Planet.prototype.tryReceiveFleet = function(newFleet){
+Planet.prototype.tryReceiveFleet = function(){
+	//See if something is actually attempting to fly here (if it's not an empty fleet).
+	if (selectedPlanet.selectedFleet.getTotal() > 0){
 	//See if it's possible to fly here.
-	if (this.linkedTo(selectedPlanet)){
-		//Do this stuff
-		
-		//If it were your ships, just add the fleet.
-		if (this.player == currentPlayer){
-			selectedPlanet.selectedFleet.setMoved();
-			this.myFleet.addFleet(selectedPlanet.selectedFleet);
-			selectedPlanet.selectedFleet.empty();
+		if (this.linkedTo(selectedPlanet)){
+			//Do this stuff
+			
+			//If it were your ships, just add the fleet.
+			if (this.player == currentPlayer){
+				selectedPlanet.selectedFleet.setMoved();
+				this.myFleet.addFleet(selectedPlanet.selectedFleet);
+				selectedPlanet.selectedFleet.empty();
+			}
+			//If it's an enemy planet, call receiveHostileFleet on it.
+			else if (targetPlanet.player != currentPlayer){
+				this.receiveHostileFleet(selectedPlanet.selectedFleet);
+				selectedPlanet.selectedFleet.empty();
+			}	
+			selectedPlanet.populateShipButtons();						
 		}
-		//If it's an enemy planet, call receiveHostileFleet on it.
-		else if (targetPlanet.player != currentPlayer){
-			this.receiveHostileFleet(selectedPlanet.selectedFleet);
-			selectedPlanet.selectedFleet.empty();
-		}	
-		selectedPlanet.populateShipButtons();						
+		else{
+			console.log("The fleet didn't reach me");
+			//You tried to send something to a planet that is not connected.
+			// !!! Does anything happen? Deselection?
+		}
 	}
 	else{
-		console.log("The fleet didn't reach me");
-		//You tried to send something to a planet that is not connected.
-		// !!! Does anything happen? Deselection?
+		console.log("An empty fleet was send");
 	}
 }
 
