@@ -175,7 +175,7 @@ function lb_parseMap(data)
 						{
 							tmp.myFleet.Cruisers.push(new ship(tmp.player, "cruiser"));
 						}
-						//tmp.myFleet.Capitals.push(new ship(tmp.player, "capital"));
+						tmp.myFleet.Capitals.push(new ship(tmp.player, "capital"));
 					}
 				break;
 				case "<pos>":

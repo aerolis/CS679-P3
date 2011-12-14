@@ -216,6 +216,7 @@ function drawMap()
 	if (!blendLayer)
 	{
 		drawPlanets();
+		drawPlanetShips();
 		drawSuns();
 	}
 	else
@@ -389,6 +390,127 @@ function drawPlanets()
 
 	}
 }
+
+//global vars to keep track of how many ships we can draw around each planet
+var max_frigates_drawn = 12;
+var max_cruisers_drawn = 4;
+var max_capitals_drawn = 2; 
+	
+var frigates_angle = (Math.PI*2)/max_frigates_drawn;
+var cruisers_angle = (Math.PI*2)/max_cruisers_drawn;
+var capitals_angle = (Math.PI*2)/max_capitals_drawn;
+
+function drawPlanetShips()
+{
+	var i,j,k,m;
+	
+	shaderProgram = shaderProgram_main;
+	gl.useProgram(shaderProgram);
+	
+	if (!blendLayer)
+	{
+		//lighting
+		defineLighting();
+		initBlendModes();
+		for (i=0;i<mp.systems.length;i++)
+		{
+			if (mp.systems[i] != null)
+			{
+				mvPushMatrix();
+				// translate to location of solar system
+				mat4.translate(mvMatrix,[mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z]);
+				//set up the sun's lighting
+				//gl.uniform3f(shaderProgram.pointColorUniform,mp.systems[i].sunColor.x,mp.systems[i].sunColor.y,mp.systems[i].sunColor.z);
+				gl.uniform3f(shaderProgram.pointColorUniform,0.8,0.8,0.8);
+				gl.uniform3f(shaderProgram.pointLocationUniform,mp.systems[i].pos.x,mp.systems[i].pos.y,mp.systems[i].pos.z);
+				
+				for (j=0;j<mp.systems[i].planets.length;j++)
+				{
+					//per planet drawing
+		
+					mvPushMatrix();
+					var pln = mp.systems[i].planets[j];
+					mat4.translate(mvMatrix,[pln.pos.x,pln.pos.y,pln.pos.z]);
+					
+					//first determine how many of each ship we're drawing
+					var f_amt = Math.min(max_frigates_drawn,pln.myFleet.Frigates.length+pln.myFleet.FrigatesMoved.length);
+					var cr_amt = Math.min(max_cruisers_drawn,pln.myFleet.Cruisers.length+pln.myFleet.CruisersMoved.length);
+					var c_amt = Math.min(max_capitals_drawn,pln.myFleet.Capitals.length+pln.myFleet.CapitalsMoved.length);
+					
+					var draw_rad = 100*pln.scale;
+					var theta = 0;
+					var x,z;
+					
+					//draw frigates
+					if (f_amt > 0)
+					{
+						for (k=0;k<f_amt;k++)
+						{
+							mvPushMatrix();
+							theta = k*frigates_angle+degToRad(4*pln.rot.y);	
+							x = Math.cos(theta)*draw_rad;
+							z = Math.sin(theta)*draw_rad;
+							mat4.translate(mvMatrix,[x,0,z]);
+							mat4.rotate(mvMatrix,-(theta+Math.PI),[0,1,0]);
+							for (m=0;m<models[11].meshes.length;m++)
+							{
+								drawMesh(11,m);
+							}					
+							mvPopMatrix();
+						}
+					}
+					//draw cruisers
+					draw_rad = 128*pln.scale;
+					if (cr_amt > 0)
+					{
+						for (k=0;k<cr_amt;k++)
+						{
+							mvPushMatrix();
+							theta = -k*cruisers_angle-degToRad(2*pln.rot.y)-Math.PI;	
+							x = Math.cos(theta)*draw_rad;
+							z = Math.sin(theta)*draw_rad;
+							mat4.translate(mvMatrix,[x,0,z]);
+							mat4.scale(mvMatrix,[0.5,0.5,0.5]);
+							mat4.rotate(mvMatrix,-(theta+Math.PI/2),[0,1,0]);
+							for (m=0;m<models[13].meshes.length;m++)
+							{
+								drawMesh(13,m);
+							}					
+							mvPopMatrix();
+						}
+					}				
+					//draw capitals
+					draw_rad = 160*pln.scale;
+					if (c_amt > 0)
+					{
+						for (k=0;k<c_amt;k++)
+						{
+							mvPushMatrix();
+							theta = k*capitals_angle+degToRad(1*pln.rot.y)+Math.PI/2;	
+							x = Math.cos(theta)*draw_rad;
+							z = Math.sin(theta)*draw_rad;
+							mat4.translate(mvMatrix,[x,0,z]);
+							mat4.rotate(mvMatrix,-(theta+Math.PI/2),[0,1,0]);
+							for (m=0;m<models[10].meshes.length;m++)
+							{
+								drawMesh(10,m);
+							}					
+							mvPopMatrix();
+						}
+					}				
+					//mat4.rotate(mvMatrix,degToRad(pln.rot.x),[1,0,0]);
+					//mat4.rotate(mvMatrix,degToRad(pln.rot.y),[0,1,0]);
+					//mat4.rotate(mvMatrix,degToRad(pln.rot.z),[0,0,1]);
+					
+
+					mvPopMatrix();
+				}
+				mvPopMatrix();
+			}
+		}	
+	}
+}
+
 function getPlanetLightingType(s)
 {
 	var col = new v3(0,0,0);

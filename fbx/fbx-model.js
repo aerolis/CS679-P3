@@ -263,6 +263,9 @@ function getMeshes(data)
 					break;
 				case "earth":
 					models[12] = tmpModel;
+					break;;
+				case "cruiser_ship":
+					models[13] = tmpModel;
 					break;
 			}
 			modelsChecked++;
