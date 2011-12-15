@@ -75,7 +75,7 @@ player.prototype.initializeCameraPos = function()
 //Add a planet to the list of planets this player owns
 player.prototype.addPlanet = function(planet)
 {
-	if (this.planets.indexOf(planet) == -1)
+	if (this.planets.indexOf(planet) == -1 && planet.player == this.id)
 	{
 		this.planets.push(planet);
 		if (planet.type == "factory") {
@@ -200,7 +200,10 @@ player.prototype.doTurn = function()
 	//Move ships to outlying planets
 	for (var i = 0; i < this.planets.length; i++) {
 		var currPlanet = this.planets[i];
-		if(dangerPlanets.indexOf(currPlanet) == -1)
+		var numShips = currPlanet.myFleet.Frigates.length +
+					   currPlanet.myFleet.Capitals.length +
+					   currPlanet.myFleet.Cruisers.length;
+		if(numShips > 0 && dangerPlanets.indexOf(currPlanet) == -1)
 		{
 			var sendPlanet = null;
 			for (var j = 0; j < currPlanet.linkedPlanets.length; j++)
@@ -217,8 +220,13 @@ player.prototype.doTurn = function()
 				//TODO: Find nearest danger planet, send
 				//ships out on a path to it...
 				//for now, send them out to random linked planet
-				var rand = Math.floor(Math.random()*currPlanet.linkedPlanets.length);
-				sendPlanet = currPlanet.linkedPlanets[rand];
+				
+				sendPlanet = this.findPlanetToReinforce(currPlanet);
+				if (sendPlanet == null) {
+					//var rand = Math.floor(Math.random()*currPlanet.linkedPlanets.length);
+					//sendPlanet = currPlanet.linkedPlanets[rand];
+					sendPlanet = this.findPlanetToReinforce(currPlanet);
+				}
 			}
 			selectedPlanet = currPlanet;
 			while(selectedPlanet.myFleet.Frigates.length > 0)
@@ -236,5 +244,86 @@ player.prototype.doTurn = function()
 			targetPlanet = sendPlanet;
 			targetPlanet.tryReceiveFleet();
 		}
+	}	
+}
+
+player.prototype.findPlanetToReinforce = function(planet)
+{
+	var clearPlanets = function() {
+		for( i = 0; i < mp.systems.length; i++) {
+			for( j = 0; j < mp.systems[i].planets.length; j++) {
+				mp.systems[i].planets[j].visited = false;
+				mp.systems[i].planets[j].parent = null;
+			}
+		}
 	}
+	
+	clearPlanets();
+
+	var LinkedList = function() {
+		this.firstNode = null;
+		this.lastNode = null;
+		this.size = 0;
+		this.add = function(planet) {
+			if(this.firstNode == null) {
+				this.firstNode = planet;
+				this.lastNode = planet;
+			} else {
+				this.lastNode.next = planet;
+				this.lastNode = planet;
+			}
+
+			this.size++;
+		}
+		this.remove = function() {
+			if (this.size == 0) return;
+			var n = this.firstNode;
+			this.firstNode = this.firstNode.next;
+			this.size--;
+			return n;
+		}
+	}
+
+	var enemyFound = false;
+	var planetToReinforce = null;
+	var queue = new LinkedList();
+	var root = planet;
+	root.visited = true;
+	queue.add(root);
+	while(queue.size != 0)
+	{
+		var n = queue.remove();
+		for(var i = 0; i < n.linkedPlanets.length; i++) {
+			var childPlanet = n.linkedPlanets[i];
+			if (childPlanet.player != this.id) { //TODO: and enemy planet isn't neutral
+					enemyFound = true;
+					break;
+			}
+			if (!childPlanet.visited) {
+				childPlanet.visited = true;
+				childPlanet.parent = n;
+				queue.add(childPlanet);
+			}
+		}
+		if (enemyFound) {
+			var parent = n.parent;
+			if (parent == null) {
+				planetToReinforce = root;
+			} else  if (parent.parent == null){
+				planetToReinforce = n;
+			} else {
+				while(parent.parent != null) {
+					n = parent;
+					parent = n.parent;
+				}
+				planetToReinforce = n;
+			}
+			break;
+		}
+	}
+	
+	clearPlanets();
+	
+	return planetToReinforce;
+	
 }
