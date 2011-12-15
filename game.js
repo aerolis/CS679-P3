@@ -321,14 +321,17 @@ function nextTurn()
 	
 	if (players[currentPlayer].ai) {
 		//playState = 2;
-		players[currentPlayer].doTurn();
-		//playState = 1;
+		//Wait a bit so it seems like the turn actually takes some time
+		setTimeout(function(){
+			players[currentPlayer].doTurn();
+			//For debugging, it may be useful to comment out the next
+			//line so that you can see what the AI did (you must then
+			//click the END TURN button to get back to the user's
+			//turn...)
+			nextTurn();
+		},  10000); //i'd reocmmend setting this to 1 while you are testing...
 		
-		//For debugging, it may be useful to comment out the next
-		//line so that you can see what the AI did (you must then
-		//click the END TURN button to get back to the user's
-		//turn...)
-		nextTurn();
+		//playState = 1;
 	}
 	
 	//check for game over
@@ -341,7 +344,7 @@ function nextTurn()
 	}
 	
 	if (gameOver){
-		Console.log("Game Over");
+		console.log("Game Over");
 		//playState = 4;
 	}
 }
