@@ -8,6 +8,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 		this.id = globalPlanetID;
 	else
 		this.id = mp.systems[mySys].numOfPlanets;
+	this.name = planetnames[mp.systems[mySys].numOfPlanets];
 	this.mySystem = mySys;
 	this.pos = planetPosition;
 	this.rot_rate = new v3(0,Math.random()*0.1,0);
@@ -450,3 +451,10 @@ Planet.prototype.getPlanetXY = function()
 	y = v[1];
 	return new v2(x,y);
 }
+
+var planetnames = ["Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", 
+				   "Aegis VII", "Altair IV", "Chiron", "Demeter", "Eternia", "Fhloston", "G889",
+				   "Antar", "Gaia", "Helghan", "Hydros", "Ireta", "Kharak", "Medea", "Lumen",
+				   "LV-426", "New Earth", "Terra Nova", "Nirn", "Omega", "Omicron", "Pandora",
+				   "Rosetta", "Rylos", "Sera", "Solaris", "Tanis", "Titan", "Zyrgon-7",
+				   "Earth Prime", "Planet X", "Septerra", "Druidia", "Rigel 7", "Vega", "Zenon"]
