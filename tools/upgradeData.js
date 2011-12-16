@@ -46,37 +46,37 @@ function upgradeData(planet){
 		{
 			case "factory":
 				this.credits = 500;
-				this.steel = 50;
+				this.steel = 100;
 				this.plasma = 80;
 				this.antimatter = 20;
 				break;
 			case "credit":
-				this.credits = 0;
+				this.credits = 150;
 				this.steel = 0;
 				this.plasma = 0;
 				this.antimatter = 0;
 				this.newResources = 60;	
 				break;
 			case "steel":
-				this.credits = 0;
+				this.credits = 200;
 				this.steel = 0;
 				this.plasma = 0;
 				this.antimatter = 0;				
-				this.newResources = 15;	
+				this.newResources = 30;	
 				break;			
 			case "plasma":
-				this.credits = 0;
+				this.credits = 200;
 				this.steel = 0;
 				this.plasma = 0;				
 				this.antimatter = 0;
-				this.newResources = 11;					
+				this.newResources = 25;					
 				break;
 			case "antimatter":
-				this.credits = 0;
+				this.credits = 200;
 				this.steel = 0;
 				this.plasma = 0;
 				this.antimatter = 0;
-				this.newResources = 7;
+				this.newResources = 12;
 				break;
 			case "warp":
 				this.credits = 0;
@@ -104,32 +104,32 @@ function upgradeData(planet){
 				this.antimatter = 0;
 				break;
 			case "credit":
-				this.credits = 0;
+				this.credits = 400;
 				this.steel = 0;
 				this.plasma = 0;
 				this.antimatter = 0;
 				this.newResources = 90;	
 				break;
 			case "steel":
-				this.credits = 0;
+				this.credits = 500;
 				this.steel = 0;
 				this.plasma = 0;
 				this.antimatter = 0;				
-				this.newResources = 22;	
+				this.newResources = 45;	
 				break;			
 			case "plasma":
-				this.credits = 0;
+				this.credits = 500;
 				this.steel = 0;
 				this.plasma = 0;
 				this.antimatter = 0;
-				this.newResources = 15;	
+				this.newResources = 40;	
 				break;
 			case "antimatter":
-				this.credits = 0;
+				this.credits = 500;
 				this.steel = 0;
 				this.plasma = 0;
 				this.antimatter = 0;
-				this.newResources = 10;	
+				this.newResources = 25;	
 				break;
 			case "warp":
 				this.credits = 0;
