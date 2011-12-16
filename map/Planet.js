@@ -207,6 +207,7 @@ Planet.prototype.specifyPlanetType = function()
 	{
 		case "factory":
 			this.model = 0;		
+			this.amtResourcesToAdd = 5;
 		break;
 		case "credit":
 			this.model = 6;
@@ -214,24 +215,27 @@ Planet.prototype.specifyPlanetType = function()
 		break;
 		case "steel":
 			this.model = 3;
-			this.amtResourcesToAdd = 12;
+			this.amtResourcesToAdd = 20;
 		break;
 		case "plasma":
 			this.model = 1;
-			this.amtResourcesToAdd = 10;
+			this.amtResourcesToAdd = 15;
 		break;
 		case "antimatter":
 			this.model = 2;			
-			this.amtResourcesToAdd = 6;
+			this.amtResourcesToAdd = 8;
 		break;
 		case "warp":
 			this.model = 8;
+			this.amtResourcesToAdd = 5;
 		break;
 		case "academy":
 			this.model = 12;
+			this.amtResourcesToAdd = 5;
 		break;
 		case "default":
 			this.model = 0;
+			this.amtResourcesToAdd = 5;
 		break;
 	}
 	//Apparently, after this the planet type is properly set...
@@ -329,7 +333,14 @@ Planet.prototype.onTurn = function() {
 			players[this.player].addAntimatter(this.amtResourcesToAdd);
 			break;
 		case "factory":
+			players[this.player].addCredits(this.amtResourcesToAdd);
 			this.getNewShips();
+			break;
+		case "warp":
+			players[this.player].addCredits(this.amtResourcesToAdd);
+			break;
+		case "academy":
+			players[this.player].addCredits(this.amtResourcesToAdd);
 			break;
 		default:
 		break;
