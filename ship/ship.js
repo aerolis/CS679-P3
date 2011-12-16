@@ -36,60 +36,115 @@ function ship(i_owner,i_type){
 	//this.pos = i_pos;
 	//hardcode 3 kinds of ships, dont need shiptype.js anymore
 	
-	if(this.type == "frigate" )
-	{
-		//Damage and defense value of this ship
-		this.laser = 10;
-		this.missile = 0;
-		this.armor = 0;
-		this.shield = 0;  //Frigate ship has no shield
-		this.maxShield = 0;
-		
-		this.currentHp = 100;
-		this.maxHp = 100;
-		
-		//resources consumed to build ship
-		this.credits = 50;
-		this.steel = 0;
-		this.plasma = 0;
-		this.antiMatter = 0;
-		//turns it takes to build this ship
-		this.period = 1; 
+	
+	switch(this.type) {
+		case "scout":
+			this.laser = 0;
+			this.missile = 10;
+			this.armor = 0;
+			this.shield = 0;
+			
+			this.maxShield = 0;
+			this.currentHp = 100;
+			this.maxHp = 100;
+
+			this.credits = 50;
+			this.steel = 0;
+			this.plasma = 0;
+			this.antiMatter = 0;
+
+			this.period = 1;
+			break;
+		case "frigate":
+			//Damage and defense value of this ship
+			this.laser = 0;
+			this.missile = 10;
+			this.armor = 25;
+			this.shield = 0;
+			//Frigate ship has no shield
+			this.maxShield = 0;
+
+			this.currentHp = 100;
+			this.maxHp = 100;
+
+			//resources consumed to build ship
+			this.credits = 75;
+			this.steel = 50;
+			this.plasma = 0;
+			this.antiMatter = 0;
+			//turns it takes to build this ship
+			this.period = 1;
+			break;
+		case "fighter":
+			this.laser = 25;
+			this.missile = 10;
+			this.armor = 25;
+			this.shield = 0;
+			
+			this.maxShield = 0;
+			this.currentHp = 150;
+			this.maxHp = 150;
+
+			this.credits = 100;
+			this.steel = 50;
+			this.plasma = 0;
+			this.antiMatter = 0;
+
+			this.period = 1;
+			break;
+		case "dreadnaught":
+			this.laser = 40;
+			this.missile = 10;
+			this.armor = 25;
+			this.shield = 50;
+			
+			this.maxShield = 50;
+			this.currentHp = 150;
+			this.maxHp = 150;
+
+			this.credits = 150;
+			this.steel = 50;
+			this.plasma = 50;
+			this.antiMatter = 0;
+
+			this.period = 2;
+			break;
+		case "cruiser":
+			this.laser = 5;
+			this.missile = 50;
+			this.armor = 25;
+			this.shield = 50;
+			this.maxShield = 50;
+
+			this.currentHp = 200;
+			this.maxHp = 200;
+
+			this.credits = 200;
+			this.steel = 70;
+			this.plasma = 50;
+			this.antiMatter = 10;
+			//turns it takes to build this ship
+			this.period = 2;
+			break;
+		case "capital":
+			this.laser = 50;
+			this.missile = 50;
+			this.armor = 50;
+			this.shield = 75;
+			this.maxShield = 75;
+
+			this.currentHp = 400;
+			this.maxHp = 400;
+
+			this.credits = 400;
+			this.steel = 80;
+			this.plasma = 60;
+			this.antiMatter = 40;
+			//turns it takes to build this ship
+			this.period = 3;
+			break;
 	}
-	else if(this.type == "cruiser" ){	
-		this.laser = 10;
-		this.missile = 10;
-		this.armor = 0;
-		this.shield = 0;
-		this.maxShield = 0;
-		
-		this.currentHp = 200;
-		this.maxHp = 200;		
-		
-		this.credits = 100;
-		this.steel = 40;
-		this.plasma = 10;
-		this.antiMatter = 0;
-		//turns it takes to build this ship
-		this.period = 2; 
-	}
-	else if(this.type == "capital" ){
-		this.laser = 10;
-		this.missile = 10;
-		this.armor = 0;
-		this.shield = 10;
-		this.maxShield = 0;
-		
-		this.currentHp = 400;
-		this.maxHp = 400;		
-		
-		this.credits = 200;
-		this.steel = 80;
-		this.plasma = 40;
-		this.antiMatter = 20;
-		//turns it takes to build this ship
-		this.period = 3; 
-	}
+
 	
 }
 /*
