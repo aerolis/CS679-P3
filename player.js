@@ -15,10 +15,13 @@ function player (i, isAI)
 	this.cRot = new v3(0,0,0);
 	this.cDist = 0;
 	
-	this.catalog = new shipCatalog(this.id);
-	
 	this.planets = [];
 	this.factories = [];
+
+	//# of research planets that have technology for one shiptype
+	this.dreadnaught = false;
+	this.cruiser = false;
+	this.capital = false;
 }
 
 player.prototype.restart = function()
@@ -81,6 +84,7 @@ player.prototype.addPlanet = function(planet)
 		if (planet.type == "factory") {
 			this.factories.push(planet);
 		}
+
 	}
 }
 
@@ -327,3 +331,10 @@ player.prototype.findPlanetToReinforce = function(planet)
 	return planetToReinforce;
 	
 }
+
+player.prototype.clearTech  = function(){
+	this.dreadnaught = false;
+	this.cruiser = false;
+	this.capital = false;
+}
+

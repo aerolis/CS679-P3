@@ -5,13 +5,6 @@ var shipTypes = { 	"frigate": 0,
 					"capital": 2,
 					};
 
-function shipCatalog(i_owner){ //add testing catalog items for now
-	this.owner = i_owner;
-	this.catalog = [];
-	this.catalog.push(new ship(i_owner, "frigate")); 
-	this.catalog.push(new ship(i_owner, "cruiser"));
-	this.catalog.push(new ship(i_owner, "capital"));
-}
 //Basic ship class
 function ship(i_owner,i_type){
 	//basic information initialized in the factory

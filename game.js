@@ -299,6 +299,9 @@ function nextTurn()
 	currentPlayer = (currentPlayer + 1) % amtPlayers;
 	console.log("Next turn got called. New current Player = " + currentPlayer);
 	
+	//update tech each turn
+	players[currentPlayer].clearTech();
+	
 	//Loop through all planets
 	var i,j;
 	for (i=0;i<mp.systems.length;i++)
@@ -329,7 +332,7 @@ function nextTurn()
 			//click the END TURN button to get back to the user's
 			//turn...)
 			nextTurn();
-		},  10000); //i'd reocmmend setting this to 1 while you are testing...
+		},  1); //i'd reocmmend setting this to 1 while you are testing...
 		
 		//playState = 1;
 	}

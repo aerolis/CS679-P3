@@ -50,7 +50,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	//keep track of ships in production,Xixi 
 	//this.draftPlan = new draftPlan();
 	this.productionPlan = new productionPlan();
-	//this.shipCatalog = new shipCatalog(); //catalog for lookup purpose
+	this.researchPlan = new researchPlan();
 	
 	//this.specifyPlanetType();
 }
@@ -341,6 +341,8 @@ Planet.prototype.onTurn = function() {
 			break;
 		case "academy":
 			players[this.player].addCredits(this.amtResourcesToAdd);
+			this.researchPlan.addProject("dreadnaught",this.player);
+			this.updateTech();
 			break;
 		default:
 		break;
@@ -469,3 +471,16 @@ var planetnames = ["Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "N
 				   "LV-426", "New Earth", "Terra Nova", "Nirn", "Omega", "Omicron", "Pandora",
 				   "Rosetta", "Rylos", "Sera", "Solaris", "Tanis", "Titan", "Zyrgon-7",
 				   "Earth Prime", "Planet X", "Septerra", "Druidia", "Rigel 7", "Vega", "Zenon"]
+
+
+Planet.prototype.updateTech = function(){
+	this.researchPlan.release();
+	//update player's tech params
+	if( this.researchPlan.dreadnaught == true ) players[this.player].dreadnaught = true;
+	if( this.researchPlan.cruiser == true ) players[this.player].cruiser = true;
+	if( this.researchPlan.capital == true ) players[this.player].capital = true;
+	//console.log("dreadnaught: " + players[this.player].dreadnaught);
+	//console.log("cruiser: " + players[this.player].cruiser);
+	//console.log("capital: " + players[this.player].capital);
+	//console.log("research plan length: " + this.researchPlan.plan.length);
+}
