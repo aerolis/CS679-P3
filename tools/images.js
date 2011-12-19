@@ -259,7 +259,7 @@ images.prototype.drawBuildShipButton = function(type,x,y, queuesize, c)
 		break;
 		case "scout":
 			c.drawImage(img.ship_buttons[ship_images.scout],x,y);
-			sh = new ship(-1,"frigate");
+			sh = new ship(-1,"scout");
 			if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
 				c.drawImage(img.filters[0],x,y);
 			else
@@ -267,7 +267,7 @@ images.prototype.drawBuildShipButton = function(type,x,y, queuesize, c)
 		break;
 		case "fighter":
 			c.drawImage(img.ship_buttons[ship_images.fighter],x,y);
-			sh = new ship(-1,"frigate");
+			sh = new ship(-1,"fighter");
 			if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
 				c.drawImage(img.filters[0],x,y);
 			else
@@ -275,7 +275,7 @@ images.prototype.drawBuildShipButton = function(type,x,y, queuesize, c)
 		break;
 		case "dreadnaught":
 			c.drawImage(img.ship_buttons[ship_images.dreadnaught],x,y);
-			sh = new ship(-1,"cruiser");
+			sh = new ship(-1,"dreadnaught");
 			if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
 				c.drawImage(img.filters[0],x,y);
 			else

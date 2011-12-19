@@ -138,6 +138,18 @@ function unitButton(){
 		var col_ref = 0;
 		//Find the right numbers & images
 		switch(that.shipType){
+			case "Scouts":
+				remaining = selectedPlanet.myFleet.Scouts.length;
+				selected = selectedPlanet.selectedFleet.Scouts.length;
+				type = "scout";
+				col_ref = 3;
+				break;
+			case "ScoutsMoved":
+				remaining = selectedPlanet.myFleet.ScoutsMoved.length;
+				selected = selectedPlanet.selectedFleet.ScoutsMoved.length;
+				type = "scout";
+				col_ref = 2;
+				break;
 			case "Frigates":
 				remaining = selectedPlanet.myFleet.Frigates.length;
 				selected = selectedPlanet.selectedFleet.Frigates.length;
@@ -148,6 +160,30 @@ function unitButton(){
 				remaining = selectedPlanet.myFleet.FrigatesMoved.length;
 				selected = selectedPlanet.selectedFleet.FrigatesMoved.length;
 				type = "frigate";
+				col_ref = 2;
+				break;
+			case "Fighters":
+				remaining = selectedPlanet.myFleet.Fighters.length;
+				selected = selectedPlanet.selectedFleet.Fighters.length;
+				type = "fighter";
+				col_ref = 3;
+				break;
+			case "FightersMoved":
+				remaining = selectedPlanet.myFleet.FightersMoved.length;
+				selected = selectedPlanet.selectedFleet.FightersMoved.length;
+				type = "fighter";
+				col_ref = 2;
+				break;
+			case "Dreadnaughts":
+				remaining = selectedPlanet.myFleet.Dreadnaughts.length;
+				selected = selectedPlanet.selectedFleet.Dreadnaughts.length;
+				type = "dreadnaught";
+				col_ref = 3;
+				break;
+			case "DreadnaughtsMoved":
+				remaining = selectedPlanet.myFleet.DreadnaughtsMoved.length;
+				selected = selectedPlanet.selectedFleet.DreadnaughtssMoved.length;
+				type = "dreadnaught";
 				col_ref = 2;
 				break;
 			case "Cruisers":

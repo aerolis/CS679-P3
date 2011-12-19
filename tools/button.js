@@ -5,12 +5,18 @@ var buttonType = { 	"EndTurn": 0,
 					"Empty":4,
 					"BrowseShipsLeft":5,
 					"BrowseShipsRight":6,
-					"Frigates":10,
-					"Cruisers":11,
-					"Capitals":12,					
+					"Scouts":10,
+					"Frigates":11,
+					"Fighters":12,
+					"Dreadnaughts":13,
+					"Cruisers":14,
+					"Capitals":15,
+					"BuildScout":20,					
 					"BuildFrigate": 20,
-					"BuildCruiser": 21,					
-					"BuildCapital": 22,
+					"BuildFighter":21,
+					"BuildDreadnaught":22,
+					"BuildCruiser": 23,					
+					"BuildCapital": 24,
 					};
 
 //Button object to hold data for all buttons
@@ -44,9 +50,20 @@ function Button(){
 			case buttonType.RemoveCR:
 				targetCanvas.drawImage(img.ok_button,that.x,that.y);
 			break;
+			
+			//Build ship buttons
+			case buttonType.BuildScout:
+				img.drawBuildShipButton("scout",that.x,that.y, selectedPlanet.productionPlan.noScouts, targetCanvas);
+			break;			
 			case buttonType.BuildFrigate:
 				// !!! if this buttontype is unlocked
 				img.drawBuildShipButton("frigate",that.x,that.y, selectedPlanet.productionPlan.noFrigates, targetCanvas);
+			break;
+			case buttonType.BuildFighter:
+				img.drawBuildShipButton("fighter",that.x,that.y, selectedPlanet.productionPlan.noFighters, targetCanvas);
+			break;
+			case buttonType.BuildDreadnaught:
+				img.drawBuildShipButton("dreadnaught",that.x,that.y, selectedPlanet.productionPlan.noDreadnaughts, targetCanvas);
 			break;
 			case buttonType.BuildCruiser:
 				// !!! if this buttontype is unlocked				
@@ -108,11 +125,23 @@ function Button(){
 				selectedPlanet.shipButtons.page++;
 				selectedPlanet.shipButtons.layOutButtons();
 				break;
-				
-				//Build buttons.				
+			
+				//Build buttons.	
+			case buttonType.BuildScout:
+				selectedPlanet.buildShip("scout", 1);
+				break;	
+						
 			case buttonType.BuildFrigate:
 				//console.log("This planet wants to build a Frigate");
 				selectedPlanet.buildShip("frigate",1);
+				break;
+				
+			case buttonType.BuildFighter:
+				selectedPlanet.buildShip("fighter", 1);
+				break;
+				
+			case buttonType.BuildDreadnaught:
+				selectedPlanet.buildShip("dreadnaught", 1);
 				break;
 				
 			case buttonType.BuildCruiser:
@@ -127,6 +156,15 @@ function Button(){
 				break;
 				
 			//Selecting units buttons
+			case buttonType.Scouts:
+				if (button == 0){
+					selectedPlanet.selectAllScouts();
+				}
+				else{
+					selectedPlanet.deselectScout();
+				}
+				break;
+				
 			case buttonType.Frigates:
 				if (button == 0){
 					//console.log("This planet wants to select a Frigate");
@@ -134,6 +172,24 @@ function Button(){
 				}
 				else{
 					selectedPlanet.deselectFrigate();
+				}
+				break;
+				
+			case buttonType.Fighters:
+				if (button == 0){
+					selectedPlanet.selectAllFighters();
+				}
+				else{
+					selectedPlanet.deselectFighter();
+				}
+				break;
+				
+			case buttonType.Dreadnaughts:
+				if (button == 0){
+					selectedPlanet.selectAllDreadnaughts();
+				}
+				else{
+					selectedPlanet.deselectDreadnaught();
 				}
 				break;
 				

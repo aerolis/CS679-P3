@@ -1,9 +1,3 @@
-//Enum to store shiptypes
-// !!! Not in use currently, but this is the better practice way to do this...
-var shipTypes = { 	"frigate": 0,
-					"cruiser": 1,
-					"capital": 2,
-					};
 
 //Basic ship class
 function ship(i_owner,i_type){
@@ -48,6 +42,7 @@ function ship(i_owner,i_type){
 
 			this.period = 1;
 			break;
+			
 		case "frigate":
 			//Damage and defense value of this ship
 			this.laser = 0;
@@ -68,6 +63,7 @@ function ship(i_owner,i_type){
 			//turns it takes to build this ship
 			this.period = 1;
 			break;
+			
 		case "fighter":
 			this.laser = 25;
 			this.missile = 10;
@@ -85,6 +81,7 @@ function ship(i_owner,i_type){
 
 			this.period = 1;
 			break;
+			
 		case "dreadnaught":
 			this.laser = 40;
 			this.missile = 10;
@@ -102,6 +99,7 @@ function ship(i_owner,i_type){
 
 			this.period = 2;
 			break;
+			
 		case "cruiser":
 			this.laser = 5;
 			this.missile = 50;
@@ -119,6 +117,7 @@ function ship(i_owner,i_type){
 			//turns it takes to build this ship
 			this.period = 2;
 			break;
+			
 		case "capital":
 			this.laser = 50;
 			this.missile = 50;

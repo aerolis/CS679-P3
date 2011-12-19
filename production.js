@@ -38,7 +38,10 @@ function shipOrder(i_owner,i_type,i_amt){
 function productionPlan(){
 	this.plan = [];
 	//These numbers are to show on the build buttons.
+	this.noScouts = 0;
 	this.noFrigates = 0;
+	this.noFighters = 0;
+	this.noDreadnaughts = 0;
 	this.noCruisers = 0;
 	this.noCapitals = 0;
 }
@@ -63,8 +66,17 @@ productionPlan.prototype.addOrder = function(i_owner,i_type,i_amt){ //add items 
 	players[i_owner].steel -= newOrder.steel*newOrder.amt;
 	players[i_owner].antimatter -= newOrder.antiMatter*newOrder.amt;
 	
-	if (newOrder.shipType == "frigate"){
+	if (newOrder.shipType == "scout"){
+		this.noScouts++;	
+	}
+	else if (newOrder.shipType == "frigate"){
 		this.noFrigates++;	
+	}
+	else if (newOrder.shipType == "fighter"){
+		this.noFighters++;	
+	}
+	else if (newOrder.shipType == "dreadnaught"){
+		this.noDreadnaughts++;	
 	}
 	else if (newOrder.shipType == "cruiser"){
 		this.noCruisers++;	
@@ -89,8 +101,17 @@ productionPlan.prototype.release = function(){ //return an array of ships
 				finishedOrders.push(new ship(tmpOrder[0].owner,tmpOrder[0].shipType));
 				console.log("A ship was created. type: " + tmpOrder[0].shipType);
 				//These counters are to show it on the buttons.
-				if (tmpOrder[0].shipType == "frigate"){
+				if (tmpOrder[0].shipType == "scout"){
+					this.noScouts--;	
+				}
+				else if (tmpOrder[0].shipType == "frigate"){
 					this.noFrigates--;	
+				}
+				else if (tmpOrder[0].shipType == "fighter"){
+					this.noFighters--;	
+				}
+				else if (tmpOrder[0].shipType == "dreadnaught"){
+					this.noDreadnaughts--;	
 				}
 				else if (tmpOrder[0].shipType == "cruiser"){
 					this.noCruisers--;	
@@ -107,30 +128,10 @@ productionPlan.prototype.release = function(){ //return an array of ships
 	return finishedOrders;
 }
 
-productionPlan.prototype.clear = function(){ //if planet is occupied by enemy, clear everything in production
+productionPlan.prototype.clear = function(){ //if planet is occupied by enemy, clear everything in production //!!! If you write a method like this, please make sure it gets called too :P.
 	for(var i=0; i < this.plan.length; i++)
 	{
 		var order = this.plan.pop();
 		delete order;
 	}
 }
-
-/*
-productionPlan.prototype.logDraft = function(i_draftPlan){ //put draft to production
-	for(var i=0; i< i_draftPlan.length; i++){
-		var type = draftPlan.plan[i].type;
-		var amt = draftPlan.plan[i].amt;
-		this.addOrder(type,amt,currTurn); //current turn, to be finished
-		//TODO: here deduct player's resources, after lookup table is finished
-	}	
-}
-
-function sortItem(a,b){
-	return a.period - b.period;
-}
-
-productionPlan.prototype.sort = function(){ //sort plan by their finish time
-	this.plan.sort(sortItem);
-}
-*/
-

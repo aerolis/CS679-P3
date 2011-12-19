@@ -1,6 +1,4 @@
 //Research Planets
-//In the beginning players can build scout, frigate, fighter 
-//Need to research on cruiser, dreadnaught and capital
 
 function shipProj( i_type ){
 	this.type = i_type;

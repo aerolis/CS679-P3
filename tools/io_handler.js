@@ -93,8 +93,20 @@ function handleMouseMove(evt)
 							{
 								
 								switch (foundTarget.type){
+									case buttonType.BuildScout:
+										shipHover = "Scouts";
+										drawHover = 0;
+										break;
 									case buttonType.BuildFrigate:
 										shipHover = "Frigates";
+										drawHover = 0;
+									break;
+										case buttonType.BuildFighter:
+										shipHover = "Fighters";
+										drawHover = 0;
+										break;
+									case buttonType.BuildDreadnaught:
+										shipHover = "Dreadnaughts";
 										drawHover = 0;
 										break;
 									case buttonType.BuildCruiser:

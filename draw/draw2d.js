@@ -190,13 +190,13 @@ function onHover(x,y,type,obj)
 				sh = new ship(-1,"capital");
 			break;
 			case "Scouts":
-				sh = new ship(-1,"frigate");
+				sh = new ship(-1,"scout");
 			break;
 			case "Fighters":
-				sh = new ship(-1,"cruiser");
+				sh = new ship(-1,"fighter");
 			break;
 			case "Dreadnaughts":
-				sh = new ship(-1,"capital");
+				sh = new ship(-1,"dreadnaught");
 			break;
 			//TODO fix that this case doesn't happen
 			default:
@@ -296,6 +296,16 @@ function onHover(x,y,type,obj)
 		ctx.fillText("ships", x + 110 + x_offset, y + 40);
 		var drawAny = false;
 		var plusAmt = 0;
+		if (pl.myFleet.Scouts.length > 0 || pl.myFleet.ScoutsMoved.length > 0)
+		{
+			drawAny = true;
+			var amt = pl.myFleet.Scouts.length + pl.myFleet.ScoutsMoved.length;
+			if (amt > 1)
+				ctx.fillText(amt + " scouts", x + 120 + x_offset, y + 60 + y_offset);
+			else
+				ctx.fillText(amt + " scout", x + 120 + x_offset, y + 60 + y_offset);
+			plusAmt += 18;
+		}
 		if (pl.myFleet.Frigates.length > 0 || pl.myFleet.FrigatesMoved.length > 0)
 		{
 			drawAny = true;
@@ -304,6 +314,26 @@ function onHover(x,y,type,obj)
 				ctx.fillText(amt + " frigates", x + 120 + x_offset, y + 60 + y_offset);
 			else
 				ctx.fillText(amt + " frigate", x + 120 + x_offset, y + 60 + y_offset);
+			plusAmt += 18;
+		}
+		if (pl.myFleet.Fighters.length > 0 || pl.myFleet.FightersMoved.length > 0)
+		{
+			drawAny = true;
+			var amt = pl.myFleet.Fighters.length + pl.myFleet.FightersMoved.length;
+			if (amt > 1)
+				ctx.fillText(amt + " fighters", x + 120 + x_offset, y + 60 + y_offset);
+			else
+				ctx.fillText(amt + " fighter", x + 120 + x_offset, y + 60 + y_offset);
+			plusAmt += 18;
+		}
+		if (pl.myFleet.Dreadnaughts.length > 0 || pl.myFleet.DreadnaughtsMoved.length > 0)
+		{
+			drawAny = true;
+			var amt = pl.myFleet.Dreadnaughts.length + pl.myFleet.DreadnaughtsMoved.length;
+			if (amt > 1)
+				ctx.fillText(amt + " dreadnaughts", x + 120 + x_offset, y + 60 + y_offset);
+			else
+				ctx.fillText(amt + " dreadnaught", x + 120 + x_offset, y + 60 + y_offset);
 			plusAmt += 18;
 		}
 		if (pl.myFleet.Cruisers.length > 0 || pl.myFleet.CruisersMoved.length > 0)

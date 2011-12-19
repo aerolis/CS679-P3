@@ -392,11 +392,17 @@ function drawPlanets()
 }
 
 //global vars to keep track of how many ships we can draw around each planet
+var max_scouts_drawn = 20;
 var max_frigates_drawn = 12;
+var max_fighters_drawn = 12;
+var max_dreadnaughts_drawn = 4;
 var max_cruisers_drawn = 4;
 var max_capitals_drawn = 2; 
 	
+var scouts = (Math.PI*2)/scouts;
 var frigates_angle = (Math.PI*2)/max_frigates_drawn;
+var fighters_angle = (Math.PI*2)/max_fighters_drawn;
+var dreadnaughts_angle = (Math.PI*2)/max_dreadnaughts_drawn;
 var cruisers_angle = (Math.PI*2)/max_cruisers_drawn;
 var capitals_angle = (Math.PI*2)/max_capitals_drawn;
 
@@ -433,13 +439,18 @@ function drawPlanetShips()
 					mat4.translate(mvMatrix,[pln.pos.x,pln.pos.y,pln.pos.z]);
 					
 					//first determine how many of each ship we're drawing
-					var f_amt = Math.min(max_frigates_drawn,pln.myFleet.Frigates.length+pln.myFleet.FrigatesMoved.length);
-					var cr_amt = Math.min(max_cruisers_drawn,pln.myFleet.Cruisers.length+pln.myFleet.CruisersMoved.length);
-					var c_amt = Math.min(max_capitals_drawn,pln.myFleet.Capitals.length+pln.myFleet.CapitalsMoved.length);
+					var s_amt = Math.min(max_scouts_drawn, pln.myFleet.Scouts.length + pln.myFleet.ScoutsMoved.length);
+					var f_amt = Math.min(max_frigates_drawn, pln.myFleet.Frigates.length + pln.myFleet.FrigatesMoved.length);
+					var fi_amt = Math.min(max_fighters_drawn, pln.myFleet.Fighters.length + pln.myFleet.FightersMoved.length);
+					var d_amt = Math.min(max_dreadnaughts_drawn, pln.myFleet.Dreadnaughts.length + pln.myFleet.DreadnaughtsMoved.length);
+					var cr_amt = Math.min(max_cruisers_drawn, pln.myFleet.Cruisers.length + pln.myFleet.CruisersMoved.length);
+					var c_amt = Math.min(max_capitals_drawn, pln.myFleet.Capitals.length + pln.myFleet.CapitalsMoved.length);
 					
 					var draw_rad = 100*pln.scale;
 					var theta = 0;
 					var x,z;
+					
+					// !!! TODO: Add other ships.
 					
 					//draw frigates
 					if (f_amt > 0)

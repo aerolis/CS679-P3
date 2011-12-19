@@ -96,9 +96,24 @@ function createStringsFromFleet(fleet){
 	lines = [];
 	var number;
 	var text;
+	if (fleet.Scouts.length + fleet.ScoutsMoved.length > 0){
+		number = fleet.Scouts.length + fleet.ScoutsMoved.length;
+		text = "Scouts: " + number;
+		lines.push(text); 	
+	}
 	if (fleet.Frigates.length + fleet.FrigatesMoved.length > 0){
 		number = fleet.Frigates.length + fleet.FrigatesMoved.length;
 		text = "Frigates: " + number;
+		lines.push(text); 	
+	}
+	if (fleet.Fighters.length + fleet.FightersMoved.length > 0){
+		number = fleet.Fighters.length + fleet.FightersMoved.length;
+		text = "Fighters: " + number;
+		lines.push(text); 	
+	}
+	if (fleet.Dreadnaughts.length + fleet.DreadnaughtsMoved.length > 0){
+		number = fleet.Dreadnaughts.length + fleet.DreadnaughtsMoved.length;
+		text = "Dreadnaughts: " + number;
 		lines.push(text); 	
 	}
 	if (fleet.Cruisers.length + fleet.CruisersMoved.length > 0){
@@ -118,9 +133,24 @@ function createStringsFromTwoFleets(startFleet, endFleet){
 	lines = [];
 	var number;
 	var text;
+	if ((startFleet.Scouts.length + startFleet.ScoutsMoved.length) > (endFleet.Scouts.length + endFleet.ScoutsMoved.length)){
+		number = startFleet.Scouts.length + startFleet.ScoutsMoved.length - endFleet.Scouts.length + endFleet.ScoutsMoved.length;
+		text = "Scouts: " + number;
+		lines.push(text); 	
+	}
 	if ((startFleet.Frigates.length + startFleet.FrigatesMoved.length) > (endFleet.Frigates.length + endFleet.FrigatesMoved.length)){
 		number = startFleet.Frigates.length + startFleet.FrigatesMoved.length - endFleet.Frigates.length + endFleet.FrigatesMoved.length;
 		text = "Frigates: " + number;
+		lines.push(text); 	
+	}	
+	if ((startFleet.Fighters.length + startFleet.FightersMoved.length) > (endFleet.Fighters.length + endFleet.FightersMoved.length)){
+		number = startFleet.Fighters.length + startFleet.FightersMoved.length - endFleet.Fighters.length + endFleet.FightersMoved.length;
+		text = "Fighters: " + number;
+		lines.push(text); 	
+	}	
+	if ((startFleet.Dreadnaughts.length + startFleet.DreadnaughtsMoved.length) > (endFleet.Dreadnaughts.length + endFleet.DreadnaughtsMoved.length)){
+		number = startFleet.Dreadnaughts.length + startFleet.DreadnaughtsMoved.length - endFleet.Dreadnaughts.length + endFleet.DreadnaughtsMoved.length;
+		text = "Dreadnaughts: " + number;
 		lines.push(text); 	
 	}	
 	if ((startFleet.Cruisers.length + startFleet.CruisersMoved.length) > (endFleet.Cruisers.length + endFleet.CruisersMoved.length)){

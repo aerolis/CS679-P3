@@ -40,7 +40,7 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	
 	this.upgradeLevel = 1;	
 	this.amtResourcesToAdd = 0;
-	this.amtCreditsToAdd = 6;
+	this.amtCreditsToAdd = 5;
 	// !!! TODO: Find out where this should go...
 	this.upgradeStats = new upgradeData(this);	
 	
@@ -57,10 +57,6 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 
 Planet.prototype.buildShip = function(type,amt)
 {
-	//for now, just builds Frigates and doesn't take any resources
-	//this.myFleet.addNewShip(new ship(this.player, type));
-	//this.showShips();
-	
 	//add new item to production plan, need to specify amt of each order
 	var status = this.productionPlan.addOrder(this.player,type,amt);
 	return status;
@@ -72,9 +68,12 @@ Planet.prototype.populateOptionButtons = function(){
 	switch (this.type)
 	{
 		case "factory":
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Frigate", buttonType.BuildFrigate);	
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + ShipButtonWidth + 10,     OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Cruiser", buttonType.BuildCruiser);
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 2 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Capital", buttonType.BuildCapital);				
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 	  OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Scout", buttonType.BuildScout);	
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + ShipButtonWidth + 10,     OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Frigate", buttonType.BuildFrigate);
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 2 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Fighter", buttonType.BuildFighter);	
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 3 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Dreadnaught", buttonType.BuildDreadnaught);	
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 OptionBarY + ShipButtonHeight + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Cruiser", buttonType.BuildCruiser);			
+			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + ShipButtonWidth + 10, OptionBarY + ShipButtonHeight + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Capital", buttonType.BuildCapital);			
 		break;
 		case "plasma":
 		break;
@@ -105,8 +104,17 @@ Planet.prototype.populateShipButtons = function(){
 	
 	this.shipButtons.clear();
 	//Movable ships
+	if (this.myFleet.Scouts.length + this.selectedFleet.Scouts.length > 0){
+		this.shipButtons.addUnitButton('#4C7D7E', "Scouts: ", buttonType.Scouts, "Scouts");	
+	}
 	if (this.myFleet.Frigates.length + this.selectedFleet.Frigates.length > 0){
 		this.shipButtons.addUnitButton('#4C7D7E', "Frigates: ", buttonType.Frigates, "Frigates");	
+	}
+	if (this.myFleet.Fighters.length + this.selectedFleet.Fighters.length > 0){
+		this.shipButtons.addUnitButton('#4C7D7E', "Fighters: ", buttonType.Fighters, "Fighters");	
+	}
+	if (this.myFleet.Dreadnaughts.length + this.selectedFleet.Dreadnaughts.length > 0){
+		this.shipButtons.addUnitButton('#4C7D7E', "Dreadnaughts: ", buttonType.Dreadnaughts, "Dreadnaughts");	
 	}
 	if (this.myFleet.Cruisers.length + this.selectedFleet.Cruisers.length  > 0){
 		this.shipButtons.addUnitButton('#4C7D7E', "Cruisers: " , buttonType.Cruisers, "Cruisers");	
@@ -116,8 +124,17 @@ Planet.prototype.populateShipButtons = function(){
 	}	
 	
 	//Non-movable ships
+	if (this.myFleet.ScoutsMoved.length + this.selectedFleet.ScoutsMoved.length > 0){
+		this.shipButtons.addUnitButton('#806D7E', "ScoutsMoved: ", buttonType.Empty, "ScoutsMoved");	
+	}
 	if (this.myFleet.FrigatesMoved.length + this.selectedFleet.FrigatesMoved.length > 0){
 		this.shipButtons.addUnitButton('#806D7E', "FrigatesMoved: ", buttonType.Empty, "FrigatesMoved");	
+	}
+	if (this.myFleet.FightersMoved.length + this.selectedFleet.FightersMoved.length > 0){
+		this.shipButtons.addUnitButton('#806D7E', "FightersMoved: ", buttonType.Empty, "FightersMoved");	
+	}
+	if (this.myFleet.DreadnaughtsMoved.length + this.selectedFleet.DreadnaughtsMoved.length > 0){
+		this.shipButtons.addUnitButton('#806D7E', "DreadnaughtsMoved: ", buttonType.Empty, "DreadnaughtsMoved");	
 	}
 	if (this.myFleet.CruisersMoved.length + this.selectedFleet.CruisersMoved.length  > 0){
 		this.shipButtons.addUnitButton('#806D7E', "CruisersMoved: ", buttonType.Empty, "CruisersMoved");	
@@ -142,7 +159,7 @@ Planet.prototype.hideShips = function(){
 */
 
 //These are outdated but still used by AI
-
+/*
 Planet.prototype.selectFrigate = function(){
 	if (this.myFleet.Frigates.length > 0){
 		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
@@ -160,15 +177,29 @@ Planet.prototype.selectCapital = function(){
 		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
 	}
 }
-
+*/
 
 // Deselect one ship
+Planet.prototype.deselectScout = function(){
+	if (this.selectedFleet.Scouts.length > 0){
+		this.myFleet.Scouts.push(this.selectedFleet.Scouts.pop());
+	}
+}
 Planet.prototype.deselectFrigate = function(){
 	if (this.selectedFleet.Frigates.length > 0){
 		this.myFleet.Frigates.push(this.selectedFleet.Frigates.pop());
 	}
 }
-
+Planet.prototype.deselectFighters = function(){
+	if (this.selectedFleet.Fighters.length > 0){
+		this.myFleet.Fighters.push(this.selectedFleet.Fighters.pop());
+	}
+}
+Planet.prototype.deselectDreadnaught = function(){
+	if (this.selectedFleet.Dreadnaught.length > 0){
+		this.myFleet.Dreadnaught.push(this.selectedFleet.Dreadnaught.pop());
+	}
+}
 Planet.prototype.deselectCruiser = function(){
 	if (this.selectedFleet.Cruisers.length > 0){
 		this.myFleet.Cruisers.push(this.selectedFleet.Cruisers.pop());
@@ -182,18 +213,31 @@ Planet.prototype.deselectCapital = function(){
 }
 
 //Select all ships of one kind
+Planet.prototype.selectAllScouts = function(){
+	while (this.myFleet.Scouts.length > 0){
+		this.selectedFleet.Scouts.push(this.myFleet.Scouts.pop());
+	}
+}
 Planet.prototype.selectAllFrigates = function(){
 	while (this.myFleet.Frigates.length > 0){
 		this.selectedFleet.Frigates.push(this.myFleet.Frigates.pop());
 	}
 }
-
+Planet.prototype.selectAllFighters = function(){
+	while (this.myFleet.Fighters.length > 0){
+		this.selectedFleet.Fighters.push(this.myFleet.Fighters.pop());
+	}
+}
+Planet.prototype.selectAllDreadnaughts = function(){
+	while (this.myFleet.Dreadnaughts.length > 0){
+		this.selectedFleet.Dreadnaughts.push(this.myFleet.Dreadnaughts.pop());
+	}
+}
 Planet.prototype.selectAllCruisers = function(){
 	while (this.myFleet.Cruisers.length > 0){
 		this.selectedFleet.Cruisers.push(this.myFleet.Cruisers.pop());
 	}
 }
-
 Planet.prototype.selectAllCapitals = function(){
 	while (this.myFleet.Capitals.length > 0){
 		this.selectedFleet.Capitals.push(this.myFleet.Capitals.pop());
@@ -207,7 +251,6 @@ Planet.prototype.specifyPlanetType = function()
 	{
 		case "factory":
 			this.model = 0;		
-			this.amtResourcesToAdd = 5;
 		break;
 		case "credit":
 			this.model = 6;
@@ -227,15 +270,12 @@ Planet.prototype.specifyPlanetType = function()
 		break;
 		case "warp":
 			this.model = 8;
-			this.amtResourcesToAdd = 5;
 		break;
 		case "academy":
 			this.model = 12;
-			this.amtResourcesToAdd = 5;
 		break;
 		case "default":
 			this.model = 0;
-			this.amtResourcesToAdd = 5;
 		break;
 	}
 	//Apparently, after this the planet type is properly set...
@@ -333,25 +373,23 @@ Planet.prototype.onTurn = function() {
 			players[this.player].addAntimatter(this.amtResourcesToAdd);
 			break;
 		case "factory":
-			players[this.player].addCredits(this.amtResourcesToAdd);
 			this.getNewShips();
 			break;
 		case "warp":
-			players[this.player].addCredits(this.amtResourcesToAdd);
 			break;
 		case "academy":
-			players[this.player].addCredits(this.amtResourcesToAdd);
 			this.researchPlan.addProject("laser",this.player);
-			this.updateTech();
 			this.researchPlan.addProject("shields",this.player);
 			this.updateTech();
 			break;
 		default:
 		break;
-	}	
+	}
+	console.log("I'm about to put my moved fleet back in...");	
 	this.myFleet.addFleet(this.selectedFleet);
 	this.selectedFleet.empty();
 	this.myFleet.setUnMoved();
+	console.log("Should be all unmoved now.");
 }
 
 Planet.prototype.tryReceiveFleet = function(){
@@ -437,9 +475,21 @@ Planet.prototype.getNewShips = function(){ //Add new ships released from product
 Planet.prototype.initFleetOwner = function()
 {
 	var i;
+	for (i=0;i<this.myFleet.Scouts.length;i++)
+	{
+		this.myFleet.Scouts[i].owner = this.player;
+	}
 	for (i=0;i<this.myFleet.Frigates.length;i++)
 	{
 		this.myFleet.Frigates[i].owner = this.player;
+	}
+	for (i=0;i<this.myFleet.Fighters.length;i++)
+	{
+		this.myFleet.Fighters[i].owner = this.player;
+	}
+	for (i=0;i<this.myFleet.Dreadnaughts.length;i++)
+	{
+		this.myFleet.Dreadnaughts[i].owner = this.player;
 	}
 	for (i=0;i<this.myFleet.Cruisers.length;i++)
 	{
