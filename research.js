@@ -5,17 +5,21 @@
 function shipProj( i_type ){
 	this.type = i_type;
 	switch(this.type) {
-		case "dreadnaught":
+		case "laser":
 			this.credits = 200;
-			this.timer  = 5;
+			this.timer = 2;
 			break;
-		case "cruiser":
+		case "shields":
 			this.credits = 300;
-			this.timer = 6;
+			this.timer = 3;
 			break;
-		case "capital":
+		case "advMissile":
 			this.credits = 500;
-			this.timer = 7;
+			this.timer = 4;
+		break;
+		case "reactor":
+			this.credits = 500;
+			this.timer = 5;
 		break;
 	}
 
@@ -23,21 +27,22 @@ function shipProj( i_type ){
 
 function researchPlan(){
 	//in order of: scout, frigate, fighter,dreadnaught,cruiser and capital
-	this.dreadnaught = false;
-	this.cruiser = false;
-	this.capital = false;
+	this.laser = false;
+	this.shields = false;
+	this.advMissile = false;
+	this.reactor = false;
 	this.plan = [];
 }
 
 researchPlan.prototype.addProject = function( type, owner ){
 	//console.log("add new research project, type: " + type);
-	switch(type) {
+	switch(type) { //must research one by one
 		
-		case "dreadnaught":
-			if(this.dreadnaught == true ) return true;
+		case "laser":
+			if(this.laser == true ) return true;
 			var newProj = new shipProj(type);
 			if (players[owner].credits < newProj.credits ){
-				console.log("credits not enough for dreadnaught research ");
+				console.log("credits not enough for laser research ");
 				return false;
 			}
 			this.plan.push(newProj);
@@ -45,39 +50,59 @@ researchPlan.prototype.addProject = function( type, owner ){
 			return true;
 			break;
 			
-		case "cruiser":
-			if(this.cruiser == true ) return true;
+		case "shields":
+			if(this.shields == true ) return true;
 			var newProj = new shipProj(type);
+			if(!this.laser){
+				console.log("must have laser before research shields");
+				return false;
+			}
 			if (players[owner].credits < newProj.credits ){
-				console.log("credits not enough for cruiser research");
+				console.log("credits not enough for shields research");
 				return false;
 			}
-			//must unlock dreadnaught before unlock cruiser
-			if(!this.dreadnaught){
-				console.log("must unlock dreadnaught before unlock cruiser");
-				return false;
-			}
+		
 			this.plan.push(newProj);
 			players[owner].credits -=  newProj.credits;
 			return true;
 			break;
 			
-		case "capital":
+		case "advMissile":
 			if(this.capital == true ) return true;
 			var newProj = new shipProj(type);
-			if (players[owner].credits < newProj.credits ){
-				console.log("credits not enough for capital research");
+			if(!this.shields){ //prerequisite
+				console.log("must have shields before research advMissile");
 				return false;
 			}
-			if(!this.cruiser){ //prerequisite
-				console.log("must unlock cruiser before unlock capitak");
+			if (players[owner].credits < newProj.credits ){
+				console.log("credits not enough for advMissile research");
+				return false;
+			}
+			
+			this.plan.push(newProj);
+			players[owner].credits -=  newProj.credits;
+			return true;
+			break;
+		
+		case "reactor":
+			if(this.reactor == true ) return true;
+			var newProj = new shipProj(type);
+			if(!this.advMissile){ //prerequisite
+				console.log("must have advMissile before research reactor");
+				return false;
+			}
+			if (players[owner].credits < newProj.credits ){
+				console.log("credits not enough for reactor research");
 				return false;
 			}
 			this.plan.push(newProj);
 			players[owner].credits -=  newProj.credits;
 			return true;
 			break;
+		
 		break;
+		
+		
 	}
 	
 }
@@ -88,18 +113,21 @@ researchPlan.prototype.release = function(){
 	if(this.plan[0].timer == 0){
 		switch(this.plan[0].type) {
 		
-			case "dreadnaught":
-				this.dreadnaught = true;
+			case "laser":
+				this.laser = true;
 				break;
 			
-			case "cruiser":
-				this.cruiser = true;
+			case "shields":
+				this.shields = true;
 				break;
 			
-			case "capital":
-				this.capital = true;
+			case "advMissile":
+				this.advMissile = true;
 				break;
 			
+			case "reactor":
+				this.reactor = true;
+				break;
 		}
 	
 	this.plan = [];

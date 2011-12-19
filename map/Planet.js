@@ -341,7 +341,9 @@ Planet.prototype.onTurn = function() {
 			break;
 		case "academy":
 			players[this.player].addCredits(this.amtResourcesToAdd);
-			this.researchPlan.addProject("dreadnaught",this.player);
+			this.researchPlan.addProject("laser",this.player);
+			this.updateTech();
+			this.researchPlan.addProject("shields",this.player);
 			this.updateTech();
 			break;
 		default:
@@ -476,9 +478,17 @@ var planetnames = ["Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "N
 Planet.prototype.updateTech = function(){
 	this.researchPlan.release();
 	//update player's tech params
-	if( this.researchPlan.dreadnaught == true ) players[this.player].dreadnaught = true;
-	if( this.researchPlan.cruiser == true ) players[this.player].cruiser = true;
-	if( this.researchPlan.capital == true ) players[this.player].capital = true;
+	//Fighters: Lasers  Dreadnaught: Lasers, Shields  Cruisers: Adv.Missiles, Shields  Capital: all 4
+	if( this.researchPlan.laser )
+		 players[this.player].fighter = true;
+	if( this.researchPlan.laser  && this.researchPlan.shields ) 
+		players[this.player].dreadnaught = true;
+	if( this.researchPlan.shields  && this.researchPlan.advMissile ) 
+		players[this.player].cruiser = true;
+	if( this.researchPlan.laser && this.researchPlan.shields  && this.researchPlan.advMissile  && this.researchPlan.reactor )
+		players[this.player].capital = true;
+	
+	//console.log("fighter: " + players[this.player].fighter);
 	//console.log("dreadnaught: " + players[this.player].dreadnaught);
 	//console.log("cruiser: " + players[this.player].cruiser);
 	//console.log("capital: " + players[this.player].capital);

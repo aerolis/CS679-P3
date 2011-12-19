@@ -18,7 +18,7 @@ function player (i, isAI)
 	this.planets = [];
 	this.factories = [];
 
-	//# of research planets that have technology for one shiptype
+	this.fighter = false;
 	this.dreadnaught = false;
 	this.cruiser = false;
 	this.capital = false;
@@ -333,6 +333,7 @@ player.prototype.findPlanetToReinforce = function(planet)
 }
 
 player.prototype.clearTech  = function(){
+	this.fighter = false;
 	this.dreadnaught = false;
 	this.cruiser = false;
 	this.capital = false;
