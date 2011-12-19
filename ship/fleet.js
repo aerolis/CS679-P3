@@ -86,7 +86,6 @@ fleet.prototype.setMoved = function(){
 
 //Set all ships as not-moved (e.g. upon start of turn)
 fleet.prototype.setUnMoved = function(){
-	console.log("Setting this fleet unmoved");
 	this.Scouts = this.Scouts.concat(this.ScoutsMoved);
 	this.Frigates = this.Frigates.concat(this.FrigatesMoved);
 	this.Fighters = this.Fighters.concat(this.FightersMoved);
@@ -94,12 +93,12 @@ fleet.prototype.setUnMoved = function(){
 	this.Cruisers = this.Cruisers.concat(this.CruisersMoved);
 	this.Capitals = this.Capitals.concat(this.CapitalsMoved);
 	
-	this.Scouts = [];
-	this.Frigates = [];
-	this.Fighters = [];
-	this.Dreadnaughts = [];
-	this.Cruisers = [];	
-	this.Capitals = [];
+	this.ScoutsMoved = [];
+	this.FrigatesMoved = [];
+	this.FightersMoved = [];
+	this.DreadnaughtsMoved = [];
+	this.CruisersMoved = [];	
+	this.CapitalsMoved = [];
 }
 
 //Add a single ship that hasn't moved to the fleet (e.g. upon creation).

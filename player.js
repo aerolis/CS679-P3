@@ -158,12 +158,12 @@ player.prototype.doTurn = function()
 					selectedPlanet = currPlanet;
 					
 					//selected everything
-					selectedPlanet.selectScouts();
-					selectedPlanet.selectFrigates();
-					selectedPlanet.selectFighters();
-					selectedPlanet.selectDreadnaughts();
-					selectedPlanet.selectCruisers();
-					selectedPlanet.selectcapitals();
+					selectedPlanet.selectAllScouts();
+					selectedPlanet.selectAllFrigates();
+					selectedPlanet.selectAllFighters();
+					selectedPlanet.selectAllDreadnaughts();
+					selectedPlanet.selectAllCruisers();
+					selectedPlanet.selectAllCapitals();
 					
 					targetPlanet = linkedPlanet;
 					targetPlanet.tryReceiveFleet();
@@ -218,12 +218,12 @@ player.prototype.doTurn = function()
 				}
 			}
 			selectedPlanet = currPlanet;
-			selectedPlanet.selectScouts();
-			selectedPlanet.selectFrigates();
-			selectedPlanet.selectFighters();
-			selectedPlanet.selectDreadnaughts();
-			selectedPlanet.selectCruisers();
-			selectedPlanet.selectcapitals();
+			selectedPlanet.selectAllScouts();
+			selectedPlanet.selectAllFrigates();
+			selectedPlanet.selectAllFighters();
+			selectedPlanet.selectAllDreadnaughts();
+			selectedPlanet.selectAllCruisers();
+			selectedPlanet.selectAllCapitals();
 			targetPlanet = sendPlanet;
 			targetPlanet.tryReceiveFleet();
 		}

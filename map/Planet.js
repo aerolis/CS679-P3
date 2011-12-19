@@ -385,11 +385,11 @@ Planet.prototype.onTurn = function() {
 		default:
 		break;
 	}
-	console.log("I'm about to put my moved fleet back in...");	
+	
 	this.myFleet.addFleet(this.selectedFleet);
 	this.selectedFleet.empty();
 	this.myFleet.setUnMoved();
-	console.log("Should be all unmoved now.");
+	
 }
 
 Planet.prototype.tryReceiveFleet = function(){
