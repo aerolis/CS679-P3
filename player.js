@@ -125,17 +125,35 @@ player.prototype.doTurn = function()
 	
 	//first attempt to build ships
 	//TODO: Find closest Factory to enemies and build there...
-	var status = true;
-	while(status) {
-		for(var i = 0; i < this.factories.length; i++) {
-			//TODO: better logic in ship production
-			//Add ship to production
-			selectedPlanet = this.planets[i];
-			status = this.planets[i].buildShip("frigate", 1);
-			if (!status) break;
+	
+	//Some probability of building vs saving
+	if (Math.floor(Math.random()*4)>3)
+	{
+		var status = true;
+		while(status) {
+			for(var i = this.factories.lengt-1; i >= 0; i--) {
+				//TODO: better logic in ship production
+				//Add ship to production
+				selectedPlanet = this.planets[i];
+				status = this.planets[i].buildShip("frigate", 1);
+				if(!status)
+					break;
+			}
 		}
-	}
+		
+		var status = true;
+		while(status) {
+			for(var i = 0; i < this.factories.length; i++) {
+				//TODO: better logic in ship production
+				//Add ship to production
+				selectedPlanet = this.planets[i];
+				status = this.planets[i].buildShip("scout", 1);
+				if(!status)
+					break;
+			}
+		}
 
+	}
 
 	//now do any attacking that we can
 	for (var i = 0; i < this.planets.length; i++) {
