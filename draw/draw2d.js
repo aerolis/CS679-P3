@@ -301,9 +301,9 @@ function onHover(x,y,type,obj)
 			drawAny = true;
 			var amt = pl.myFleet.Scouts.length + pl.myFleet.ScoutsMoved.length;
 			if (amt > 1)
-				ctx.fillText(amt + " scouts", x + 120 + x_offset, y + 60 + y_offset);
+				ctx.fillText(amt + " scouts", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
-				ctx.fillText(amt + " scout", x + 120 + x_offset, y + 60 + y_offset);
+				ctx.fillText(amt + " scout", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			plusAmt += 18;
 		}
 		if (pl.myFleet.Frigates.length > 0 || pl.myFleet.FrigatesMoved.length > 0)
@@ -311,9 +311,9 @@ function onHover(x,y,type,obj)
 			drawAny = true;
 			var amt = pl.myFleet.Frigates.length + pl.myFleet.FrigatesMoved.length;
 			if (amt > 1)
-				ctx.fillText(amt + " frigates", x + 120 + x_offset, y + 60 + y_offset);
+				ctx.fillText(amt + " frigates", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
-				ctx.fillText(amt + " frigate", x + 120 + x_offset, y + 60 + y_offset);
+				ctx.fillText(amt + " frigate", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			plusAmt += 18;
 		}
 		if (pl.myFleet.Fighters.length > 0 || pl.myFleet.FightersMoved.length > 0)
@@ -321,9 +321,9 @@ function onHover(x,y,type,obj)
 			drawAny = true;
 			var amt = pl.myFleet.Fighters.length + pl.myFleet.FightersMoved.length;
 			if (amt > 1)
-				ctx.fillText(amt + " fighters", x + 120 + x_offset, y + 60 + y_offset);
+				ctx.fillText(amt + " fighters", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
-				ctx.fillText(amt + " fighter", x + 120 + x_offset, y + 60 + y_offset);
+				ctx.fillText(amt + " fighter", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			plusAmt += 18;
 		}
 		if (pl.myFleet.Dreadnaughts.length > 0 || pl.myFleet.DreadnaughtsMoved.length > 0)
@@ -331,9 +331,9 @@ function onHover(x,y,type,obj)
 			drawAny = true;
 			var amt = pl.myFleet.Dreadnaughts.length + pl.myFleet.DreadnaughtsMoved.length;
 			if (amt > 1)
-				ctx.fillText(amt + " dreadnaughts", x + 120 + x_offset, y + 60 + y_offset);
+				ctx.fillText(amt + " dreadnaughts", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
-				ctx.fillText(amt + " dreadnaught", x + 120 + x_offset, y + 60 + y_offset);
+				ctx.fillText(amt + " dreadnaught", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			plusAmt += 18;
 		}
 		if (pl.myFleet.Cruisers.length > 0 || pl.myFleet.CruisersMoved.length > 0)
