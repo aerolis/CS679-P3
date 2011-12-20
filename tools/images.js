@@ -58,9 +58,9 @@ function images()
 	this.ship_64[0].src = "images/f_1_64.png"; //frigate
 	this.ship_64[1].src = "images/cr_1_64.png"; //cruiser
 	this.ship_64[2].src = "images/c_1_64.png"; //capital
-	this.ship_64[3].src = "images/f_1_64.png"; //scout
+	this.ship_64[3].src = "images/s_1_64.png"; //scout
 	this.ship_64[4].src = "images/f_1_64.png"; //fighter
-	this.ship_64[5].src = "images/cr_1_64.png"; //dreadnaught
+	this.ship_64[5].src = "images/d_1_64.png"; //dreadnaught
 	
 	//load button filters
 	this.filters[0] = new Image();
@@ -80,9 +80,9 @@ function images()
 	this.ship_buttons[0].src = "images/ship_f_1.png";
 	this.ship_buttons[1].src = "images/ship_cr_1.png";
 	this.ship_buttons[2].src = "images/ship_c_1.png";
-	this.ship_buttons[3].src = "images/ship_f_1.png";
+	this.ship_buttons[3].src = "images/ship_s_1.png";
 	this.ship_buttons[4].src = "images/ship_f_1.png";
-	this.ship_buttons[5].src = "images/ship_cr_1.png";
+	this.ship_buttons[5].src = "images/ship_d_1.png";
 	
 	//load research buttons
 	for (i=0;i<4;i++)

@@ -294,7 +294,7 @@ function nextTurn()
 	if (selectedPlanet != null){
 		selectedPlanet.deselect();		
 	}
-	if (players[currentPlayer].ai)
+	if (!players[currentPlayer].ai)
 		players[currentPlayer].saveCameraPosition();
 	
 	currentPlayer = (currentPlayer + 1) % amtPlayers;
