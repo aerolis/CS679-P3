@@ -12,11 +12,11 @@ var buttonType = { 	"EndTurn": 0,
 					"Cruisers":14,
 					"Capitals":15,
 					"BuildScout":20,					
-					"BuildFrigate": 20,
-					"BuildFighter":21,
-					"BuildDreadnaught":22,
-					"BuildCruiser": 23,					
-					"BuildCapital": 24,
+					"BuildFrigate": 21,
+					"BuildFighter":22,
+					"BuildDreadnaught":23,
+					"BuildCruiser": 24,					
+					"BuildCapital": 25,
 					};
 
 //Button object to hold data for all buttons
@@ -100,7 +100,7 @@ function Button(){
 	that.gotClicked = function(button){
 		//if button = 0; it was a leftClick
 		//if button = 1; it was a rightClick.
-		//console.log(that.title + " got clicked.");
+		console.log(that.title + " got clicked.");
 		
 		switch (that.type){
 				//General buttons
@@ -128,11 +128,12 @@ function Button(){
 			
 				//Build buttons.	
 			case buttonType.BuildScout:
+				console.log("This planet wants to build a Scout");
 				selectedPlanet.buildShip("scout", 1);
 				break;	
 						
 			case buttonType.BuildFrigate:
-				//console.log("This planet wants to build a Frigate");
+				console.log("This planet wants to build a Frigate");
 				selectedPlanet.buildShip("frigate",1);
 				break;
 				

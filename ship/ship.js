@@ -255,6 +255,7 @@ ship.prototype.attack = function(target){
 	}
 	
 	//Now do the actual damage.
+	
 	//If there is any shield left, hit that first.
 	if(this.shield > 0){
 		if (useLaser){
@@ -287,14 +288,19 @@ ship.prototype.attack = function(target){
 	
 	// armor will negate the damage. 1 armor point =  1 less damage.
 	// You will only reach the target if you hit more than the available armor.	
+	
+	damage -= Math.min(this.armor, .75 * damage);
+	target.currentHp -= damage;
+	
+	/*
 	if(damage > target.armor) {
 		if (useMissile){
 			damage = damage * 1.5;	
 		}
 		damage -= this.armor;	//Armor negates some damage.
-		target.currentHp -= damage;
+		
 	} 
-	
+	*/
 	//See if you're still alive.
 	if (target.currentHp <= 0){
 		target.alive = false;	
