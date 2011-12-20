@@ -63,17 +63,26 @@ Planet.prototype.buildShip = function(type,amt)
 }
 
 Planet.prototype.populateOptionButtons = function(){
+	this.optionButtons.buttons = [];
 	this.optionButtons.addButton(OptionBarX + OptionBarSidesWidth + 20 + 10, OptionBarY + OptionBarHeight - 50, (OptionBarWidth - 2 * OptionBarSidesWidth - 60), 40, '#657383', "Upgrade", buttonType.Upgrade);
 	
 	switch (this.type)
 	{
-		case "factory":
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 	  OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Scout", buttonType.BuildScout);	
+		case "factory":this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 	  OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Scout", buttonType.BuildScout);	
 			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + ShipButtonWidth + 10,     OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Frigate", buttonType.BuildFrigate);
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 2 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Fighter", buttonType.BuildFighter);	
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 3 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Dreadnaught", buttonType.BuildDreadnaught);	
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 OptionBarY + ShipButtonHeight + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Cruiser", buttonType.BuildCruiser);			
-			this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + ShipButtonWidth + 10, OptionBarY + ShipButtonHeight + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Capital", buttonType.BuildCapital);			
+			
+			if (players[this.player].fighter){			
+				this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 2 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Fighter", buttonType.BuildFighter);	
+			}
+			if (players[this.player].dreadnaught){	
+				this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 3 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Dreadnaught", buttonType.BuildDreadnaught);	
+			}
+			if (players[this.player].cruiser){	
+				this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 OptionBarY + ShipButtonHeight + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Cruiser", buttonType.BuildCruiser);	
+			}
+			if (players[this.player].capital){	
+				this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + ShipButtonWidth + 10, OptionBarY + ShipButtonHeight + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Build Capital", buttonType.BuildCapital);	
+			}
 		break;
 		case "plasma":
 		break;
@@ -86,7 +95,19 @@ Planet.prototype.populateOptionButtons = function(){
 		case "warp":
 		break;
 		case "academy":
-		break;
+			if(!this.researchPlan.laser){
+				this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 10, 				 	  OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Research Laser", buttonType.ResearchLaser);	
+			}
+			if(!this.researchPlan.shields){
+				this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + ShipButtonWidth + 10,     OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Research Shields", buttonType.ResearchShields);
+			}
+			if(!this.researchPlan.advMissile){
+				this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 2 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Research Adv. Missile", buttonType.ResearchAdvMissile);			
+			}
+			if(!this.researchPlan.reactor){
+				this.optionButtons.addButton(OptionBarWidth - OptionBarSidesWidth + 3 * ShipButtonWidth + 10, OptionBarY + 10, ShipButtonWidth, ShipButtonHeight, '#4C7D7E', "Research Reactor", buttonType.ResearchReactor);	
+			}
+			break;
 		case "default":
 		break;
 	}	
@@ -378,8 +399,8 @@ Planet.prototype.onTurn = function() {
 		case "warp":
 			break;
 		case "academy":
-			this.researchPlan.addProject("laser",this.player);
-			this.researchPlan.addProject("shields",this.player);
+			//this.researchPlan.addProject("laser",this.player);
+			//this.researchPlan.addProject("shields",this.player);
 			this.updateTech();
 			break;
 		default:
@@ -529,6 +550,8 @@ Planet.prototype.updateTech = function(){
 	this.researchPlan.release();
 	//update player's tech params
 	//Fighters: Lasers  Dreadnaught: Lasers, Shields  Cruisers: Adv.Missiles, Shields  Capital: all 4
+	
+	// !!! This should only be done if something is released, not every turn.
 	if( this.researchPlan.laser )
 		 players[this.player].fighter = true;
 	if( this.researchPlan.laser  && this.researchPlan.shields ) 

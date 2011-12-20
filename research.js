@@ -6,6 +6,8 @@ function shipProj( i_type ){
 		case "laser":
 			this.credits = 200;
 			this.timer = 2;
+			//this.credits = 0;
+			//this.timer = 1;
 			break;
 		case "shields":
 			this.credits = 300;
@@ -24,7 +26,7 @@ function shipProj( i_type ){
 }
 
 function researchPlan(){
-	//in order of: scout, frigate, fighter, dreadnaught,cruiser and capital
+	//in order of: scout, frigate, fighter,dreadnaught,cruiser and capital
 	this.laser = false;
 	this.shields = false;
 	this.advMissile = false;
@@ -33,7 +35,7 @@ function researchPlan(){
 }
 
 researchPlan.prototype.addProject = function( type, owner ){
-	//console.log("add new research project, type: " + type);
+	console.log("add new research project, type: " + type);
 	switch(type) { //must research one by one
 		
 		case "laser":
@@ -51,10 +53,10 @@ researchPlan.prototype.addProject = function( type, owner ){
 		case "shields":
 			if(this.shields == true ) return true;
 			var newProj = new shipProj(type);
-			if(!this.laser){
+			/*if(!this.laser){
 				console.log("must have laser before research shields");
 				return false;
-			}
+			}*/
 			if (players[owner].credits < newProj.credits ){
 				console.log("credits not enough for shields research");
 				return false;
@@ -68,10 +70,10 @@ researchPlan.prototype.addProject = function( type, owner ){
 		case "advMissile":
 			if(this.capital == true ) return true;
 			var newProj = new shipProj(type);
-			if(!this.shields){ //prerequisite
+			/*if(!this.shields){ //prerequisite
 				console.log("must have shields before research advMissile");
 				return false;
-			}
+			}*/
 			if (players[owner].credits < newProj.credits ){
 				console.log("credits not enough for advMissile research");
 				return false;
@@ -129,6 +131,5 @@ researchPlan.prototype.release = function(){
 		}
 	
 	this.plan = [];
-	}
-	
+	}	
 }

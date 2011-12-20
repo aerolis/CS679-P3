@@ -243,6 +243,8 @@ function handleMouseUp(evt)
 					selectedPlanetIndices = planet;
 					selectedPlanet = mp.systems[planet.a].planets[planet.b];
 					selectedPlanet.populateShipButtons();
+					selectedPlanet.populateOptionButtons();
+			
 					//if (selectedPlanet.player == currentPlayer){
 					//	selectedPlanet.fl_showOptions = true;
 					//}

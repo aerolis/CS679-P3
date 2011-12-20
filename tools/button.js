@@ -17,6 +17,10 @@ var buttonType = { 	"EndTurn": 0,
 					"BuildDreadnaught":23,
 					"BuildCruiser": 24,					
 					"BuildCapital": 25,
+					"ResearchLaser": 30,
+					"ResearchShields":31,
+					"ResearchAdvMissile":32,
+					"ResearchReactor":33
 					};
 
 //Button object to hold data for all buttons
@@ -56,7 +60,6 @@ function Button(){
 				img.drawBuildShipButton("scout",that.x,that.y, selectedPlanet.productionPlan.noScouts, targetCanvas);
 			break;			
 			case buttonType.BuildFrigate:
-				// !!! if this buttontype is unlocked
 				img.drawBuildShipButton("frigate",that.x,that.y, selectedPlanet.productionPlan.noFrigates, targetCanvas);
 			break;
 			case buttonType.BuildFighter:
@@ -66,13 +69,29 @@ function Button(){
 				img.drawBuildShipButton("dreadnaught",that.x,that.y, selectedPlanet.productionPlan.noDreadnaughts, targetCanvas);
 			break;
 			case buttonType.BuildCruiser:
-				// !!! if this buttontype is unlocked				
 				img.drawBuildShipButton("cruiser",that.x,that.y, selectedPlanet.productionPlan.noCruisers, targetCanvas);
 			break;
 			case buttonType.BuildCapital:
-				// !!! if this buttontype is unlocked				
 				img.drawBuildShipButton("capital",that.x,that.y, selectedPlanet.productionPlan.noCapitals, targetCanvas);
 			break;
+			
+			//Research buttons
+			case buttonType.ResearchLaser:
+				img.drawResearchButton("laser", that.x, that.y, targetCanvas);
+				break;	
+				
+			case buttonType.ResearchShields:
+				img.drawResearchButton("shield", that.x, that.y, targetCanvas);
+				break;
+				
+			case buttonType.ResearchAdvMissile:
+				img.drawResearchButton("adv_missile", that.x, that.y, targetCanvas);
+				break;
+				
+			case buttonType.ResearchReactor:
+				img.drawResearchButton("reactor", that.x, that.y, targetCanvas);
+				break;	
+			
 			
 			case buttonType.BrowseShipsLeft:
 				targetCanvas.fillStyle = 'black';
@@ -213,6 +232,23 @@ function Button(){
 					selectedPlanet.deselectCapital();	
 				}
 				break;
+				
+			//Research buttons
+			case buttonType.ResearchLaser:
+				selectedPlanet.researchPlan.addProject( "laser", currentPlayer );
+				break;	
+				
+			case buttonType.ResearchShields:
+				selectedPlanet.researchPlan.addProject( "shields", currentPlayer );
+				break;
+				
+			case buttonType.ResearchAdvMissile:
+				selectedPlanet.researchPlan.addProject( "advMissile", currentPlayer );
+				break;
+				
+			case buttonType.ResearchReactor:
+				selectedPlanet.researchPlan.addProject( "reactor", currentPlayer );
+				break;	
 				
 			case buttonType.Empty:
 				//For the moved ships buttons; they don't actually do anything.

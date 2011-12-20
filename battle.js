@@ -13,7 +13,6 @@ function battle(Fleet1, Fleet2)
 		var battleGoing = true;
 		while(battleGoing)
 		{	
-			console.log("new battle round. List1.length: " + List1.length + ", List2.length: " + List2.length);
 			//List1 gets to attack first.
 			attackList(List1, List2);
 			//If there are no defending surivors
