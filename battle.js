@@ -13,7 +13,7 @@ function battle(Fleet1, Fleet2)
 		var battleGoing = true;
 		while(battleGoing)
 		{	
-			
+			console.log("new battle round. List1.length: " + List1.length + ", List2.length: " + List2.length);
 			//List1 gets to attack first.
 			attackList(List1, List2);
 			//If there are no defending surivors
@@ -38,7 +38,6 @@ function battle(Fleet1, Fleet2)
 	}
 }
 
-// !!! This is not a nice way to do this. But let's see how it works for now.
 function selectTarget(i_ship,List){ 
 	//console.log("inside selectTarget");
 	var j=0;
@@ -63,10 +62,10 @@ function attackList(AttackerList, DefenderList){
 		attacker = AttackerList[i];
 		if(attacker.alive == true && DefenderList.length > 0){ //if this ship is still alive
 			//Find your target
-			tIndex = selectTarget(attacker,DefenderList);      // !!! Look at this.
+			tIndex = selectTarget(attacker,DefenderList);      
 			target = DefenderList[tIndex];
 			//Calculate damage
-			attacker.attack(target);			// !!! Look at this.
+			attacker.attack(target);			
 			//target.hpUpdate(damage);   			
 		}
 	}	
