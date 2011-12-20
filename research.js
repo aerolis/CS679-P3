@@ -24,7 +24,7 @@ function shipProj( i_type ){
 }
 
 function researchPlan(){
-	//in order of: scout, frigate, fighter,dreadnaught,cruiser and capital
+	//in order of: scout, frigate, fighter, dreadnaught,cruiser and capital
 	this.laser = false;
 	this.shields = false;
 	this.advMissile = false;

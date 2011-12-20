@@ -210,7 +210,7 @@ function onHover(x,y,type,obj)
 		ctx.fillText("" + sh.type, x + 25 + x_offset, y + 85 + y_offset);
 				
 		ctx.fillStyle = 'white';
-		ctx.font = "13pt Calibri";
+		ctx.font = "12.5pt Calibri";
 		var off = 10;
 		var left = 110;
 		var stat_off = 80;
