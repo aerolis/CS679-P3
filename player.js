@@ -2,6 +2,7 @@ function player (i, isAI)
 {
 	this.id = i;
 	this.ai = isAI;
+	this.gameOver = false;
 	
 	this.color = new v3(1.0,1.0,1.0);
 	

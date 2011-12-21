@@ -375,7 +375,6 @@ Planet.prototype.deselect = function() {
 }
 
 Planet.prototype.onTurn = function() {
-	console.log(this.name + " onTurn" ) ;
 	players[this.player].addCredits(this.amtCreditsToAdd);
 	
 	switch (this.type)

@@ -25,12 +25,14 @@ var permaStart;
 
 var permaButtons;
 var combatResultScreen;
+var gameOverScreen;
 
 var drawHover;
 var planetHover;
 var shipHover;
 var researchHover;
 var planetXY;
+
 
 function initDraw2d(){
 	OptionBarSidesWidth = 450;
@@ -56,6 +58,7 @@ function initDraw2d(){
 	permaButtons.addButton(InfoBarX + InfoBarWidth - 210, InfoBarY + 5, 200, 36, '#657383', "", buttonType.EndTurn);
 	
 	combatResultScreen = new combatResults();
+	gameOverScreen = new GameOverScreen();
 	
 }
 
@@ -147,8 +150,12 @@ function draw2d()
 			
 			permaButtons.draw();
 			
+			
 			if(combatResultScreen.active){
 				combatResultScreen.draw();
+			}
+			else if(gameOverScreen.active){
+				gameOverScreen.draw();
 			}
 			
 			if (drawFPS)
