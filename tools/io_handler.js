@@ -6,6 +6,8 @@ function handleMouseMove(evt)
 	mousex = Math.max(0,Math.min(canvas.width,evt.clientX-10));
 	mousez = Math.max(0,Math.min(canvas.height,evt.clientY-10));
 	
+	//console.log("x:"+mousex+" y:"+mousez);
+	
 	if (playState == 0)
 	{
 		if (!drawTutorial)
@@ -213,7 +215,10 @@ function handleMouseUp(evt)
 			{
 				//clicked on button
 				//drawTutorial = true;
-				playState = 1;
+				if (tutorialState < tutorialMaxState)
+					tutorialState++;
+				else
+					playState = 1;
 				
 			}
 		}
