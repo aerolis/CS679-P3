@@ -16,4 +16,4 @@ ship.js holds most things that have to do with ships. These ships are stored in 
 
 
 
-We also build a levelBuilder. This can be accessed through levelBuilder.html. Sadly, as we kept adding to the game, the levelBuilder kept breaking and in it's current state it only works on some computers.
+We also build a levelBuilder. This can be accessed through levelBuilder.html. To use this, first press shift-U to open up the menu. type the name of a map to load it (e.g. Dan4.html). Before adding a planet, you should first select a solar system that will contain it. 
