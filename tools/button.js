@@ -140,12 +140,12 @@ function Button(){
 				break;
 				
 			case buttonType.RemoveGO:
+				gameOverScreen.active = false;
 				if (gameFinished){
-					playState = 0;	
+					playState = 0;
+					setupLevel();	
 				}
-				else{
-					gameOverScreen.active = false;	
-				}
+				break;
 				
 			case buttonType.BrowseShipsLeft:
 				selectedPlanet.shipButtons.page--;
