@@ -153,7 +153,7 @@ camera.prototype.flyTo = function(pos)
 	var dy = this.flyToPos.y-this.lookat.y;
 	var dz = this.flyToPos.z-this.lookat.z;
 	var travelDistance = Math.sqrt(dx*dx+dy*dy+dz*dz);
-	this.flyToSteps = 30*Math.max(Math.min(travelDistance/this.flyingTimeThreshold,2.0),0.1);
+	this.flyToSteps = 25*Math.max(Math.min(travelDistance/this.flyingTimeThreshold,2.0),0.1);
 	
 	//save initial position
 	this.pPos = new v3(this.lookat.x,this.lookat.y,this.lookat.z);
@@ -175,7 +175,7 @@ camera.prototype.flyToFull = function(pos,rot,dist)
 	var dy = this.flyToPos.y-this.lookat.y;
 	var dz = this.flyToPos.z-this.lookat.z;
 	var travelDistance = Math.sqrt(dx*dx+dy*dy+dz*dz);
-	this.flyToSteps = 60*Math.max(Math.min(travelDistance/this.flyingTimeThreshold,2.0),0.1);
+	this.flyToSteps = 25*Math.max(Math.min(travelDistance/this.flyingTimeThreshold,2.0),0.1);
 	
 	//save initial position
 	this.pPos = new v3(this.lookat.x,this.lookat.y,this.lookat.z);

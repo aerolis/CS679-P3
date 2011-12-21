@@ -380,9 +380,9 @@ function fbx_parsemesh(data)
 									p = lnTmp[9].split('\\');
 									x = p[p.length-1].split('"');
 									var filename = path + x[0];
-									newTextures[textCount].fileloc = "textures\\" + filename;
+									newTextures[textCount].fileloc = "textures/" + filename;
 									newTextures[textCount].img = new Image();
-									newTextures[textCount].img.src = "textures\\" + filename;
+									newTextures[textCount].img.src = "textures/" + filename;
 									break;
 								case "ModelUVTranslation:":
 									break; //	"0,0\r"

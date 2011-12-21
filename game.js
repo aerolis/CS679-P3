@@ -339,7 +339,7 @@ function nextTurn()
 			//click the END TURN button to get back to the user's
 			//turn...)
 			nextTurn();
-		},  3000); //i'd reocmmend setting this to 1 while you are testing...
+		},  1250); //i'd reocmmend setting this to 1 while you are testing...
 		
 		//playState = 1;
 	}
