@@ -31,7 +31,7 @@ var playState = 0;
 var gameFinished = false;
 var time = 0;
 var cam = new camera();
-var amtPlayers = 2;
+var amtPlayers = 3;
 var players = null;
 var currentPlayer = 0;
 var mp;
@@ -339,7 +339,7 @@ function nextTurn()
 			//click the END TURN button to get back to the user's
 			//turn...)
 			nextTurn();
-		},  1); //i'd reocmmend setting this to 1 while you are testing...
+		},  3000); //i'd reocmmend setting this to 1 while you are testing...
 		
 		//playState = 1;
 	}
