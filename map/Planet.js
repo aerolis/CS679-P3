@@ -541,7 +541,9 @@ var planetnames = ["Bolon", "Hrolmia", "Kolist", "Copernicium", "Protis", "Starb
 				   "Antar", "Gaia", "Helghan", "Hydros", "Ireta", "Kharak", "Medea", "Lumen",
 				   "LV-426", "New Earth", "Terra Nova", "Nirn", "Omega", "Omicron", "Pandora",
 				   "Rosetta", "Rylos", "Sera", "Solaris", "Tanis", "Titan", "Zyrgon-7",
-				   "Earth Prime", "Planet X", "Septerra", "Druidia", "Rigel 7", "Vega", "Zenon"]
+				   "Earth Prime", "Planet X", "Septerra", "Druidia", "Rigel 7", "Vega", "Zenon",
+				   "Kyrath", "Pothos", "Weysos", "Hormuncia", "Yule'esa", "Ubuthia", "Liom",
+				   "Quentrion", "Vox", "F9B", "Adifria", "Munkostria", "Julessa", "Carthas"]
 
 
 Planet.prototype.updateTech = function(){

@@ -108,3 +108,17 @@ h1
 	color: white;	
 	
 }
+img
+{
+	position: relative;
+	display: block;
+	left: 40px;
+}
+a
+{
+	color:#09C
+}
+a:visited
+{
+	color:#999;
+}
