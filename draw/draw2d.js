@@ -113,10 +113,13 @@ function draw2d()
 				ctx.fillStyle = 'white';
 				ctx.font = "15pt Calibri";
 				img.drawPlanetImage(selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 25, OptionBarY + OptionBarMiddleDif + 25 );
-				ctx.fillText("" + selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 100);
+				ctx.fillText("" + selectedPlanet.name, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 100);
+				
+				ctx.font = "14pt Calibri";
+				ctx.fillText("" + selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 115);
 				
 				ctx.font = "12pt Calibri";
-				ctx.fillText("level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 115);
+				ctx.fillText("level: " + selectedPlanet.upgradeLevel, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 130);
 								
 				
 				if (selectedPlanet.upgradeLevel < selectedPlanet.upgradeStats.maxUpgradeLevel && selectedPlanet.player == currentPlayer){

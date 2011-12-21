@@ -182,6 +182,7 @@ function lb_parseMap(data)
 					tmp.pos = new v3(parseFloat(tokens[1]),parseFloat(tokens[2]),parseFloat(tokens[3]));
 				break;
 				case "</pl>":
+					tmp.name = planetnames[tmp.mySystem*10+tmp.id];
 					mp.systems[tmp.mySystem].planets[id] = tmp;
 					tmp = null;
 				break;
