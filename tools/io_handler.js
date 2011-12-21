@@ -363,6 +363,8 @@ function handleKeyDown(evt) {
 }
 function handleKeyUp(evt) {
 	switch (evt.keyCode) {
+		case 32: //Space
+			nextTurn();
 		case 87:  // w
 			cam.fwd = false;
 		break;

@@ -377,6 +377,7 @@ Planet.prototype.deselect = function() {
 }
 
 Planet.prototype.onTurn = function() {
+	console.log(this.name + " onTurn" ) ;
 	players[this.player].addCredits(this.amtCreditsToAdd);
 	
 	switch (this.type)
@@ -482,7 +483,7 @@ Planet.prototype.receiveHostileFleet = function(enemyFleet){
 	
 	var winner = this.player; 
 	//attacker, defender, winner, startFleetA, startFleetB, winFleet
-    combatResultScreen.show(attacker, defender, winner, startFleetA, startFleetD, this.myFleet.clone());
+    combatResultScreen.show(attacker, defender, winner, startFleetA, startFleetD, this.myFleet.clone(), this.name);
 }
 
 Planet.prototype.getNewShips = function(){ //Add new ships released from production and put them into fleet

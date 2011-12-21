@@ -10,6 +10,7 @@ function combatResults(){
 	this.startFleetA = 0;
 	this.startFleetD = 0;
 	this.winFleet = 0;
+	this.planetName = 0;
 	
 	
 	this.buttons.addButton(this.x + 100, this.y + 300, 200, 50, '#657383', "OK", buttonType.RemoveCR);	
@@ -26,65 +27,92 @@ combatResults.prototype.draw = function(){
 	
 	//fill in other combat results here
 	ctx.font = "12pt Calibri";	
-	ctx.fillText("Player " + this.attacker + " attacked player " + this.defender + ".", this.x+20, this.y+80);
-	ctx.fillText("Player " + this.winner + " won!", this.x+20, this.y+100);
+	ctx.fillText(this.attacker + " attacked " + this.defender + " on planet " + this.planetName + ".", this.x+20, this.y+80);
+	ctx.fillText(this.winner + " won!", this.x+20, this.y+100);
 	
-	ctx.fillText("Player " + this.attacker + " losses:", this.x + 20, this.y + 140);
+	var lines;
 	if (this.attacker == this.winner){
 		//calc losses.
-		var lines = createStringsFromTwoFleets(this.startFleetA, this.winFleet);
-		var xLoc = this.x + 20;
-		var yLoc = this.y + 160;
-		for (var i = 0; i < lines.length; i++){
-			ctx.fillText(lines[i], xLoc, yLoc);
-			yLoc += 20;	
-		}
+		lines = createStringsFromTwoFleets(this.startFleetA, this.winFleet);
 	}
 	else{
-		//it's everything.	
-		var lines = createStringsFromFleet(this.startFleetA);
+		lines = createStringsFromFleet(this.startFleetA);
+	}
+	if (lines.length > 0){
+		ctx.fillText("Attacker lost:", this.x + 20, this.y + 140);
 		var xLoc = this.x + 20;
-		var yLoc = this.y + 170;
+		var yLoc = this.y + 160;
 		for (var i = 0; i < lines.length; i++){
 			ctx.fillText(lines[i], xLoc, yLoc);
 			yLoc += 20;	
 		}
 	}
 	
-	ctx.fillText("Player " + this.defender + " losses:", this.x + 220, this.y + 140);
 	if (this.defender == this.winner){
 		//calc losses.
-		var lines = createStringsFromTwoFleets(this.startFleetD, this.winFleet);
-		var xLoc = this.x + 220;
-		var yLoc = this.y + 170;
-		for (var i = 0; i < lines.length; i++){
-			ctx.fillText(lines[i], xLoc, yLoc);
-			yLoc += 20;	
-		}
+		lines = createStringsFromTwoFleets(this.startFleetD, this.winFleet);		
 	}
 	else{
 		//it's everything.	
-		var lines = createStringsFromFleet(this.startFleetD);
+		lines = createStringsFromFleet(this.startFleetD);		
+	}
+	if (lines.length > 0){
+		ctx.fillText("Defender lost:", this.x + 220, this.y + 140);
+	
 		var xLoc = this.x + 220;
 		var yLoc = this.y + 160;
 		for (var i = 0; i < lines.length; i++){
 			ctx.fillText(lines[i], xLoc, yLoc);
 			yLoc += 20;	
 		}
-	}	
+	}
+	
+	var ownerLine = "";
+	if (this.winner == "You"){
+		ownerLine = this.winner + " are ";	
+	}
+	else {
+		ownerLine = this.winner + " is ";
+	}
+	if (this.attacker == this.winner){
+		ownerLine = ownerLine + "now ";
+	}
+	else{
+		ownerLine = ownerLine + "still ";
+	}
+			
+	ctx.fillText(ownerLine + "the owner of " + this.planetName + ".", this.x+20, this.y+270);
+		
 	
 	this.buttons.draw();
 }
 
-combatResults.prototype.show = function(attacker, defender, winner, startFleetA, startFleetD, winFleet){
-	this.attacker = attacker;
-	this.defender = defender;
-	this.winner = winner;
+combatResults.prototype.show = function(attacker, defender, winner, startFleetA, startFleetD, winFleet, planetName){
+	this.attacker = findName(attacker);
+	this.defender = findName(defender);
+	this.winner = findName(winner);
 	this.startFleetA = startFleetA;
 	this.startFleetD = startFleetD;
 	this.winFleet = winFleet;
+	this.planetName = planetName;
 	
 	this.active = true;	
+}
+
+function findName(number){
+	var name;
+	switch (number){
+		case -1:
+			name = "Neutral player";
+			break;
+		case 0:
+			name = "You";
+			break;
+		default:
+			name = "Enemy " + number;
+			break;	
+	}	
+	return name;
 }
 
 combatResults.prototype.hide = function(){
