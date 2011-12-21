@@ -230,6 +230,9 @@ function handleMouseUp(evt)
 			if (combatResultScreen.active){
 				combatResultScreen.buttons.checkClicked(mouseX, mouseY);
 			}
+			else if (gameOverScreen.active){
+				gameOverScreen.buttons.checkClicked(mouseX, mouseY);
+			}
 			//If you're in a 'button area', do these checks to see if a button was clicked
 			else if (	(mouseX > OptionBarX && mouseX < (OptionBarX + OptionBarWidth) && mouseY > OptionBarY && mouseY < (OptionBarY + OptionBarHeight)) ||
 						(mouseX > InfoBarX && mouseX < (InfoBarX + InfoBarWidth) && mouseY > InfoBarY && mouseY < (InfoBarY + InfoBarHeight)))

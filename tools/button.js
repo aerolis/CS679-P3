@@ -3,6 +3,7 @@ var buttonType = { 	"EndTurn": 0,
 					"Upgrade": 2,
 					"RemoveCR":3,
 					"Empty":4,
+					"RemoveGO":5,
 					"BrowseShipsLeft":5,
 					"BrowseShipsRight":6,
 					"Scouts":10,
@@ -52,6 +53,9 @@ function Button(){
 				}
 			break;
 			case buttonType.RemoveCR:
+				targetCanvas.drawImage(img.ok_button,that.x,that.y);
+			break;
+			case buttonType.RemoveGO:
 				targetCanvas.drawImage(img.ok_button,that.x,that.y);
 			break;
 			
@@ -134,6 +138,14 @@ function Button(){
 			case buttonType.RemoveCR:
 				combatResultScreen.hide();			
 				break;
+				
+			case buttonType.RemoveGO:
+				if (gameFinished){
+					playState = 0;	
+				}
+				else{
+					gameOverScreen.active = false;	
+				}
 				
 			case buttonType.BrowseShipsLeft:
 				selectedPlanet.shipButtons.page--;

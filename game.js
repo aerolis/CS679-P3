@@ -28,6 +28,7 @@ var path = "";
 
 //play state variables
 var playState = 0;
+var gameFinished = false;
 var time = 0;
 var cam = new camera();
 var amtPlayers = 2;
@@ -342,16 +343,20 @@ function nextTurn()
 	}
 	
 	//check for game over
-	var gameOver = false;
+	var deadPlayerCount = 0;
+	//var gameOver = false;
 	for(i = 0; i < players.length; i++) {
-		if (players[i].planets.length == 0) {
-			gameOver = true;
-			break;
+		if (players[i].planets.length == 0) {	
+			if (!players[i].gameOver){					
+				players[i].gameOver = true;
+				gameOverScreen.active = true;
+			}
+			deadPlayerCount++;
 		}
 	}
 	
-	if (gameOver){
-		console.log("Game Over");
+	if (players.length - deadPlayerCount < 2){
+		gameFinished = true;
 		//playState = 4;
 	}
 }
