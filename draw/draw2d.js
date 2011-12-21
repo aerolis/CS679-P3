@@ -495,12 +495,17 @@ function draw2DLoading()
 	else
 	{
 		ctx.clearRect ( 0 , 0 , canvas.width , canvas.height );
-		ctx.drawImage(img.tutorial_background,0,0);
 		
+		ctx.drawImage(img.tutorial_background,0,0);
+		ctx.drawImage(img.tutorial_words[tutorialState],img.tutorial_xy[tutorialState].x,img.tutorial_xy[tutorialState].y);
+
 		//draw next button
 		if (allReady)
 		{
-			ctx.drawImage(new_game_button,500,100);
+			if (tutorialState < tutorialMaxState)
+				ctx.drawImage(img.next_button,500,100);
+			else
+				ctx.drawImage(new_game_button,500,100);
 		}
 	}
 }

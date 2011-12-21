@@ -14,6 +14,7 @@ function images()
 	this.hover_background_220 = new Image();
 	this.combat_background = new Image();
 	this.tutorial_background = new Image();
+	this.next_button = new Image();
 	
 	this.planets_64 = new Array();
 	this.ship_buttons = new Array();
@@ -35,6 +36,7 @@ function images()
 	this.hover_background_220.src = "images/hover_background_220.png";
 	this.combat_background.src = "images/combat_background.png";
 	this.tutorial_background.src = "images/tutorial_screen.png";
+	this.next_button.src = "images/next_button.png";
 	
 	//load planet images
 	var i;
@@ -100,6 +102,35 @@ function images()
 	this.research_64[1].src = "images/r_shield_64.png";
 	this.research_64[2].src = "images/r_torp_64.png";
 	this.research_64[3].src = "images/warp_64.png";
+
+	this.tutorial_words = new Array();
+	this.tutorial_xy = new Array();
+	for (i=0;i<11;i++)
+	{
+		this.tutorial_words[i] = new Image();
+		this.tutorial_xy[i] = new v2(100,100);
+	}
+	this.tutorial_words[0].src = "images/tut_large_1.png";
+	this.tutorial_xy[0] = new v2(125,63);
+	this.tutorial_words[1].src = "images/tut_med_1.png";
+	this.tutorial_xy[1] = new v2(316,362);
+	this.tutorial_words[2].src = "images/tut_med_2.png";
+	this.tutorial_xy[2] = new v2(785,716);
+	this.tutorial_words[3].src = "images/tut_med_3.png";
+	this.tutorial_xy[3] = new v2(476,718);
+	this.tutorial_words[4].src = "images/tut_med_4.png";
+	this.tutorial_xy[4] = new v2(67,741);
+	this.tutorial_words[5].src = "images/tut_med_5.png";
+	this.tutorial_xy[5] = new v2(747,196);
+	this.tutorial_words[6].src = "images/tut_small_1.png";
+	this.tutorial_xy[6] = new v2(956,62);
+	this.tutorial_words[7].src = "images/tut_small_1.png";
+	this.tutorial_words[8].src = "images/tut_small_1.png";
+	this.tutorial_words[9].src = "images/tut_small_1.png";
+	this.tutorial_words[10].src = "images/tut_small_1.png";
+	
+	
+	
 }
 
 images.prototype.drawPlanetImage = function(type,x,y)
