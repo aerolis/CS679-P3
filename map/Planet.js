@@ -11,15 +11,13 @@ function Planet(planetPosition, planetType, planetSize, planetOwner,
 	this.name = planetnames[mp.systems[mySys].numOfPlanets];
 	this.mySystem = mySys;
 	this.pos = planetPosition;
-	this.rot_rate = new v3(0,Math.random()*0.1,0);
+	this.rot_rate = new v3(0,Math.random()*0.1+0.02,0);
 	this.rot = new v3(0,0,0);
 	this.haloRot = new v3(0,0,0);
 	this.scale = 0.6+Math.random()*0.8;
 	this.type = planetType;
 	this.size = planetSize;
-	this.player = planetOwner; 	// !! should we just keep an global array of players and then we can just keep an int here reflecting
-								// which player in the array owns it?
-	//console.log("this new PLANET's owner is: " + planetOwner); 
+	this.player = planetOwner;
 	this.linkedPlanets = connectedPlanets;
 	
 	//this.ships = shipsGarrisoned;
@@ -553,6 +551,8 @@ Planet.prototype.updateTech = function(){
 	//Fighters: Lasers  Dreadnaught: Lasers, Shields  Cruisers: Adv.Missiles, Shields  Capital: all 4
 	
 	// !!! This should only be done if something is released, not every turn.
+	// This also implies that you have to research everything at a given planet's researchPlan, not globally across all
+	// academies - might not be a big issue though
 	if( this.researchPlan.laser )
 		 players[this.player].fighter = true;
 	if( this.researchPlan.laser  && this.researchPlan.shields ) 

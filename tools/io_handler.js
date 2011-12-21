@@ -91,8 +91,9 @@ function handleMouseMove(evt)
 							foundTarget = selectedPlanet.optionButtons.checkHover(mousex, mousez);
 							if (foundTarget != null)
 							{
-								
+								console.log("foundTarget.type:"+foundTarget.type);
 								switch (foundTarget.type){
+									//this is for factories
 									case buttonType.BuildScout:
 										shipHover = "Scouts";
 										drawHover = 0;
@@ -117,13 +118,30 @@ function handleMouseMove(evt)
 										shipHover = "Capitals";
 										drawHover = 0;
 										break;
+									//here are cases for academies
+									case buttonType.ResearchLaser:
+										researchHover = "Lasers";
+										drawHover = 1;
+										break;
+									case buttonType.ResearchShields:
+										researchHover = "Shields";
+										drawHover = 1;
+										break;
+									case buttonType.ResearchAdvMissile:
+										researchHover = "Adv_Missiles";
+										drawHover = 1;
+										break;
+									case buttonType.ResearchReactor:
+										researchHover = "Reactors";
+										drawHover = 1;
+										break;
 									default:
 										break;
 								}
 							}														
 						}
 						
-						if (foundTarget != null){
+						if (foundTarget == null){
 							//See if you hovered over a unit available on the selected planet.
 							foundTarget = selectedPlanet.shipButtons.checkHover(mousex, mousez);
 							if (foundTarget != null)

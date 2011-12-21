@@ -29,6 +29,7 @@ var combatResultScreen;
 var drawHover;
 var planetHover;
 var shipHover;
+var researchHover;
 var planetXY;
 
 function initDraw2d(){
@@ -140,7 +141,7 @@ function draw2d()
 			if (drawHover == 0)
 				onHover(mousex,mousez,0,shipHover);
 			else if (drawHover == 1)
-				var tmp = 1; // !!
+				onHover(mousex,mousez,1,researchHover);
 			else if (drawHover == 2)
 				onHover(mousex,mousez,2,planetHover);	
 			
@@ -252,31 +253,115 @@ function onHover(x,y,type,obj)
 
 	}
 	else if (type == 1)
-	{
-		// TODO: THIS FUNCTION NEEDS FILLING IN
-		
+	{		
 		if (x > canvas.width-width)
 			x_offset = -width;
 		y_offset = -height;
 		ctx.drawImage(img.hover_background_220,x+x_offset,y+y_offset);
 		// next calc ship_type
 		var research;
+		var name_1;
+		var name_2;
+		var desc_1 = "";
+		var desc_2 = "";
+		var desc_3 = "";
+		var desc_4 = "";
+		var desc_5 = "";
+		
+		var benefit_1 = "";
+		var benefit_2 = "";
+		var benefit_3 = "";
 		switch (obj)
 		{
 			case "Lasers":
-				//research = new research(-1,"laser");
+				research = new shipProj("laser");
+				name_1 = "phased laser";
+				name_2 = "arrays";
+				desc_1 = "Researching phased lasers";
+				desc_2 = "is required for construction";
+				desc_3 = "of fighters, capital ships,";
+				desc_4 = "and dreadnaughts.";
+				benefit_1 = "Researching will result in large bonus";
+				benefit_2 = "to laser damage from affected ships.";
 			break;
 			case "Shields":
-				//research = new research(-1,"shields");
+				research = new shipProj("shields");
+				name_1 = "magnetic deflector";
+				name_2 = "shields";
+				desc_1 = "Researching deflector shields";
+				desc_2 = "is required for construction";
+				desc_3 = "of cruisers, capital ships,";
+				desc_4 = "and dreadnaughts.";
+				benefit_1 = "Researching will result in large bonus";
+				benefit_2 = "to shield strength for affected ships.";
 			break;
 			case "Adv_Missiles":
-				//research = new research(-1,"adv_missiles");
+				research = new shipProj("advMissile");
+				name_1 = "thermoferrite hyper";
+				name_2 = "torpedoes";
+				desc_1 = "Researching hyper torpedoes";
+				desc_2 = "is required for construction";
+				desc_3 = "of cruisers and capital";
+				desc_4 = "ships.";
+				benefit_1 = "Researching will result in large bonus";
+				benefit_2 = "to missile damage from missile ships.";
 			break;
 			case "Reactors":
-				//research = new research(-1,"reactor");
+				research = new shipProj("reactor");
+				name_1 = "antimatter charge";
+				name_2 = "reactors";
+				desc_1 = "Researching antimatter";
+				desc_2 = "reactors is required for";
+				desc_3 = "construction of capital";
+				desc_4 = "ships.";
+				benefit_1 = "Researching will result in large bonus";
+				benefit_2 = "to attack and defense bonuses for";
+				benefit_3 = "capital ships.";
 			break;
 		}
-		//img.drawResearchImage(research.type, x + 15 + x_offset, y + 10 + y_offset );
+		//draw image and name
+		img.drawResearchImage(research.type, x + 15 + x_offset, y + 10 + y_offset );
+		ctx.font = "14.5pt Calibri";
+		ctx.fillText("" + name_1, x + 84 + x_offset, y + 32 + y_offset);
+		ctx.fillText("" + name_2, x + 96 + x_offset, y + 32 + 17 + y_offset);
+		
+		//now draw cost
+		ctx.font = "14pt Calibri";
+		var off = 86;
+		ctx.fillText("cost:", x+x_offset+20,y+y_offset+off);
+		//draw cost img
+		off += 6;
+		ctx.drawImage(img.planet_cost, x+x_offset+5,y+y_offset+off);
+		//now draw upgrade costs
+		ctx.font = "12pt Calibri";
+		off += 11;
+		ctx.fillText(research.credits, x+x_offset+35, y+y_offset + off);
+		off += 16;
+		ctx.fillText(research.steel, x+x_offset+35, y+y_offset + off);
+		off += 16;
+		ctx.fillText(research.plasma, x+x_offset+35, y+y_offset + off);
+		off += 16;
+		ctx.fillText(research.antimatter, x+x_offset+35, y+y_offset + off);
+
+		//write description
+		ctx.font = "11.5pt Calibri";
+		off = 100;
+		ctx.fillText(desc_1, x+x_offset+70,y+y_offset+off);
+		off += 14;
+		ctx.fillText(desc_2, x+x_offset+70,y+y_offset+off);
+		off += 14;
+		ctx.fillText(desc_3, x+x_offset+70,y+y_offset+off);
+		off += 14;
+		ctx.fillText(desc_4, x+x_offset+70,y+y_offset+off);
+		off += 14;
+		ctx.fillText(desc_5, x+x_offset+70,y+y_offset+off);
+
+		off = 175;
+		ctx.fillText(benefit_1, x+x_offset+10,y+y_offset+off);
+		off += 14;
+		ctx.fillText(benefit_2, x+x_offset+10,y+y_offset+off);
+		off += 14;
+		ctx.fillText(benefit_3, x+x_offset+10,y+y_offset+off);
 	}
 	else if (type == 2)
 	{
@@ -289,16 +374,20 @@ function onHover(x,y,type,obj)
 		//now draw data
 		ctx.font = "15pt Calibri";
 		img.drawPlanetImage(pl.type, x + 15 + x_offset, y + 10 + y_offset );
-		ctx.fillText("" + pl.type, x + 25 + x_offset, y + 85 + y_offset);
+		ctx.fillText("" + pl.name, x + 25 + x_offset, y + 85 + y_offset);
+		
+		ctx.font = "13pt Calibri";
+		ctx.fillText("" + pl.type, x + 25 + x_offset, y + 100 + y_offset);
 		
 		ctx.font = "12pt Calibri";
-		ctx.fillText("level: " + pl.upgradeLevel, x + 25 + x_offset, y + 100 + y_offset);
+		ctx.fillText("level: " + pl.upgradeLevel, x + 25 + x_offset, y + 115 + y_offset);
 		
 		//now draw ship types
 		ctx.font = "13pt Calibri";
 		ctx.fillText("ships", x + 110 + x_offset, y + 40);
+		ctx.font = "12pt Calibri";
 		var drawAny = false;
-		var plusAmt = 0;
+		var plusAmt = -4;
 		if (pl.myFleet.Scouts.length > 0 || pl.myFleet.ScoutsMoved.length > 0)
 		{
 			drawAny = true;
@@ -307,7 +396,7 @@ function onHover(x,y,type,obj)
 				ctx.fillText(amt + " scouts", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
 				ctx.fillText(amt + " scout", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
-			plusAmt += 18;
+			plusAmt += 13;
 		}
 		if (pl.myFleet.Frigates.length > 0 || pl.myFleet.FrigatesMoved.length > 0)
 		{
@@ -317,7 +406,7 @@ function onHover(x,y,type,obj)
 				ctx.fillText(amt + " frigates", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
 				ctx.fillText(amt + " frigate", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
-			plusAmt += 18;
+			plusAmt += 13;
 		}
 		if (pl.myFleet.Fighters.length > 0 || pl.myFleet.FightersMoved.length > 0)
 		{
@@ -327,7 +416,7 @@ function onHover(x,y,type,obj)
 				ctx.fillText(amt + " fighters", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
 				ctx.fillText(amt + " fighter", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
-			plusAmt += 18;
+			plusAmt += 13;
 		}
 		if (pl.myFleet.Dreadnaughts.length > 0 || pl.myFleet.DreadnaughtsMoved.length > 0)
 		{
@@ -337,7 +426,7 @@ function onHover(x,y,type,obj)
 				ctx.fillText(amt + " dreadnaughts", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
 				ctx.fillText(amt + " dreadnaught", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
-			plusAmt += 18;
+			plusAmt += 13;
 		}
 		if (pl.myFleet.Cruisers.length > 0 || pl.myFleet.CruisersMoved.length > 0)
 		{
@@ -347,7 +436,7 @@ function onHover(x,y,type,obj)
 				ctx.fillText(amt + " cruisers", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
 				ctx.fillText(amt + " cruiser", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
-			plusAmt += 18;
+			plusAmt += 13;
 		}
 		if (pl.myFleet.Capitals.length > 0 || pl.myFleet.CapitalsMoved.length > 0)
 		{
@@ -357,7 +446,7 @@ function onHover(x,y,type,obj)
 				ctx.fillText(amt + " capital ships", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
 			else
 				ctx.fillText(amt + " capital ship", x + 120 + x_offset, y + 60 + plusAmt + y_offset);
-			plusAmt += 18;			
+			plusAmt += 13;
 		}
 		if (!drawAny)
 		{

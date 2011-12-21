@@ -71,6 +71,8 @@ function images()
 	this.filters[2].src = "images/filter_red.png";
 	this.filters[3] = new Image();
 	this.filters[3].src = "images/filter_green.png";
+	this.filters[4] = new Image();
+	this.filters[4].src = "images/filter_blue.png";
 	
 	//load planet buttons
 	for (i=0;i<6;i++)
@@ -164,10 +166,10 @@ images.prototype.drawResearchImage = function(type,x,y)
 		case "laser":
 			ctx.drawImage(img.research_64[research_images.laser],x,y);
 		break;
-		case "shield":
+		case "shields":
 			ctx.drawImage(img.research_64[research_images.shield],x,y);
 		break;
-		case "adv_missile":
+		case "advMissile":
 			ctx.drawImage(img.research_64[research_images.adv_missile],x,y);
 		break;
 		case "reactor":
@@ -296,45 +298,38 @@ images.prototype.drawResearchButton = function(type,x,y,c)
 	{
 		case "laser":
 			c.drawImage(img.research_buttons[research_images.laser],x,y);
-			
-			//do this equivalently except with research costs when available
-			//sh = new ship(-1,"frigate");
-			//if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
-			//	c.drawImage(img.filters[0],x,y);
-			//else
-			//	c.drawImage(img.filters[1],x,y);
+			research = new shipProj("laser");
 		break;
 		case "shield":
 			c.drawImage(img.research_buttons[research_images.shield],x,y);
-			
-			//do this equivalently except with research costs when available
-			//sh = new ship(-1,"frigate");
-			//if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
-			//	c.drawImage(img.filters[0],x,y);
-			//else
-			//	c.drawImage(img.filters[1],x,y);
+			research = new shipProj("shields");
 		break;
 		case "adv_missile":
 			c.drawImage(img.research_buttons[research_images.adv_missile],x,y);
-			
-			//do this equivalently except with research costs when available
-			//sh = new ship(-1,"frigate");
-			//if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
-			//	c.drawImage(img.filters[0],x,y);
-			//else
-			//	c.drawImage(img.filters[1],x,y);
+			research = new shipProj("advMissile");
 		break;
 		case "reactor":
 			c.drawImage(img.research_buttons[research_images.reactor],x,y);
-			
-			//do this equivalently except with research costs when available
-			//sh = new ship(-1,"frigate");
-			//if (players[currentPlayer].hasResources(sh.credits,sh.steel,sh.plasma,sh.antiMatter))
-			//	c.drawImage(img.filters[0],x,y);
-			//else
-			//	c.drawImage(img.filters[1],x,y);
+			research = new shipProj("reactor");
 		break;
+	}	
+	//determine if in production
+	var rPlan = selectedPlanet.researchPlan;
+	var isProducing = false;
+	if (rPlan.plan.length > 0)
+	{
+		if (rPlan.findProject(research.type) > -1)
+			isProducing = true;
+		else
+			isProducing = false;
 	}
+	//draw filter
+	if (!isProducing && players[currentPlayer].hasResources(research.credits,research.steel,research.plasma,research.antimatter))
+		c.drawImage(img.filters[0],x,y);
+	else if (isProducing)
+		c.drawImage(img.filters[4],x,y);		
+	else
+		c.drawImage(img.filters[1],x,y);
 }
 
 var pln_images = { 	"factory": 0,
