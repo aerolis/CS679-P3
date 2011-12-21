@@ -112,7 +112,7 @@ function draw2d()
 				
 				//Draw info
 				ctx.fillStyle = 'white';
-				ctx.font = "15pt Calibri";
+				ctx.font = "14pt Calibri";
 				img.drawPlanetImage(selectedPlanet.type, OptionBarX + OptionBarSidesWidth + 25, OptionBarY + OptionBarMiddleDif + 25 );
 				ctx.fillText("" + selectedPlanet.name, OptionBarX + OptionBarSidesWidth + 30, OptionBarY + OptionBarMiddleDif + 100);
 				
@@ -372,9 +372,9 @@ function onHover(x,y,type,obj)
 			y_offset = -height;
 		ctx.drawImage(img.hover_background,x+x_offset,y+y_offset);
 		//now draw data
-		ctx.font = "15pt Calibri";
+		ctx.font = "14pt Calibri";
 		img.drawPlanetImage(pl.type, x + 15 + x_offset, y + 10 + y_offset );
-		ctx.fillText("" + pl.name, x + 25 + x_offset, y + 85 + y_offset);
+		ctx.fillText("" + pl.name, x + 15 + x_offset, y + 85 + y_offset);
 		
 		ctx.font = "13pt Calibri";
 		ctx.fillText("" + pl.type, x + 25 + x_offset, y + 100 + y_offset);

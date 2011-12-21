@@ -537,7 +537,7 @@ Planet.prototype.getPlanetXY = function()
 	return new v2(x,y);
 }
 
-var planetnames = ["Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", 
+var planetnames = ["Bolon", "Hrolmia", "Kolist", "Copernicium", "Protis", "Starbase X42", "Quator", "Artis", 
 				   "Aegis VII", "Altair IV", "Chiron", "Demeter", "Eternia", "Fhloston", "G889",
 				   "Antar", "Gaia", "Helghan", "Hydros", "Ireta", "Kharak", "Medea", "Lumen",
 				   "LV-426", "New Earth", "Terra Nova", "Nirn", "Omega", "Omicron", "Pandora",
