@@ -202,6 +202,7 @@ function handleMouseUp(evt)
 			{
 				//clicked on button
 				drawTutorial = true;
+				aud.startSong();
 				//playState = 1;
 			}
 		}
@@ -213,6 +214,7 @@ function handleMouseUp(evt)
 				//clicked on button
 				//drawTutorial = true;
 				playState = 1;
+				
 			}
 		}
 	}

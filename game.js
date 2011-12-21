@@ -83,6 +83,8 @@ var mapLoaded = false;
 var checkMapComplete = false;
 var allReady = false;
 
+//audio??
+var aud = new audioDriver();
 
 //draw vars
 var zNear = 0.1;
@@ -253,6 +255,7 @@ function update(){
 	var i;
 	mp.update();
 	cam.update();
+	aud.update();
 	advance();
 }
 function advance()
