@@ -8,7 +8,6 @@ var gl;
 var ui = new techUI();
 var shaderProgram;
 var shaderProgram_main;
-var shaderProgram_flash;
 var shaderProgram_post;
 var mvMatrix = mat4.create();
 var mvtmpMatrix = mat4.create();
@@ -78,11 +77,12 @@ var maxDiff = 300;
 var planetHover = null;
 var timecheck = new Date().getTime();
 var fps;
-var drawFPS = false;
+var drawFPS = true;
 var drawTutorial = false;
 var mapLoaded = false;
 var checkMapComplete = false;
 var allReady = false;
+
 
 //draw vars
 var zNear = 0.1;
@@ -294,8 +294,9 @@ function nextTurn()
 	if (selectedPlanet != null){
 		selectedPlanet.deselect();		
 	}
+	if (!players[currentPlayer].ai)
+		players[currentPlayer].saveCameraPosition();
 	
-	players[currentPlayer].saveCameraPosition();
 	currentPlayer = (currentPlayer + 1) % amtPlayers;
 	console.log("Next turn got called. New current Player = " + currentPlayer);
 	

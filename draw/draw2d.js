@@ -206,8 +206,8 @@ function onHover(x,y,type,obj)
 		
 		//draw the rest on thisctx.font = "15pt Calibri";
 		img.drawShipImage(sh.type, x + 15 + x_offset, y + 10 + y_offset );
-		ctx.font = "14pt Calibri";
-		ctx.fillText("" + sh.type, x + 25 + x_offset, y + 85 + y_offset);
+		ctx.font = "13pt Calibri";
+		ctx.fillText("" + sh.type, x + 22 + x_offset, y + 85 + y_offset);
 				
 		ctx.fillStyle = 'white';
 		ctx.font = "13pt Calibri";

@@ -392,17 +392,11 @@ function drawPlanets()
 }
 
 //global vars to keep track of how many ships we can draw around each planet
-var max_scouts_drawn = 20;
 var max_frigates_drawn = 12;
-var max_fighters_drawn = 12;
-var max_dreadnaughts_drawn = 4;
 var max_cruisers_drawn = 4;
 var max_capitals_drawn = 2; 
-	
-var scouts = (Math.PI*2)/scouts;
+
 var frigates_angle = (Math.PI*2)/max_frigates_drawn;
-var fighters_angle = (Math.PI*2)/max_fighters_drawn;
-var dreadnaughts_angle = (Math.PI*2)/max_dreadnaughts_drawn;
 var cruisers_angle = (Math.PI*2)/max_cruisers_drawn;
 var capitals_angle = (Math.PI*2)/max_capitals_drawn;
 
@@ -432,89 +426,162 @@ function drawPlanetShips()
 				
 				for (j=0;j<mp.systems[i].planets.length;j++)
 				{
-					//per planet drawing
-		
-					mvPushMatrix();
 					var pln = mp.systems[i].planets[j];
-					mat4.translate(mvMatrix,[pln.pos.x,pln.pos.y,pln.pos.z]);
-					
-					//first determine how many of each ship we're drawing
-					var s_amt = Math.min(max_scouts_drawn, pln.myFleet.Scouts.length + pln.myFleet.ScoutsMoved.length);
-					var f_amt = Math.min(max_frigates_drawn, pln.myFleet.Frigates.length + pln.myFleet.FrigatesMoved.length);
-					var fi_amt = Math.min(max_fighters_drawn, pln.myFleet.Fighters.length + pln.myFleet.FightersMoved.length);
-					var d_amt = Math.min(max_dreadnaughts_drawn, pln.myFleet.Dreadnaughts.length + pln.myFleet.DreadnaughtsMoved.length);
-					var cr_amt = Math.min(max_cruisers_drawn, pln.myFleet.Cruisers.length + pln.myFleet.CruisersMoved.length);
-					var c_amt = Math.min(max_capitals_drawn, pln.myFleet.Capitals.length + pln.myFleet.CapitalsMoved.length);
-					
-					var draw_rad = 100*pln.scale;
-					var theta = 0;
-					var x,z;
-					
-					// !!! TODO: Add other ships.
-					
-					//draw frigates
-					if (f_amt > 0)
+					var globalPos = new v3(mp.systems[i].pos.x+pln.pos.x,mp.systems[i].pos.y+pln.pos.y,mp.systems[i].pos.z+pln.pos.z);
+					if ( cam.distance < 2000 && globalPos.distance(cam.pos) < 2000)
 					{
-						for (k=0;k<f_amt;k++)
+						//per planet drawing
+			
+						mvPushMatrix();
+						mat4.translate(mvMatrix,[pln.pos.x,pln.pos.y,pln.pos.z]);
+						
+						//first determine how many of each ship we're drawing
+						var s_amt = pln.myFleet.Scouts.length + pln.myFleet.ScoutsMoved.length;
+						var f_amt = pln.myFleet.Frigates.length + pln.myFleet.FrigatesMoved.length;
+						var fi_amt = pln.myFleet.Fighters.length + pln.myFleet.FightersMoved.length;
+						var d_amt = pln.myFleet.Dreadnaughts.length + pln.myFleet.DreadnaughtsMoved.length;
+						var cr_amt = pln.myFleet.Cruisers.length + pln.myFleet.Cruisers.length;
+						
+						var c_total 	= Math.min(max_capitals_drawn, pln.myFleet.Capitals.length + pln.myFleet.CapitalsMoved.length);
+						var cr_total 	= Math.min(max_cruisers_drawn, cr_amt+d_amt);
+						var f_total 	= Math.min(max_frigates_drawn, f_amt+fi_amt+s_amt);
+						
+						if (f_total == max_frigates_drawn)
 						{
-							mvPushMatrix();
-							theta = k*frigates_angle+degToRad(4*pln.rot.y);	
-							x = Math.cos(theta)*draw_rad;
-							z = Math.sin(theta)*draw_rad;
-							mat4.translate(mvMatrix,[x,0,z]);
-							mat4.rotate(mvMatrix,-(theta+Math.PI),[0,1,0]);
-							for (m=0;m<models[11].meshes.length;m++)
-							{
-								drawMesh(11,m);
-							}					
-							mvPopMatrix();
+							s_amt = Math.round(s_amt/f_total);
+							f_amt = Math.round(f_amt/f_total);
+							fi_amt = f_total-s_amt-f_amt;
 						}
+						if (cr_total == max_cruisers_drawn)
+						{
+							cr_amt = Math.round(cr_amt/cr_total);
+							d_amt = cr_total-cr_amt;
+						}
+						var c_amt = c_total;
+						
+						var draw_rad = 100*pln.scale;
+						var theta = 0;
+						var x,z;
+											
+						//draw frigates
+						if (f_amt > 0)
+						{
+							for (k=0;k<f_amt;k++)
+							{
+								mvPushMatrix();
+								theta = k*frigates_angle+degToRad(4*pln.rot.y);	
+								x = Math.cos(theta)*draw_rad;
+								z = Math.sin(theta)*draw_rad;
+								mat4.translate(mvMatrix,[x,0,z]);
+								mat4.rotate(mvMatrix,-(theta+Math.PI),[0,1,0]);
+								for (m=0;m<models[11].meshes.length;m++)
+								{
+									drawMesh(11,m);
+								}					
+								mvPopMatrix();
+							}
+						}
+						//draw scouts
+						if (s_amt > 0)
+						{
+							for (k=0;k<s_amt;k++)
+							{
+								mvPushMatrix();
+								theta = (k+f_amt)*frigates_angle+degToRad(4*pln.rot.y);	
+								x = Math.cos(theta)*draw_rad;
+								z = Math.sin(theta)*draw_rad;
+								mat4.translate(mvMatrix,[x,0,z]);
+								mat4.rotate(mvMatrix,-(theta+Math.PI),[0,1,0]);
+								for (m=0;m<models[15].meshes.length;m++)
+								{
+									drawMesh(15,m);
+								}					
+								mvPopMatrix();
+							}
+						}
+						//draw fighters
+						if (fi_amt > 0)
+						{
+							for (k=0;k<fi_amt;k++)
+							{
+								mvPushMatrix();
+								theta = (k+f_amt+s_amt)*frigates_angle+degToRad(4*pln.rot.y);	
+								x = Math.cos(theta)*draw_rad;
+								z = Math.sin(theta)*draw_rad;
+								mat4.translate(mvMatrix,[x,0,z]);
+								mat4.rotate(mvMatrix,-(theta+Math.PI),[0,1,0]);
+								for (m=0;m<models[11].meshes.length;m++)
+								{
+									drawMesh(11,m);
+								}					
+								mvPopMatrix();
+							}
+						}
+						//draw cruisers
+						draw_rad = 128*pln.scale;
+						if (cr_amt > 0)
+						{
+							for (k=0;k<cr_amt;k++)
+							{
+								mvPushMatrix();
+								theta = -k*cruisers_angle-degToRad(2*pln.rot.y)-Math.PI;	
+								x = Math.cos(theta)*draw_rad;
+								z = Math.sin(theta)*draw_rad;
+								mat4.translate(mvMatrix,[x,0,z]);
+								mat4.scale(mvMatrix,[0.5,0.5,0.5]);
+								mat4.rotate(mvMatrix,-(theta+Math.PI/2),[0,1,0]);
+								for (m=0;m<models[13].meshes.length;m++)
+								{
+									drawMesh(13,m);
+								}					
+								mvPopMatrix();
+							}
+						}	
+						//draw dreadnaught
+						if (d_amt > 0)
+						{
+							for (k=0;k<d_amt;k++)
+							{
+								mvPushMatrix();
+								theta = -(k+cr_amt)*cruisers_angle-degToRad(2*pln.rot.y)-Math.PI;	
+								x = Math.cos(theta)*draw_rad;
+								z = Math.sin(theta)*draw_rad;
+								mat4.translate(mvMatrix,[x,0,z]);
+								mat4.scale(mvMatrix,[0.5,0.5,0.5]);
+								mat4.rotate(mvMatrix,-(theta+Math.PI/2),[0,1,0]);
+								for (m=0;m<models[14].meshes.length;m++)
+								{
+									drawMesh(14,m);
+								}					
+								mvPopMatrix();
+							}
+						}				
+						//draw capitals
+						draw_rad = 160*pln.scale;
+						if (c_amt > 0)
+						{
+							for (k=0;k<c_amt;k++)
+							{
+								mvPushMatrix();
+								theta = k*capitals_angle+degToRad(1*pln.rot.y)+Math.PI/2;	
+								x = Math.cos(theta)*draw_rad;
+								z = Math.sin(theta)*draw_rad;
+								mat4.translate(mvMatrix,[x,0,z]);
+								mat4.rotate(mvMatrix,-(theta+Math.PI/2),[0,1,0]);
+								for (m=0;m<models[10].meshes.length;m++)
+								{
+									drawMesh(10,m);
+								}					
+								mvPopMatrix();
+							}
+						}				
+						//mat4.rotate(mvMatrix,degToRad(pln.rot.x),[1,0,0]);
+						//mat4.rotate(mvMatrix,degToRad(pln.rot.y),[0,1,0]);
+						//mat4.rotate(mvMatrix,degToRad(pln.rot.z),[0,0,1]);
+						
+	
+						mvPopMatrix();
 					}
-					//draw cruisers
-					draw_rad = 128*pln.scale;
-					if (cr_amt > 0)
-					{
-						for (k=0;k<cr_amt;k++)
-						{
-							mvPushMatrix();
-							theta = -k*cruisers_angle-degToRad(2*pln.rot.y)-Math.PI;	
-							x = Math.cos(theta)*draw_rad;
-							z = Math.sin(theta)*draw_rad;
-							mat4.translate(mvMatrix,[x,0,z]);
-							mat4.scale(mvMatrix,[0.5,0.5,0.5]);
-							mat4.rotate(mvMatrix,-(theta+Math.PI/2),[0,1,0]);
-							for (m=0;m<models[13].meshes.length;m++)
-							{
-								drawMesh(13,m);
-							}					
-							mvPopMatrix();
-						}
-					}				
-					//draw capitals
-					draw_rad = 160*pln.scale;
-					if (c_amt > 0)
-					{
-						for (k=0;k<c_amt;k++)
-						{
-							mvPushMatrix();
-							theta = k*capitals_angle+degToRad(1*pln.rot.y)+Math.PI/2;	
-							x = Math.cos(theta)*draw_rad;
-							z = Math.sin(theta)*draw_rad;
-							mat4.translate(mvMatrix,[x,0,z]);
-							mat4.rotate(mvMatrix,-(theta+Math.PI/2),[0,1,0]);
-							for (m=0;m<models[10].meshes.length;m++)
-							{
-								drawMesh(10,m);
-							}					
-							mvPopMatrix();
-						}
-					}				
-					//mat4.rotate(mvMatrix,degToRad(pln.rot.x),[1,0,0]);
-					//mat4.rotate(mvMatrix,degToRad(pln.rot.y),[0,1,0]);
-					//mat4.rotate(mvMatrix,degToRad(pln.rot.z),[0,0,1]);
-					
-
-					mvPopMatrix();
 				}
 				mvPopMatrix();
 			}
@@ -793,9 +860,8 @@ function createProgram(fragmentShaderID, vertexShaderID) {
 	return program;
 }
 function initShaders() {
-	totalInits += 3; //how many shaders there are
+	totalInits += 2; //how many shaders there are
     shaderProgram_main = createProgram("shader-fs", "shader-vs");
-	shaderProgram_flash = createProgram("shader-fs-flash", "shader-vs-flash");
 	shaderProgram_post = createProgram("shader-fs-post", "shader-vs-post");
 	initsComplete += 2;
 	//drawLoading();
