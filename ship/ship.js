@@ -27,15 +27,15 @@ function ship(i_owner,i_type){
 	switch(this.type) {
 		case "scout":
 			this.laser = 0;
-			this.missile = 10;
+			this.missile = 5;
 			this.armor = 0;
 			this.shield = 0;
 			
 			this.maxShield = 0;
-			this.currentHp = 100;
-			this.maxHp = 100;
+			this.currentHp = 50;
+			this.maxHp = 50;
 
-			this.credits = 50;
+			this.credits = 40;
 			this.steel = 0;
 			this.plasma = 0;
 			this.antiMatter = 0;

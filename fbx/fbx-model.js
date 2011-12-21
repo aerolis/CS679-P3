@@ -261,7 +261,7 @@ function getMeshes(data)
 				case "fighter_ship":
 					models[11] = tmpModel;
 					break;
-				case "earth":
+				case "academy":
 					models[12] = tmpModel;
 					break;
 				case "cruiser_ship":
@@ -272,6 +272,9 @@ function getMeshes(data)
 					break;
 				case "scout_ship":
 					models[15] = tmpModel;
+					break;
+				case "frigate_ship":
+					models[16] = tmpModel;
 					break;
 			}
 			modelsChecked++;

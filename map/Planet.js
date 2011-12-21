@@ -273,11 +273,11 @@ Planet.prototype.specifyPlanetType = function()
 		break;
 		case "credit":
 			this.model = 6;
-			this.amtResourcesToAdd = 40;
+			this.amtResourcesToAdd = 80;
 		break;
 		case "steel":
 			this.model = 3;
-			this.amtResourcesToAdd = 20;
+			this.amtResourcesToAdd = 30;
 		break;
 		case "plasma":
 			this.model = 1;

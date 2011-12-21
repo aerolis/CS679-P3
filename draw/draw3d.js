@@ -473,10 +473,10 @@ function drawPlanetShips()
 								x = Math.cos(theta)*draw_rad;
 								z = Math.sin(theta)*draw_rad;
 								mat4.translate(mvMatrix,[x,0,z]);
-								mat4.rotate(mvMatrix,-(theta+Math.PI),[0,1,0]);
-								for (m=0;m<models[11].meshes.length;m++)
+								mat4.rotate(mvMatrix,-(theta),[0,1,0]);
+								for (m=0;m<models[16].meshes.length;m++)
 								{
-									drawMesh(11,m);
+									drawMesh(16,m);
 								}					
 								mvPopMatrix();
 							}

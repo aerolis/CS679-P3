@@ -48,14 +48,14 @@ function images()
 	this.planets_64[3].src = "images/plasma_64.png"; //plasma
 	this.planets_64[4].src = "images/antimatter_64.png"; //antimatter
 	this.planets_64[5].src = "images/warp_64.png"; //warp
-	this.planets_64[6].src = "images/warp_64.png"; //academy
+	this.planets_64[6].src = "images/academy_64.png"; //academy
 	
 	//load ship images
 	for (i=0;i<6;i++)
 	{
 		this.ship_64[i] = new Image();
 	}
-	this.ship_64[0].src = "images/f_1_64.png"; //frigate
+	this.ship_64[0].src = "images/fr_1_64.png"; //frigate
 	this.ship_64[1].src = "images/cr_1_64.png"; //cruiser
 	this.ship_64[2].src = "images/c_1_64.png"; //capital
 	this.ship_64[3].src = "images/s_1_64.png"; //scout
@@ -79,7 +79,7 @@ function images()
 	{
 		this.ship_buttons[i] = new Image();
 	}
-	this.ship_buttons[0].src = "images/ship_f_1.png";
+	this.ship_buttons[0].src = "images/ship_fr_1.png";
 	this.ship_buttons[1].src = "images/ship_cr_1.png";
 	this.ship_buttons[2].src = "images/ship_c_1.png";
 	this.ship_buttons[3].src = "images/ship_s_1.png";
@@ -92,13 +92,13 @@ function images()
 		this.research_buttons[i] = new Image();
 		this.research_64[i] = new Image();
 	}
-	this.research_buttons[0].src = "images/ship_1.png";
-	this.research_buttons[1].src = "images/ship_1.png";
-	this.research_buttons[2].src = "images/ship_1.png";
-	this.research_buttons[3].src = "images/ship_1.png";
-	this.research_64[0].src = "images/warp_64.png";
-	this.research_64[1].src = "images/warp_64.png";
-	this.research_64[2].src = "images/warp_64.png";
+	this.research_buttons[0].src = "images/res_phaser.png";
+	this.research_buttons[1].src = "images/res_shields.png";
+	this.research_buttons[2].src = "images/res_torpedo.png";
+	this.research_buttons[3].src = "images/res_reactor.png";
+	this.research_64[0].src = "images/r_phaser_64.png";
+	this.research_64[1].src = "images/r_shield_64.png";
+	this.research_64[2].src = "images/r_torp_64.png";
 	this.research_64[3].src = "images/warp_64.png";
 }
 
